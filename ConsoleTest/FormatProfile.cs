@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TheDivision2Vendor;
-
-namespace ConsoleTest
+﻿namespace ConsoleTest
 {
     public static class FormatProfile
     {

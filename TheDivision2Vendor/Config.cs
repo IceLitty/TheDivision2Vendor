@@ -77,6 +77,7 @@ namespace TheDivision2Vendor
         public string Gear { get; set; }
         public string Weapon { get; set; }
         public string Mod { get; set; }
+        public List<D2Empty> d2Best { get; set; } = new List<D2Empty>();
         public List<D2Gear> d2Gears { get; set; } = new List<D2Gear>();
         public List<D2Weapon> d2Weapons { get; set; } = new List<D2Weapon>();
 

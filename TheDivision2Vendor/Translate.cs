@@ -181,8 +181,8 @@ namespace TheDivision2Vendor
                     }
                     if (ind != 0) break;
                 }
-                var at = AttributeType.Direct;
-                double avl = 0;
+                AttributeType at;
+                double avl;
                 string adesc;
                 if (ind == 0)
                 {
@@ -201,8 +201,8 @@ namespace TheDivision2Vendor
                     avl = Double.Parse(val.Replace("%", ""));
                     adesc = text;
                 }
-                var cn = String.Empty;
-                double mval = 0;
+                string cn;
+                double mval = 1000000;
                 bool isMainAttr = false;
                 AttrWeaponType? cnt = null;
                 var type = AttrValType.Unknown;

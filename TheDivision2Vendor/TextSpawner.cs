@@ -178,7 +178,8 @@ namespace TheDivision2Vendor
             var talentDesc = Translate.TalentsDesc(talent);
             var format = "".PadLeft((stdoutIndex + ". ").Length);
             l.Add(stdoutIndex + ". " + rarity + "§w " + name);
-            l.Add(format + weapon.dmg + " 伤害 射速：" + weapon.rpm + " 弹夹：" + weapon.mag);
+            l.Add(format + weapon.dmg + " 伤害");
+            l.Add(format + "射速：" + weapon.rpm + " 弹夹：" + weapon.mag);
             l.Add(format + "商人：" + Translate.Vendor(weapon.vendor));
             l.Add("");
             var lattrmain = new List<string>();

@@ -1,11 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TheDivision2Vendor
 {
-    public class D2Gear
+    public class D2Gear : D2Empty
     {
         [JsonProperty("type")]
         public string type { get; set; }
@@ -36,5 +33,12 @@ namespace TheDivision2Vendor
 
         [JsonProperty("mods")]
         public string mods { get; set; }
+
+        public bool hasTalents()
+        {
+            var has = false;
+            if (talents != null && !string.IsNullOrWhiteSpace(talents) && !talents.Equals("-")) has = true;
+            return has;
+        }
     }
 }

@@ -1,8 +1,5 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using TheDivision2Vendor;
 
@@ -39,7 +36,7 @@ namespace ConsoleTest
             Flush(null);
         }
 
-        public static void Flush(bool? upper)
+        public static void Flush(bool? upper, bool isLeftRight = false)
         {
             Console.SetCursorPosition(0, 0);
             int width = Console.WindowWidth;
@@ -50,8 +47,12 @@ namespace ConsoleTest
             var tmpContentsStrs = new List<string>();
             for (int index = 0; index < contents.Count; index++)
                 tmpContentsStrs.AddRange(contents[index].Print(spIndex - 1, eachHeight, index == nowChoose));
-            if (upper != null && contents.Count * eachHeight > height)
+            bool ifs;
+            if (isLeftRight) ifs = true;
+            else ifs = upper.HasValue;
+            if (ifs && contents.Count * eachHeight > height)
             {
+                if (isLeftRight) upper = false;
                 if (upper.Value)
                 {
                     lockScrollDown = Math.Max(1, lockScrollDown - 1);
@@ -74,7 +75,7 @@ namespace ConsoleTest
                 }
                 else
                 {
-                    lockScrollUp = Math.Min(canShow - 1, lockScrollUp + 1);
+                    if (!isLeftRight) lockScrollUp = Math.Min(canShow - 1, lockScrollUp + 1);
                     if (lockScrollDown < canShow)
                     {
                         int canShowOutLines = height - eachHeight * canShow;
@@ -90,7 +91,7 @@ namespace ConsoleTest
                         for (int i = index; i < Math.Min(index + canShow * eachHeight + canShowOutLines, tmpContentsStrs.Count); i++)
                             contentsStrs.Add(tmpContentsStrs[i]);
                     }
-                    lockScrollDown = Math.Min(canShow, lockScrollDown + 1);
+                    if (!isLeftRight) lockScrollDown = Math.Min(canShow, lockScrollDown + 1);
                 }
             }
             else contentsStrs = tmpContentsStrs;
@@ -105,6 +106,27 @@ namespace ConsoleTest
                 switch (pageWhat)
                 {
                     case PageWhat.Best:
+                        if (Config.D2Dirs[realFileIndex].d2Best.Count > index)
+                        {
+                            var o = Config.D2Dirs[realFileIndex].d2Best[index];
+                            if (o.GetType() == typeof(D2Gear))
+                            {
+                                var oo = (D2Gear) o;
+                                shower.lines = TextSpawner.GearsLarge(index + 1, oo, width - spIndex + 1 - 4);
+                                shower.color = FormatProfile.Rarity2Color(oo.rarity);
+                            }
+                            else if (o.GetType() == typeof(D2Weapon))
+                            {
+                                var oo = (D2Weapon) o;
+                                shower.lines = TextSpawner.WeaponsLarge(index + 1, oo, width - spIndex + 1 - 4);
+                                shower.color = FormatProfile.Rarity2Color(oo.rarity);
+                            }
+                            else
+                            {
+                                shower.lines = new List<string>();
+                                shower.color = Color.Default;
+                            }
+                        }
                         break;
                     case PageWhat.Gear:
                         if (Config.D2Dirs[realFileIndex].d2Gears.Count > index)
@@ -241,8 +263,96 @@ namespace ConsoleTest
         public static void ShowBest()
         {
             if (Config.D2Dirs.Count < 1) return;
+            realFileIndex = nowFileIndex * contentInLine + nowLeft2RightIndex;
+            if (contents.Count > 0 && contents[0].action == ShowBest && Config.D2Dirs[realFileIndex].d2Best.Count == 0)
+            {
+                contents[0].lines[0][2] = "正在生成本期筛选结果……";
+                Flush(null);
+                Config.D2Dirs[realFileIndex].d2Best = TheBest.GetBest(Config.D2Dirs[realFileIndex].d2Gears, Config.D2Dirs[realFileIndex].d2Weapons);
+                contents[0].lines[0][2] = "本期筛选推荐装备结果数量" + Config.D2Dirs[realFileIndex].d2Best.Count + "，正在加载……";
+                Flush(null);
+            }
+            if (Config.D2Dirs[realFileIndex].d2Best.Count == 0) return;
             pageState = nowFileIndex == 0 ? PageState.Entry : PageState.HistoryEntry;
             pageWhat = PageWhat.Best;
+            contents.Clear();
+            contentInLine = 2;
+            nowLeft2RightIndex = 0;
+            var lines = new List<List<List<string>>>();
+            var colors = new List<List<Color>>();
+            foreach (var o in Config.D2Dirs[realFileIndex].d2Best)
+            {
+                var i = lines.Count - 1;
+                if (lines.Count != 0 && lines[i].Count < Controller.contentInLine)
+                {
+                    if (o.GetType() == typeof(D2Gear))
+                    {
+                        var oo = (D2Gear) o;
+                        lines[i].Add(TextSpawner.GearsList(Config.D2Dirs[realFileIndex].d2Gears.IndexOf(oo) + 1, oo));
+                        colors[i].Add(Content.GetColorFs(Translate.RarityS(oo.rarity)));
+                    }
+                    else if (o.GetType() == typeof(D2Weapon))
+                    {
+                        var oo = (D2Weapon) o;
+                        lines[i].Add(TextSpawner.WeaponsList(Config.D2Dirs[realFileIndex].d2Weapons.IndexOf(oo) + 1, oo));
+                        colors[i].Add(Content.GetColorFs(Translate.RarityS(oo.rarity)));
+                    }
+                    //else
+                    //{
+                    //    lines[i].Add(new List<string>());
+                    //    colors[i].Add(Color.Default);
+                    //}
+                }
+                else
+                {
+                    if (o.GetType() == typeof(D2Gear))
+                    {
+                        var oo = (D2Gear) o;
+                        lines.Add(new List<List<string>>() { TextSpawner.GearsList(Config.D2Dirs[realFileIndex].d2Gears.IndexOf(oo) + 1, oo) });
+                        colors.Add(new List<Color>() { Content.GetColorFs(Translate.RarityS(oo.rarity)) });
+                    }
+                    else if (o.GetType() == typeof(D2Weapon))
+                    {
+                        var oo = (D2Weapon) o;
+                        lines.Add(new List<List<string>>() { TextSpawner.WeaponsList(Config.D2Dirs[realFileIndex].d2Weapons.IndexOf(oo) + 1, oo) });
+                        colors.Add(new List<Color>() { Content.GetColorFs(Translate.RarityS(oo.rarity)) });
+                    }
+                    //else
+                    //{
+                    //    lines.Add(new List<List<string>>() { new List<string>() });
+                    //    colors.Add(new List<Color>() { Color.Default });
+                    //}
+                }
+            }
+            foreach (var i in lines)
+                contents.Add(new Content() { lines = i, theme = colors[lines.IndexOf(i)] });
+            if (Config.D2Dirs[realFileIndex].d2Best.Count > 0)
+            {
+                var o = Config.D2Dirs[realFileIndex].d2Best[0];
+                if (o.GetType() == typeof(D2Gear))
+                {
+                    var oo = (D2Gear) o;
+                    shower.lines = TextSpawner.GearsLarge(1, oo, Console.WindowWidth - spIndex + 1 - 4);
+                    shower.color = FormatProfile.Rarity2Color(oo.rarity);
+                }
+                else if (o.GetType() == typeof(D2Weapon))
+                {
+                    var oo = (D2Weapon) o;
+                    shower.lines = TextSpawner.WeaponsLarge(1, oo, Console.WindowWidth - spIndex + 1 - 4);
+                    shower.color = FormatProfile.Rarity2Color(oo.rarity);
+                }
+                else
+                {
+                    shower.lines = new List<string>();
+                    shower.color = Color.Default;
+                }
+            }
+            else
+            {
+                shower.lines = new List<string>();
+                shower.color = Color.Default;
+            }
+            ResetAndFlush();
         }
 
         public static void UpdateResources()

@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TheDivision2Vendor;
@@ -76,7 +74,7 @@ namespace ConsoleTest
                                       if (Controller.contentInLine != 1 && Controller.nowLeft2RightIndex > 0)
                                       {
                                           Controller.nowLeft2RightIndex--;
-                                          Controller.Flush(null);
+                                          Controller.Flush(null, true);
                                       }
                                   }
                                   break;
@@ -87,7 +85,7 @@ namespace ConsoleTest
                                       if (Controller.contentInLine != 1 && Controller.nowLeft2RightIndex < Controller.contentInLine - 1)
                                       {
                                           Controller.nowLeft2RightIndex++;
-                                          Controller.Flush(null);
+                                          Controller.Flush(null, true);
                                       }
                                   }
                                   break;
@@ -192,8 +190,8 @@ namespace ConsoleTest
             Controller.lockScrollUp = 0;
             Controller.lockScrollDown = 1;
             Controller.contents.Clear();
-            Controller.contents.Add(new Content() { action = Controller.ShowBest, lines = new List<List<string>>() { new List<string>() { "", "推荐装备", "" } } });
-            Controller.contents.Add(new Content() { action = Controller.UpdateResources, lines = new List<List<string>>() { new List<string>() { "", "更新数据源", "最后资源日期：" + FileHint(), "" } } });
+            Controller.contents.Add(new Content() { action = Controller.ShowBest, lines = new List<List<string>>() { new List<string>() { "", "推荐装备", "现算法不考虑天赋和具名影响，只考虑装备非主电其余的优质词条数量" } } });
+            Controller.contents.Add(new Content() { action = Controller.UpdateResources, lines = new List<List<string>>() { new List<string>() { "", "更新数据源", "最后资源日期：" + FileHint(), "数据源是人工输入，故会出现录入错误，请谅解。" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowGears, lines = new List<List<string>>() { new List<string>() { "", "查看防具", "" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowWeapons, lines = new List<List<string>>() { new List<string>() { "", "查看武器", "" } } });
             Controller.contents.Add(new Content() { action = Controller.OpenHistory, lines = new List<List<string>>() { new List<string>() { "", "查看已保存的往期数据", "" } } });

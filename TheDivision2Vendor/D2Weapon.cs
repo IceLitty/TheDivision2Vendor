@@ -1,11 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TheDivision2Vendor
 {
-    public class D2Weapon
+    public class D2Weapon : D2Empty
     {
         [JsonProperty("type")]
         public string type { get; set; }
