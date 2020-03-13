@@ -57,8 +57,8 @@ namespace TheDivision2Vendor
             var talent = Translate.Talents(gear.talents);
             var talentDesc = Translate.TalentsDesc(talent);
             var format = "".PadLeft((stdoutIndex + ". ").Length);
-            l.Add(stdoutIndex + ". " + rarity + "§w " + name);
-            l.Add(format + brand);
+            l.Add(stdoutIndex + ". " + name);
+            l.Add(format + rarity + "§w " + brand);
             l.Add(format + gear.armor + " 装甲 " + Translate.Vendor(gear.vendor));
             l.Add("");
             var lattrmain = new List<string>();
