@@ -189,6 +189,7 @@ namespace ConsoleTest
             Controller.pageWhat = PageWhat.None;
             Controller.lockScrollUp = 0;
             Controller.lockScrollDown = 1;
+            Controller.lockLeftRightWhenHistoryEntry = false;
             Controller.contents.Clear();
             Controller.contents.Add(new Content() { action = Controller.ShowBest, lines = new List<List<string>>() { new List<string>() { "", "推荐装备", "现算法不考虑天赋和具名影响，只考虑装备非主电其余的优质(>=80%)词条数量" } } });
             Controller.contents.Add(new Content() { action = Controller.UpdateResources, lines = new List<List<string>>() { new List<string>() { "", "更新数据源", "最后资源日期：" + FileHint(), "数据源是人工输入，故会出现录入错误，请谅解。" } } });

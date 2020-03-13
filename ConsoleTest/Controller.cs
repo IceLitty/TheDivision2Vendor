@@ -262,7 +262,6 @@ namespace ConsoleTest
 
         public static void ShowBest()
         {
-            lockLeftRightWhenHistoryEntry = false;
             if (Config.D2Dirs.Count < 1) return;
             realFileIndex = nowFileIndex * contentInLine + nowLeft2RightIndex;
             if (contents.Count > 0 && contents[0].action == ShowBest && Config.D2Dirs[realFileIndex].d2Best.Count == 0)
@@ -270,10 +269,11 @@ namespace ConsoleTest
                 contents[0].lines[0][2] = "正在生成本期筛选结果……";
                 Flush(null);
                 Config.D2Dirs[realFileIndex].d2Best = TheBest.GetBest(Config.D2Dirs[realFileIndex].d2Gears, Config.D2Dirs[realFileIndex].d2Weapons);
-                contents[0].lines[0][2] = "本期筛选推荐装备结果数量" + Config.D2Dirs[realFileIndex].d2Best.Count + "，正在加载……";
+                contents[0].lines[0][2] = "筛选结果数量" + Config.D2Dirs[realFileIndex].d2Best.Count + (Config.D2Dirs[realFileIndex].d2Best.Count == 0 ? "" : "，正在加载…");
                 Flush(null);
             }
             if (Config.D2Dirs[realFileIndex].d2Best.Count == 0) return;
+            lockLeftRightWhenHistoryEntry = false;
             pageState = nowFileIndex == 0 ? PageState.Entry : PageState.HistoryEntry;
             pageWhat = PageWhat.Best;
             contents.Clear();
