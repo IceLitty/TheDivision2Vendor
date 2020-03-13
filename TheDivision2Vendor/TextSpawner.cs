@@ -114,8 +114,8 @@ namespace TheDivision2Vendor
             {
                 l.Add("");
                 l.Add("天赋：" + talent);
-                if (!String.IsNullOrWhiteSpace(talentDesc))
-                    foreach (string str in talentDesc.Split('\n'))
+                if (talentDesc.Length != 0)
+                    foreach (string str in talentDesc)
                         l.Add(str);
             }
             if (!String.IsNullOrWhiteSpace(brandDesc))
@@ -230,8 +230,8 @@ namespace TheDivision2Vendor
             {
                 l.Add("");
                 l.Add("天赋：" + talent);
-                if (!String.IsNullOrWhiteSpace(talentDesc))
-                    foreach (string str in talentDesc.Split('\n'))
+                if (talentDesc.Length != 0)
+                    foreach (string str in talentDesc)
                         l.Add(str);
             }
             return l;

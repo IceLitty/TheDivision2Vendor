@@ -120,16 +120,21 @@ namespace TheDivision2Vendor
             }
         }
 
-        public static string TalentsDesc(string cn)
+        public static string[] TalentsDesc(string cn)
         {
             try
             {
-                return trans["talentsDescription"][cn].ToString();
+                if (cn.StartsWith("完美"))
+                {
+                    var cn2 = cn.Substring(2);
+                    return trans["talentsDescription"][cn2].ToString().Split('\n');
+                }
+                else return trans["talentsDescription"][cn].ToString().Split('\n');
             }
             catch (Exception)
             {
                 Logger.Put(LogPopType.File, LogType.Debug, String.Format("talentsDescription类型找不到语言文本: {0}", cn));
-                return String.Empty;
+                return new string[0];
             }
         }
 

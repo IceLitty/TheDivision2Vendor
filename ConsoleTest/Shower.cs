@@ -96,7 +96,7 @@ namespace ConsoleTest
 
         public static List<string> GetDefaultMsg()
         {
-            return new List<string>() { "操作说明：", "WSAD/方向箭头 控制上下左右选择", "上页/下页 控制上下翻页", "空格/回车 确认", "Esc/Q 返回上一步" };
+            return new List<string>() { "操作说明：", "WSAD/方向箭头 控制上下左右选择", "上页/下页 控制上下翻页", "空格/回车 确认", "Esc/Q 返回上一步", "", "Tips:", "若放大窗口未自动刷新", "需用方向键操作一下刷新。", "若有行显示不全的情况请放大窗口。" };
         }
     }
 }

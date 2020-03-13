@@ -31,9 +31,11 @@
 
 - [ ] 由于数据源没完整实现模组的每周更新，故未制作模组相关内容。
 
-- [ ] 引入天赋解释文本，利于例如我这种光看天赋名字记不住效果的人。
+- [x] 引入天赋解释文本，利于例如我这种光看天赋名字记不住效果的人。
 
-- [ ] 引入装备组特殊天赋名称和汉化。
+- [ ] 引入所有的装备组特殊天赋名称和汉化。
+
+- [ ] 翻译所有的装备/武器名称并将其按槽位归类（[工作量](https://docs.google.com/spreadsheets/d/e/2PACX-1vTJEX5DerCvOj3a_m36TRy1gPBAUvrduOIdmXI9j1Y0MpQk1wIXaZ9KOcPa7HzXzp_N5qGmjDj6yEfL/pubhtml#)太大，谁来救救孩子）。
 
 - [ ] 其他的还没想到。
 
