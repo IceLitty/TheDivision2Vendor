@@ -262,6 +262,7 @@ namespace ConsoleTest
 
         public static void ShowBest()
         {
+            lockLeftRightWhenHistoryEntry = false;
             if (Config.D2Dirs.Count < 1) return;
             realFileIndex = nowFileIndex * contentInLine + nowLeft2RightIndex;
             if (contents.Count > 0 && contents[0].action == ShowBest && Config.D2Dirs[realFileIndex].d2Best.Count == 0)
