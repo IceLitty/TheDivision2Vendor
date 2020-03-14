@@ -123,7 +123,7 @@ namespace TheDivision2Vendor
                 l.Add("");
                 l.Add(brand + " 套装效果：");
                 foreach (string str in brandDesc.Split('\n'))
-                    l.Add(format + str);
+                    l.Add(str);
             }
             return l;
             // 装备名称 色泽名称 栏位图标 装甲/伤害值 装备分数

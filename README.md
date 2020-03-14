@@ -43,5 +43,7 @@
 
 - [ ] 翻译所有的装备/武器名称并将其按槽位归类（[工作量](https://docs.google.com/spreadsheets/d/e/2PACX-1vTJEX5DerCvOj3a_m36TRy1gPBAUvrduOIdmXI9j1Y0MpQk1wIXaZ9KOcPa7HzXzp_N5qGmjDj6yEfL/pubhtml#)太大，谁来救救孩子）。
 
+- [ ] 将天赋和套装效果做个输出。
+
 - [ ] 其他的还没想到。
 
