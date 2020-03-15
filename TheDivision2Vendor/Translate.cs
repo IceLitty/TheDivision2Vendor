@@ -9,7 +9,7 @@ namespace TheDivision2Vendor
 {
     public static class Translate
     {
-        private static JObject trans = null;
+        public static JObject trans = null;
 
         static Translate()
         {

@@ -236,5 +236,56 @@ namespace TheDivision2Vendor
             }
             return l;
         }
+
+        public static List<string> TalentsList(int stdoutIndex, string talentCn, string talentType)
+        {
+            var l = new List<string>();
+            l.Add(stdoutIndex + ". " + talentCn);
+            var format = "".PadLeft((stdoutIndex + ". ").Length);
+            l.Add(format + talentType);
+            return l;
+        }
+
+        public static List<string> TalentsLarge(int stdoutIndex, string talentCn, string talentType)
+        {
+            var l = new List<string>();
+            var talentDesc = Translate.TalentsDesc(talentCn);
+            l.Add(stdoutIndex + ". " + talentCn);
+            var format = "".PadLeft((stdoutIndex + ". ").Length);
+            l.Add(format + talentType);
+            if (talentDesc.Length > 0)
+            {
+                l.Add("");
+                foreach (string str in talentDesc)
+                    l.Add(str);
+            }
+            return l;
+        }
+
+        public static List<string> BrandsList(int stdoutIndex, string brandCn, string brandType)
+        {
+            var l = new List<string>();
+            l.Add(stdoutIndex + ". " + brandCn);
+            var format = "".PadLeft((stdoutIndex + ". ").Length);
+            l.Add(format + brandType);
+            return l;
+        }
+
+        public static List<string> BrandsLarge(int stdoutIndex, string brandCn, string brandType)
+        {
+            var l = new List<string>();
+            var brandDesc = Translate.BrandDesc(brandCn);
+            l.Add(stdoutIndex + ". " + brandCn);
+            var format = "".PadLeft((stdoutIndex + ". ").Length);
+            l.Add(format + brandType);
+            if (!String.IsNullOrWhiteSpace(brandDesc))
+            {
+                l.Add("");
+                l.Add(brandCn + " 套装效果：");
+                foreach (string str in brandDesc.Split('\n'))
+                    l.Add(str);
+            }
+            return l;
+        }
     }
 }

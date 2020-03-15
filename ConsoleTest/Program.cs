@@ -10,131 +10,131 @@ namespace ConsoleTest
 {
     class Program
     {
+        private static System.Threading.Timer timerScreenSizeChange;
+
         static void Main(string[] args)
             => new Program().StartAsync().GetAwaiter().GetResult();
 
         public async Task StartAsync()
         {
+            Console.WindowWidth = 159;
+            Console.WindowHeight = 37;
             Console.TreatControlCAsInput = true;
             Logs();
             MainFunc.Init();
             if (Config.D2Dirs.Count > 0) Controller.nowFileIndex = 0;
             WelcomeScreen();
-            //var a = Config.D2Dirs;
-            //Console.Title += "";
-            _ = Task.Factory.StartNew(() =>
-              {
-                  while (true)
-                  {
-                      try
-                      {
-                          switch (Console.ReadKey(true).Key)
-                          {
-                              case ConsoleKey.Q:
-                              case ConsoleKey.Escape:
-                                  if (Controller.contents.Count > Controller.nowChoose)
-                                      Controller.TurnBack();
-                                  break;
-                              case ConsoleKey.Spacebar:
-                              case ConsoleKey.Enter:
-                                  if (Controller.contents.Count > Controller.nowChoose)
-                                      if (Controller.contents[Controller.nowChoose].action != null)
-                                      {
-                                          if (!Controller.lockUpdate)
-                                          {
-                                              Controller.lockUpdate = true;
-                                              //Controller.contents[Controller.nowChoose].action.Invoke();
-                                              try { Controller.contents[Controller.nowChoose].action.Invoke(); } catch (Exception) { }
-                                              Controller.lockUpdate = false;
-                                          }
-                                      }
-                                  break;
-                              case ConsoleKey.W:
-                              case ConsoleKey.UpArrow:
-                                  if (Controller.nowChoose > 0)
-                                  {
-                                      Controller.nowChoose--;
-                                      if (Controller.pageState == PageState.History && Controller.nowFileIndex > 0) Controller.nowFileIndex--;
-                                      Controller.Flush(true);
-                                  }
-                                  break;
-                              case ConsoleKey.S:
-                              case ConsoleKey.DownArrow:
-                                  if (Controller.nowChoose < Controller.contents.Count - 1)
-                                  {
-                                      Controller.nowChoose++;
-                                      if (Controller.pageState == PageState.History && Controller.nowFileIndex < Controller.contents.Count - 1) Controller.nowFileIndex++;
-                                      Controller.Flush(false);
-                                  }
-                                  break;
-                              case ConsoleKey.A:
-                              case ConsoleKey.LeftArrow:
-                                  if (!Controller.lockLeftRightWhenHistoryEntry)
-                                  {
-                                      if (Controller.contentInLine != 1 && Controller.nowLeft2RightIndex > 0)
-                                      {
-                                          Controller.nowLeft2RightIndex--;
-                                          Controller.Flush(null, true);
-                                      }
-                                  }
-                                  break;
-                              case ConsoleKey.D:
-                              case ConsoleKey.RightArrow:
-                                  if (!Controller.lockLeftRightWhenHistoryEntry)
-                                  {
-                                      if (Controller.contentInLine != 1 && Controller.nowLeft2RightIndex < Controller.contentInLine - 1)
-                                      {
-                                          Controller.nowLeft2RightIndex++;
-                                          Controller.Flush(null, true);
-                                      }
-                                  }
-                                  break;
-                              case ConsoleKey.PageUp:
-                                  if (Controller.nowChoose > 0)
-                                  {
-                                      Controller.lockScrollUp = 0;
-                                      Controller.lockScrollDown = 0;
-                                      Controller.nowChoose = Math.Max(Controller.nowChoose - Controller.CanShow(), 0);
-                                      Controller.Flush(true);
-                                  }
-                                  break;
-                              case ConsoleKey.PageDown:
-                                  if (Controller.nowChoose < Controller.contents.Count - 1)
-                                  {
-                                      Controller.lockScrollUp = 0;
-                                      Controller.lockScrollDown = 4;
-                                      Controller.nowChoose = Math.Min(Controller.nowChoose + Controller.CanShow(), Controller.contents.Count - 1);
-                                      Controller.Flush(false);
-                                  }
-                                  break;
-                              default:
-                                  break;
-                          }
-                          Console.CursorVisible = false;
-                      }
-                      catch (Exception) { }
-                  }
-              });
             _ = Task.Factory.StartNew(() =>
             {
-                int width = Console.WindowWidth;
-                int height = Console.WindowHeight;
-                _ = new System.Threading.Timer(state =>
+                while (true)
                 {
                     try
                     {
-                        if (width != Console.WindowWidth || height != Console.WindowHeight)
+                        switch (Console.ReadKey(true).Key)
                         {
-                            width = Console.WindowWidth;
-                            height = Console.WindowHeight;
-                            Controller.lockScrollUp = 0;
-                            Controller.lockScrollDown = 0;
-                            Controller.Flush(null);
+                            case ConsoleKey.Q:
+                            case ConsoleKey.Backspace:
+                            case ConsoleKey.Escape:
+                                if (Controller.contents.Count > Controller.nowChoose)
+                                    Controller.TurnBack();
+                                break;
+                            case ConsoleKey.Spacebar:
+                            case ConsoleKey.Enter:
+                                if (Controller.contents.Count > Controller.nowChoose)
+                                    if (Controller.contents[Controller.nowChoose].action != null)
+                                    {
+                                        if (!Controller.lockUpdate)
+                                        {
+                                            Controller.lockUpdate = true;
+                                            //Controller.contents[Controller.nowChoose].action.Invoke();
+                                            try { Controller.contents[Controller.nowChoose].action.Invoke(); } catch (Exception) { }
+                                            Controller.lockUpdate = false;
+                                        }
+                                    }
+                                break;
+                            case ConsoleKey.W:
+                            case ConsoleKey.UpArrow:
+                                if (Controller.nowChoose > 0)
+                                {
+                                    Controller.nowChoose--;
+                                    if (Controller.pageState == PageState.History && Controller.nowFileIndex > 0) Controller.nowFileIndex--;
+                                    Controller.Flush(true);
+                                }
+                                break;
+                            case ConsoleKey.S:
+                            case ConsoleKey.DownArrow:
+                                if (Controller.nowChoose < Controller.contents.Count - 1)
+                                {
+                                    Controller.nowChoose++;
+                                    if (Controller.pageState == PageState.History && Controller.nowFileIndex < Controller.contents.Count - 1) Controller.nowFileIndex++;
+                                    Controller.Flush(false);
+                                }
+                                break;
+                            case ConsoleKey.A:
+                            case ConsoleKey.LeftArrow:
+                                if (!Controller.lockLeftRightWhenHistoryEntry)
+                                {
+                                    if (Controller.contentInLine != 1 && Controller.nowLeft2RightIndex > 0)
+                                    {
+                                        Controller.nowLeft2RightIndex--;
+                                        Controller.Flush(null, true);
+                                    }
+                                }
+                                break;
+                            case ConsoleKey.D:
+                            case ConsoleKey.RightArrow:
+                                if (!Controller.lockLeftRightWhenHistoryEntry)
+                                {
+                                    if (Controller.contentInLine != 1 && Controller.nowLeft2RightIndex < Controller.contentInLine - 1)
+                                    {
+                                        Controller.nowLeft2RightIndex++;
+                                        Controller.Flush(null, true);
+                                    }
+                                }
+                                break;
+                            case ConsoleKey.PageUp:
+                                if (Controller.nowChoose > 0)
+                                {
+                                    Controller.lockScrollUp = 0;
+                                    Controller.lockScrollDown = 0;
+                                    Controller.nowChoose = Math.Max(Controller.nowChoose - Controller.CanShow(), 0);
+                                    Controller.Flush(true);
+                                }
+                                break;
+                            case ConsoleKey.PageDown:
+                                if (Controller.nowChoose < Controller.contents.Count - 1)
+                                {
+                                    Controller.lockScrollUp = 0;
+                                    Controller.lockScrollDown = 4;
+                                    Controller.nowChoose = Math.Min(Controller.nowChoose + Controller.CanShow(), Controller.contents.Count - 1);
+                                    Controller.Flush(false);
+                                }
+                                break;
+                            default:
+                                break;
                         }
+                        Console.CursorVisible = false;
                     }
                     catch (Exception) { }
-                }, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+                }
             });
+            int width = Console.WindowWidth;
+            int height = Console.WindowHeight;
+            timerScreenSizeChange = new System.Threading.Timer(state =>
+            {
+                try
+                {
+                    if (width != Console.WindowWidth || height != Console.WindowHeight)
+                    {
+                        width = Console.WindowWidth;
+                        height = Console.WindowHeight;
+                        Controller.lockScrollUp = 0;
+                        Controller.lockScrollDown = 0;
+                        Controller.Flush(null);
+                    }
+                }
+                catch (Exception) { }
+            }, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
             await Task.Delay(-1);
         }
 
@@ -196,6 +196,8 @@ namespace ConsoleTest
             Controller.contents.Add(new Content() { action = Controller.ShowGears, lines = new List<List<string>>() { new List<string>() { "", "查看防具", "" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowWeapons, lines = new List<List<string>>() { new List<string>() { "", "查看武器", "" } } });
             Controller.contents.Add(new Content() { action = Controller.OpenHistory, lines = new List<List<string>>() { new List<string>() { "", "查看已保存的往期数据", "" } } });
+            Controller.contents.Add(new Content() { action = Controller.ShowAllTalents, lines = new List<List<string>>() { new List<string>() { "", "列出全部天赋", "" } } });
+            Controller.contents.Add(new Content() { action = Controller.ShowAllBrands, lines = new List<List<string>>() { new List<string>() { "", "列出套装效果", "" } } });
             Controller.contents.Add(new Content() { action = Controller.Exit, lines = new List<List<string>>() { new List<string>() { "", "退出", "" } } });
             Controller.shower.lines = Shower.GetDefaultMsg();
             Controller.shower.color = Color.Default;

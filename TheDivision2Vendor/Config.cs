@@ -13,6 +13,10 @@ namespace TheDivision2Vendor
         public static readonly string Log = Path.Combine(AppContext.BaseDirectory, "config/Log.log");
         public static readonly string D2Dir = Path.Combine(AppContext.BaseDirectory, "resource");
         public static readonly List<ConfigD2> D2Dirs = new List<ConfigD2>();
+        public static readonly List<string> D2Talents = new List<string>();
+        public static readonly List<string> D2TalentsFrom = new List<string>();
+        public static readonly List<string> D2Brands = new List<string>();
+        public static readonly List<string> D2BrandsColor = new List<string>();
 
         static Config()
         {

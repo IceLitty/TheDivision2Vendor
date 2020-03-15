@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace ConsoleTest
@@ -96,7 +97,23 @@ namespace ConsoleTest
 
         public static List<string> GetDefaultMsg()
         {
-            return new List<string>() { "操作说明：", "WSAD/方向箭头 控制上下左右选择", "上页/下页 控制上下翻页", "空格/回车 确认", "Esc/Q 返回上一步", "", "Tips:", "若放大窗口未自动刷新", "需用方向键操作一下刷新。", "若有行显示不全的情况请放大窗口。" };
+            return new List<string>()
+            {
+                "版本：" + Assembly.GetEntryAssembly().GetName().Version,
+                "",
+                "操作说明：",
+                "WSAD/方向键 控制上下左右选择",
+                "上页/下页 控制上下翻页",
+                "空格/回车 确认",
+                "Esc/Q/退格 返回上一步",
+                "",
+                "Tips:",
+                "若有行显示不全的情况请放大窗口。",
+                "",
+                "软件仓库：",
+                "https://github.com/IceLitty",
+                "/TheDivision2Vendor",
+            };
         }
     }
 }

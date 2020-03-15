@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheDivision2Vendor;
@@ -143,6 +144,20 @@ namespace ConsoleTest
                         }
                         break;
                     case PageWhat.Mod:
+                        break;
+                    case PageWhat.Talent:
+                        if (Config.D2Talents.Count > index)
+                        {
+                            shower.lines = TextSpawner.TalentsLarge(index + 1, Config.D2Talents[index], Config.D2TalentsFrom[index]);
+                            shower.color = Color.Default;
+                        }
+                        break;
+                    case PageWhat.Brand:
+                        if (Config.D2Brands.Count > index)
+                        {
+                            shower.lines = TextSpawner.BrandsLarge(index + 1, Config.D2Brands[index], Config.D2BrandsColor[index]);
+                            shower.color = Config.D2BrandsColor[index] == "顶级" ? Color.Orange : (Config.D2BrandsColor[index] == "装备组" ? Color.Green : Color.Default);
+                        }
                         break;
                     case PageWhat.None:
                     default:
@@ -518,6 +533,164 @@ namespace ConsoleTest
             ResetAndFlush();
         }
 
+        public static void ShowAllTalents()
+        {
+            pageState = PageState.Entry;
+            pageWhat = PageWhat.Talent;
+            contents.Clear();
+            contentInLine = 4;
+            nowLeft2RightIndex = 0;
+            var lines = new List<List<List<string>>>();
+            var colors = new List<List<Color>>();
+            var nowColor = Color.Default;
+            var nowType = String.Empty;
+            var ind = 1;
+            var isFirstInit = Config.D2Talents.Count == 0;
+            foreach (var bb in Translate.trans["talents"].Children<JProperty>())
+            {
+                var b = Translate.trans["talents"][bb.Name].ToString();
+                switch (b)
+                {
+                    case "__通用武器天赋":
+                        nowColor = Color.Purple;
+                        nowType = b.Substring(2);
+                        break;
+                    case "__步枪天赋":
+                        nowColor = Color.Default;
+                        nowType = b.Substring(2);
+                        break;
+                    case "__突击步枪天赋":
+                        nowColor = Color.Purple;
+                        nowType = b.Substring(2);
+                        break;
+                    case "__射手步枪天赋":
+                        nowColor = Color.Default;
+                        nowType = b.Substring(2);
+                        break;
+                    case "__霰弹枪天赋":
+                        nowColor = Color.Purple;
+                        nowType = b.Substring(2);
+                        break;
+                    case "__冲锋枪天赋":
+                        nowColor = Color.Default;
+                        nowType = b.Substring(2);
+                        break;
+                    case "__轻机枪天赋":
+                        nowColor = Color.Purple;
+                        nowType = b.Substring(2);
+                        break;
+                    case "__手枪天赋":
+                        nowColor = Color.Default;
+                        nowType = b.Substring(2);
+                        break;
+                    case "__防弹衣天赋":
+                        nowColor = Color.Orange;
+                        nowType = b.Substring(2);
+                        break;
+                    case "__背包天赋":
+                        nowColor = Color.Default;
+                        nowType = b.Substring(2);
+                        break;
+                    case "__装备组背包天赋":
+                        nowColor = Color.Green;
+                        nowType = b.Substring(2);
+                        break;
+                    case "__装备组防弹衣天赋":
+                        nowColor = Color.Default;
+                        nowType = b.Substring(2);
+                        break;
+                    default:
+                        var i = lines.Count - 1;
+                        if (lines.Count != 0 && lines[i].Count < Controller.contentInLine)
+                        {
+                            lines[i].Add(TextSpawner.TalentsList(ind, b, nowType));
+                            colors[i].Add(nowColor);
+                        }
+                        else
+                        {
+                            lines.Add(new List<List<string>>() { TextSpawner.TalentsList(ind, b, nowType) });
+                            colors.Add(new List<Color>() { nowColor });
+                        }
+                        if (isFirstInit)
+                        {
+                            Config.D2Talents.Add(b);
+                            Config.D2TalentsFrom.Add(nowType);
+                        }
+                        ind++;
+                        break;
+                }
+            }
+            if (lines[lines.Count - 1].Count % contentInLine != 0)
+            {
+                var needAdd = contentInLine - lines[lines.Count - 1].Count % contentInLine;
+                for (int idd = 0; idd < needAdd; idd++)
+                {
+                    lines[lines.Count - 1].Add(new List<string>());
+                    colors[lines.Count - 1].Add(Color.Default);
+                }
+            }
+            foreach (var i in lines)
+                contents.Add(new Content() { lines = i, theme = colors[lines.IndexOf(i)] });
+            shower.lines = TextSpawner.TalentsLarge(ind, Config.D2Talents[0], Config.D2TalentsFrom[0]);
+            shower.color = Color.Default;
+            ResetAndFlush();
+        }
+
+        public static void ShowAllBrands()
+        {
+            pageState = PageState.Entry;
+            pageWhat = PageWhat.Brand;
+            contents.Clear();
+            contentInLine = 4;
+            nowLeft2RightIndex = 0;
+            var lines = new List<List<List<string>>>();
+            var colors = new List<List<Color>>();
+            var nowColor = Color.Default;
+            var ind = 1;
+            var isFirstInit = Config.D2Brands.Count == 0;
+            foreach (var bb in Translate.trans["brand"].Children<JProperty>())
+            {
+                var b = Translate.trans["brand"][bb.Name].ToString();
+                if (b.Equals("__套装")) nowColor = Color.Orange;
+                else if (b.Equals("__装备组")) nowColor = Color.Green;
+                else
+                {
+                    var i = lines.Count - 1;
+                    var c = nowColor == Color.Orange ? "顶级" : (nowColor == Color.Green ? "装备组" : "");
+                    if (lines.Count != 0 && lines[i].Count < Controller.contentInLine)
+                    {
+                        lines[i].Add(TextSpawner.BrandsList(ind, b, c));
+                        colors[i].Add(nowColor);
+                    }
+                    else
+                    {
+                        lines.Add(new List<List<string>>() { TextSpawner.BrandsList(ind, b, c) });
+                        colors.Add(new List<Color>() { nowColor });
+                    }
+                    if (isFirstInit)
+                    {
+                        Config.D2Brands.Add(b);
+                        Config.D2BrandsColor.Add(c);
+                    }
+                    ind++;
+                }
+            }
+            if (lines[lines.Count - 1].Count % contentInLine != 0)
+            {
+                var needAdd = contentInLine - lines[lines.Count - 1].Count % contentInLine;
+                for (int idd = 0; idd < needAdd; idd++)
+                {
+                    lines[lines.Count - 1].Add(new List<string>());
+                    colors[lines.Count - 1].Add(Color.Default);
+                }
+            }
+            foreach (var i in lines)
+                contents.Add(new Content() { lines = i, theme = colors[lines.IndexOf(i)] });
+            shower.lines = TextSpawner.BrandsLarge(ind, Config.D2Brands[0], Config.D2BrandsColor[0]);
+            shower.color = colors[0][0];
+            ResetAndFlush();
+        }
+
         public static void Exit()
         {
             Environment.Exit(0);
@@ -539,6 +712,8 @@ namespace ConsoleTest
         Best,
         Gear,
         Weapon,
-        Mod
+        Mod,
+        Talent,
+        Brand,
     }
 }

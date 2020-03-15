@@ -5,6 +5,7 @@ namespace TheDivision2Vendor
 {
     public static class MainFunc
     {
+        private static Timer timer;
         public static TimeSpan Span = TimeSpan.Zero;
         public static DateTime DateTemp = DateTime.Now;
 
@@ -12,7 +13,7 @@ namespace TheDivision2Vendor
         {
             DateTemp = Util.GetNextTuesday();
             Span = DateTemp - DateTime.Now;
-            Timer timer = new Timer(state =>
+            timer = new Timer(state =>
             {
                 if (Span.TotalSeconds > 1) Span = DateTemp - DateTime.Now;
                 else

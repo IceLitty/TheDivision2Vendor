@@ -13,46 +13,61 @@ namespace TheDivision2Vendor
             if (mods == null) mods = new List<D2Mod>();
             foreach (var o in gears)
             {
-                if (Translate.RarityS(o.rarity).Equals("§p")) continue;
+                var purple = false;
+                if (Translate.RarityS(o.rarity).Equals("§p")) purple = true;
                 var attr = Translate.AttrValAndText(o.attributes);
-                if (CanAdd(attr, true)) list.Add(o);
+                if (CanAdd(attr, true, purple)) list.Add(o);
             }
             foreach (var o in weapons)
             {
-                if (Translate.RarityS(o.rarity).Equals("§p")) continue;
+                var purple = false;
+                if (Translate.RarityS(o.rarity).Equals("§p")) purple = true;
                 var attr = Translate.AttrValAndText(o.attribute1, o.attribute2, o.attribute3);
-                if (CanAdd(attr, false)) list.Add(o);
+                if (CanAdd(attr, false, purple)) list.Add(o);
             }
             return list;
         }
 
-        private static bool CanAdd(List<Attribute> attr, bool isGear)
+        private static bool CanAdd(List<Attribute> attr, bool isGear, bool purple)
         {
-            var counter = 0;
-            foreach (var a in attr)
+            if (purple)
             {
-                if (isGear && a.isMainAttr && a.valType == AttrValType.Utility) continue;
-                if (a.val >= a.valMax)
+                foreach (var a in attr)
                 {
-                    return true;
+                    if (isGear && a.isMainAttr && a.valType == AttrValType.Utility) continue;
+                    if (a.val >= a.valMax)
+                        return true;
                 }
-                if (a.val >= a.valMax * 0.8) counter++;
+                return false;
             }
-            switch (attr.Count)
+            else
             {
-                case 1:
-                    if (counter > 0) return true;
-                    break;
-                case 2:
-                    if (counter > 1) return true;
-                    break;
-                case 3:
-                    if (counter > 2) return true;
-                    break;
-                default:
-                    break;
+                var counter = 0;
+                foreach (var a in attr)
+                {
+                    if (isGear && a.isMainAttr && a.valType == AttrValType.Utility) continue;
+                    if (a.val >= a.valMax)
+                    {
+                        return true;
+                    }
+                    if (a.val >= a.valMax * 0.8) counter++;
+                }
+                switch (attr.Count)
+                {
+                    case 1:
+                        if (counter > 0) return true;
+                        break;
+                    case 2:
+                        if (counter > 1) return true;
+                        break;
+                    case 3:
+                        if (counter > 2) return true;
+                        break;
+                    default:
+                        break;
+                }
+                return false;
             }
-            return false;
         }
     }
 }
