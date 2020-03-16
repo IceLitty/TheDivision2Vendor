@@ -282,6 +282,7 @@ namespace ConsoleTest
             if (contents.Count > 0 && contents[0].action == ShowBest && Config.D2Dirs[realFileIndex].d2Best.Count == 0)
             {
                 contents[0].lines[0][2] = "正在生成本期筛选结果……";
+                contents[0].lines[0][3] = "";
                 Flush(null);
                 Config.D2Dirs[realFileIndex].d2Best = TheBest.GetBest(Config.D2Dirs[realFileIndex].d2Gears, Config.D2Dirs[realFileIndex].d2Weapons);
                 contents[0].lines[0][2] = "筛选结果数量" + Config.D2Dirs[realFileIndex].d2Best.Count + (Config.D2Dirs[realFileIndex].d2Best.Count == 0 ? "" : "，正在加载…");
