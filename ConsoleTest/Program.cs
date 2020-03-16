@@ -35,8 +35,7 @@ namespace ConsoleTest
                             case ConsoleKey.Q:
                             case ConsoleKey.Backspace:
                             case ConsoleKey.Escape:
-                                if (Controller.contents.Count > Controller.nowChoose)
-                                    Controller.TurnBack();
+                                Controller.TurnBack();
                                 break;
                             case ConsoleKey.Spacebar:
                             case ConsoleKey.Enter:
@@ -144,21 +143,25 @@ namespace ConsoleTest
             {
                 while (true)
                 {
-                    Log l = Logger.Take().GetAwaiter().GetResult();
-                    switch (l.popup)
+                    try
                     {
-                        case LogPopType.Title:
-                            Console.Title = l.msg;
-                            break;
-                        case LogPopType.File:
-                            string msg = l.ToString().Replace("\r", "").Replace("\n", "").Replace("\t", "");
-                            File.AppendAllLinesAsync(Config.Log, new List<string>() { msg }, Encoding.UTF8);
-                            break;
-                        case LogPopType.Popup:
-                            if (l.e == null) MessageBox.Show(l.msg, "...", MessageBoxButtons.OK);
-                            else MessageBox.Show(l.msg + "\r\n" + l.e.StackTrace, "?!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            break;
+                        Log l = Logger.Take().GetAwaiter().GetResult();
+                        switch (l.popup)
+                        {
+                            case LogPopType.Title:
+                                Console.Title = l.msg;
+                                break;
+                            case LogPopType.File:
+                                string msg = l.ToString().Replace("\r", "").Replace("\n", "").Replace("\t", "");
+                                File.AppendAllLinesAsync(Config.Log, new List<string>() { msg }, Encoding.UTF8);
+                                break;
+                            case LogPopType.Popup:
+                                if (l.e == null) MessageBox.Show(l.msg, "...", MessageBoxButtons.OK);
+                                else MessageBox.Show(l.msg + "\r\n" + l.e.StackTrace, "?!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                break;
+                        }
                     }
+                    catch (Exception) { }
                 }
             });
         }
@@ -198,6 +201,7 @@ namespace ConsoleTest
             Controller.contents.Add(new Content() { action = Controller.OpenHistory, lines = new List<List<string>>() { new List<string>() { "", "查看已保存的往期数据", "" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowAllTalents, lines = new List<List<string>>() { new List<string>() { "", "列出全部天赋", "" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowAllBrands, lines = new List<List<string>>() { new List<string>() { "", "列出套装效果", "" } } });
+            Controller.contents.Add(new Content() { action = Controller.ShowBrandsUseShower, lines = new List<List<string>>() { new List<string>() { "", "列出套装效果（全部显示）", "" } } });
             Controller.contents.Add(new Content() { action = Controller.Exit, lines = new List<List<string>>() { new List<string>() { "", "退出", "" } } });
             Controller.shower.lines = Shower.GetDefaultMsg();
             Controller.shower.color = Color.Default;

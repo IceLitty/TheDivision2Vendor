@@ -297,5 +297,30 @@ namespace TheDivision2Vendor
             }
             return l;
         }
+
+        public static string PadRight(string str, int maxLength)
+        {
+            int length = 0;
+            int color = 0;
+            foreach (char c in str)
+            {
+                if ('§'.Equals(c)) color++;
+                else
+                {
+                    int l = Encoding.UTF8.GetBytes(c.ToString()).Length;
+                    if (l > 1) l -= 1;
+                    length += l;
+                }
+            }
+            length -= color;
+            length = Math.Max(0, length);
+            var sb = new StringBuilder();
+            sb.Append(str);
+            for (int i = 0; i < maxLength - length; i++)
+            {
+                sb.Append(" ");
+            }
+            return sb.ToString();
+        }
     }
 }

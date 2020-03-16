@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using TheDivision2Vendor;
 
@@ -159,6 +160,53 @@ namespace ConsoleTest
                             shower.color = Config.D2BrandsColor[index] == "顶级" ? Color.Orange : (Config.D2BrandsColor[index] == "装备组" ? Color.Green : Color.Default);
                         }
                         break;
+                    case PageWhat.BrandShower:
+                        {
+                            var list = new List<string>() { "" };
+                            var nowColor = Color.Default;
+                            foreach (var bb in Translate.trans["brand"].Children<JProperty>())
+                            {
+                                var b = Translate.trans["brand"][bb.Name].ToString();
+                                if (b.Equals("__套装")) nowColor = Color.Orange;
+                                else if (b.Equals("__装备组")) nowColor = Color.Green;
+                                else
+                                {
+                                    var ll = Translate.BrandDesc(b).Split('\n');
+                                    var line = new StringBuilder();
+                                    line.Append(nowColor == Color.Green ? "§g" : "§o");
+                                    line.Append(TextSpawner.PadRight(b, 20));
+                                    line.Append("§w：");
+                                    foreach (var s in ll)
+                                    {
+                                        if (String.IsNullOrWhiteSpace(s)) continue;
+                                        var f = s.Substring(0, 1);
+                                        switch (f)
+                                        {
+                                            case "+":
+                                            case "核":
+                                            case "2":
+                                            case "3":
+                                            case "4":
+                                                var ss = s.Replace("2件：", "").Replace("3件：", "").Replace("4件：", "");
+                                                if (s.Contains("生命") || s.Contains("防护") || s.Contains("降临") || s.Contains("装甲") || s.Contains("抗性"))
+                                                    ss = "§c" + ss + "§w";
+                                                else if (s.Contains("技能") || s.Contains("状态"))
+                                                    ss = "§y" + ss + "§w";
+                                                else if (s.Contains("爆击") || s.Contains("武器") || s.Contains("伤害") || s.Contains("枪") || s.Contains("度") || s.Contains("弹"))
+                                                    ss = "§r" + ss + "§w";
+                                                line.Append(TextSpawner.PadRight(ss, 30));
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    }
+                                    list.Add(line.ToString());
+                                }
+                            }
+                            shower.lines = list;
+                            shower.color = Color.Default;
+                        }
+                        break;
                     case PageWhat.None:
                     default:
                         shower.lines = new List<string>();
@@ -166,16 +214,21 @@ namespace ConsoleTest
                         break;
                 }
             }
-            var showerStrs = shower.Print(width - spIndex + 1, height);
+            var showerStrs = pageWhat == PageWhat.BrandShower ? shower.Print(width, height) : shower.Print(width - spIndex + 1, height);
             var all = new List<string>();
-            for (int index = 0; index < height; index++)
+            if (pageWhat == PageWhat.BrandShower) all = showerStrs;
+            else
             {
-                string line = String.Empty;
-                if (contentsStrs.Count > index) line += contentsStrs[index];
-                else for(int i = 0; i < spIndex - 2; i++) line += " ";
-                if (showerStrs.Count > index) line += showerStrs[index];
-                all.Add(line);
+                for (int index = 0; index < height; index++)
+                {
+                    string line = String.Empty;
+                    if (contentsStrs.Count > index) line += contentsStrs[index];
+                    else for (int i = 0; i < spIndex - 2; i++) line += " ";
+                    if (showerStrs.Count > index) line += showerStrs[index];
+                    all.Add(line);
+                }
             }
+            //foreach (var s in all) Logger.Put(LogPopType.File, LogType.Debug, s);
             bool color = false;
             for (int lIndex = 0; lIndex < height; lIndex++)
             {
@@ -637,6 +690,16 @@ namespace ConsoleTest
             ResetAndFlush();
         }
 
+        public static void ShowBrandsUseShower()
+        {
+            pageState = PageState.Entry;
+            pageWhat = PageWhat.BrandShower;
+            contents.Clear();
+            contentInLine = 1;
+            nowLeft2RightIndex = 0;
+            ResetAndFlush();
+        }
+
         public static void ShowAllBrands()
         {
             pageState = PageState.Entry;
@@ -716,5 +779,6 @@ namespace ConsoleTest
         Mod,
         Talent,
         Brand,
+        BrandShower,
     }
 }
