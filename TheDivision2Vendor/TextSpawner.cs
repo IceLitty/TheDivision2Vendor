@@ -21,15 +21,19 @@ namespace TheDivision2Vendor
             var attrstroff = new List<string>();
             foreach (var attr in attribute)
             {
-                var tmp = String.Empty;
-                if (attr.val >= attr.valMax)
+                string tmp;
+                if (attr.val == 0) tmp = Translate.TransAttrValType(attr.valType);
+                else
                 {
-                    if (attr.isMainAttr && attr.valType == AttrValType.Utility)
-                        tmp = Translate.TransAttrValType(attr.valType);
-                    else
-                        tmp = Translate.TransAttrValType(attr.valType) + "(满)";
+                    if (attr.val >= attr.valMax && attr.val / attr.valMax < 3)
+                    {
+                        if (attr.isMainAttr && attr.valType == AttrValType.Utility)
+                            tmp = Translate.TransAttrValType(attr.valType);
+                        else
+                            tmp = Translate.TransAttrValType(attr.valType) + "(满)";
+                    }
+                    else tmp = Translate.TransAttrValType(attr.valType);
                 }
-                else tmp = Translate.TransAttrValType(attr.valType);
                 if (attr.isMainAttr) attrstrmain.Add(tmp);
                 else attrstroff.Add(tmp);
             }
@@ -70,8 +74,9 @@ namespace TheDivision2Vendor
                 var str = attr.val >= attr.valMax ? "§o▲§w +" : "+";
                 if (attr.isMainAttr && attr.valType == AttrValType.Utility)
                     str = "+";
+                var checkValError = attr.val > attr.valMax ? " §y数值异常？§w" : "";
                 tmp.Add(str + attr.val + (attr.type == AttributeType.Percent ? "%" : "") + " " + attr.desc + "§w / " +
-                    attr.valMax + (attr.type == AttributeType.Percent ? "%" : ""));
+                    attr.valMax + (attr.type == AttributeType.Percent ? "%" : "") + checkValError);
                 var percent = (int) Math.Floor(attr.val / attr.valMax * barLength) / 2;
                 var percent2 = (int) Math.Floor((barLength - (double)percent * 2) / 2);
                 var color = "";
@@ -148,15 +153,19 @@ namespace TheDivision2Vendor
             var attrstroff = new List<string>();
             foreach (var attr in attribute)
             {
-                var tmp = String.Empty;
-                if (attr.val >= attr.valMax)
+                string tmp;
+                if (attr.val == 0) tmp = Translate.TransAttrValType(attr.valType);
+                else
                 {
-                    if (attr.isMainAttr && attr.valType == AttrValType.Utility)
-                        tmp = Translate.TransAttrValType(attr.valType);
-                    else
-                        tmp = Translate.TransAttrValType(attr.valType) + "(满)";
+                    if (attr.val >= attr.valMax && attr.val / attr.valMax < 3)
+                    {
+                        if (attr.isMainAttr && attr.valType == AttrValType.Utility)
+                            tmp = Translate.TransAttrValType(attr.valType);
+                        else
+                            tmp = Translate.TransAttrValType(attr.valType) + "(满)";
+                    }
+                    else tmp = Translate.TransAttrValType(attr.valType);
                 }
-                else tmp = Translate.TransAttrValType(attr.valType);
                 if (attr.isMainAttr) attrstrmain.Add(tmp);
                 else attrstroff.Add(tmp);
             }
@@ -191,8 +200,9 @@ namespace TheDivision2Vendor
                 var str = attr.val >= attr.valMax ? "§o▲§w +" : "+";
                 if (attr.isMainAttr && attr.valType == AttrValType.Utility)
                     str = "+";
+                var checkValError = attr.val > attr.valMax ? " §y数值异常？§w" : "";
                 tmp.Add(str + attr.val + (attr.type == AttributeType.Percent ? "%" : "") + " " + attr.desc + "§w / " +
-                    attr.valMax + (attr.type == AttributeType.Percent ? "%" : ""));
+                    attr.valMax + (attr.type == AttributeType.Percent ? "%" : "") + checkValError);
                 var percent = (int)Math.Floor(attr.val / attr.valMax * barLength) / 2;
                 var percent2 = (int)Math.Floor((barLength - (double) percent * 2) / 2);
                 var color = "";

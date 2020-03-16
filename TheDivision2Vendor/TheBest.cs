@@ -66,8 +66,23 @@ namespace TheDivision2Vendor
                     default:
                         break;
                 }
-                return false;
+                return CanAddTwice(attr, isGear);
             }
+        }
+
+        private static bool CanAddTwice(List<Attribute> attr, bool isGear)
+        {
+            var counter = 0;
+            foreach (var a in attr)
+            {
+                if (isGear && a.isMainAttr && a.valType == AttrValType.Utility) continue;
+                if (a.val >= a.valMax)
+                {
+                    return true;
+                }
+                if (a.val >= a.valMax * 0.7) counter++;
+            }
+            return counter >= attr.Count;
         }
     }
 }
