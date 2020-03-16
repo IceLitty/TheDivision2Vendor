@@ -188,12 +188,18 @@ namespace ConsoleTest
                                             case "3":
                                             case "4":
                                                 var ss = s.Replace("2件：", "").Replace("3件：", "").Replace("4件：", "");
-                                                if (s.Contains("生命") || s.Contains("防护") || s.Contains("降临") || s.Contains("装甲") || s.Contains("抗性"))
-                                                    ss = "§c" + ss + "§w";
-                                                else if (s.Contains("技能") || s.Contains("状态"))
-                                                    ss = "§y" + ss + "§w";
-                                                else if (s.Contains("爆击") || s.Contains("武器") || s.Contains("伤害") || s.Contains("枪") || s.Contains("度") || s.Contains("弹"))
+                                                if (s.Contains("对装甲的伤害"))
                                                     ss = "§r" + ss + "§w";
+                                                else if (s.Contains("武器控制力"))
+                                                    ss = "§p" + ss + "§w";
+                                                else if (s.Contains("生命") || s.Contains("防护") || s.Contains("降临") || s.Contains("装甲") || s.Contains("抗性"))
+                                                    ss = "§c" + ss + "§w";
+                                                else if (s.Contains("技能") || s.Contains("状态") || s.Contains("爆裂"))
+                                                    ss = "§y" + ss + "§w";
+                                                else if (s.Contains("爆击") || s.Contains("武器") || s.Contains("伤害") || s.Contains("枪"))
+                                                    ss = "§r" + ss + "§w";
+                                                else
+                                                    ss = "§p" + ss + "§w";
                                                 line.Append(TextSpawner.PadRight(ss, 30));
                                                 break;
                                             default:
