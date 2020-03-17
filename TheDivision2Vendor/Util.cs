@@ -30,6 +30,14 @@ namespace TheDivision2Vendor
             {
                 n = n.AddDays(1);
             }
+            if (DateTime.Compare(n, DateTime.Now) < 0)
+            {
+                n = n.AddDays(1);
+                while (n.DayOfWeek != DayOfWeek.Tuesday)
+                {
+                    n = n.AddDays(1);
+                }
+            }
             return n;
             //var w = Convert.ToInt32(DateTime.Now.DayOfWeek);
             //if (w == 2)
