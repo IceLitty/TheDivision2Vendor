@@ -15,7 +15,9 @@ namespace TheDivision2Vendor
             {
                 var purple = false;
                 if (Translate.RarityS(o.rarity).Equals("§p")) purple = true;
-                var attr = Translate.AttrValAndText(o.attributes);
+                var coreStr = string.Empty;
+                if (o.core != null && !string.IsNullOrEmpty(o.core)) coreStr = o.core + "<br/>";
+                var attr = Translate.AttrValAndText(coreStr + o.attributes);
                 if (CanAdd(attr, true, purple)) list.Add(o);
             }
             foreach (var o in weapons)

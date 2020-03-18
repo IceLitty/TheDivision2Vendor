@@ -357,30 +357,6 @@
         "射速": "5",
         "切换速度": "§15"
     },
-    "attributesWeaponMain": {
-        "Rifle Damage": "步枪伤害",
-        "AR Damage": "突击步枪伤害",
-        "MMR Damage": "射手步枪伤害",
-        "Shotgun Damage": "霰弹枪伤害",
-        "SMG Damage": "冲锋枪伤害",
-        "LMG Damage": "轻机枪伤害",
-        "Pistol Damage": "手枪伤害"
-    },
-    "attributesWeapon": {
-        "Damage to Armor": "对装甲伤害",
-        "Critical Hit Chance": "爆击几率",
-        "Health Damage": "生命值伤害",
-        "Damage Out of Cover": "对离开掩体目标的伤害",
-        "Headshot Damage": "爆头伤害",
-        "Critical Hit Damage": "爆击伤害",
-        "Reload Speed": "装弹速度",
-        "Stability": "稳定度",
-        "Accuracy": "准确度",
-        "Optimal Range": "有效射程",
-        "Magazine Size": "弹夹容量",
-        "Rate of Fire": "射速",
-        "切换速度": "切换速度"
-    },
     "attributesColorGear": {
         "__装备核心属性": "",
         "武器伤害": "§r",
@@ -417,12 +393,36 @@
         "技能加速": "12",
         "状态效果": "10"
     },
-    "attributesGearMain": {
+    "attributesMain": {
+        "__武器天赋": "__武器天赋",
+        "Rifle Damage": "步枪伤害",
+        "AR Damage": "突击步枪伤害",
+        "MMR Damage": "射手步枪伤害",
+        "Shotgun Damage": "霰弹枪伤害",
+        "SMG Damage": "冲锋枪伤害",
+        "LMG Damage": "轻机枪伤害",
+        "Pistol Damage": "手枪伤害",
+        "__装备天赋": "__装备天赋",
         "Weapon Damage": "武器伤害",
         "Skill Tier": "技能分阶",
         "Armor": "装甲"
     },
-    "attributesGear": {
+    "attributesOff": {
+        "__武器天赋": "__武器天赋",
+        "Damage to Armor": "对装甲伤害",
+        "Critical Hit Chance 1": "爆击几率",
+        "Health Damage": "生命值伤害",
+        "DMG to target out of cover": "对离开掩体目标的伤害",
+        "Headshot Damage 1": "爆头伤害",
+        "Critical Hit Damage 1": "爆击伤害",
+        "Reload Speed": "装弹速度",
+        "Stability": "稳定度",
+        "Accuracy": "准确度",
+        "Optimal Range": "有效射程",
+        "Magazine Size": "弹夹容量",
+        "Rate of Fire": "射速",
+        "切换速度": "切换速度",
+        "__装备天赋": "__装备天赋",
         "Weapon Handling": "武器控制力",
         "Critical Hit Chance": "爆击几率",
         "Critical Hit Damage": "爆击伤害",

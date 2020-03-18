@@ -11,7 +11,9 @@ namespace TheDivision2Vendor
             var l = new List<string>();
             var name = Translate.Name(gear.name);
             var brand = Translate.Brand(gear.brand);
-            var attribute = Translate.AttrValAndText(gear.attributes);
+            var coreStr = string.Empty;
+            if (gear.core != null && !string.IsNullOrEmpty(gear.core)) coreStr = gear.core + "<br/>";
+            var attribute = Translate.AttrValAndText(coreStr + gear.attributes);
             AttrValType? mod = Translate.Mod(gear.mods);
             var talent = Translate.Talents(gear.talents);
             l.Add(stdoutIndex + ". " + name);
@@ -56,7 +58,9 @@ namespace TheDivision2Vendor
             var rarity = Translate.Rarity(gear.rarity);
             var brand = Translate.Brand(gear.brand);
             var brandDesc = Translate.BrandDesc(brand);
-            var attribute = Translate.AttrValAndText(gear.attributes);
+            var coreStr = string.Empty;
+            if (gear.core != null && !string.IsNullOrEmpty(gear.core)) coreStr = gear.core + "<br/>";
+            var attribute = Translate.AttrValAndText(coreStr + gear.attributes);
             AttrValType? mod = Translate.Mod(gear.mods);
             var talent = Translate.Talents(gear.talents);
             var talentDesc = Translate.TalentsDesc(talent);

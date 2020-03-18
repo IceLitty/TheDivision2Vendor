@@ -25,6 +25,9 @@ namespace TheDivision2Vendor
         [JsonProperty("armor")]
         public string armor { get; set; }
 
+        [JsonProperty("core")]
+        public string core { get; set; }
+
         [JsonProperty("attributes")]
         public string attributes { get; set; }
 

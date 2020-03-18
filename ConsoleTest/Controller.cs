@@ -338,14 +338,18 @@ namespace ConsoleTest
         {
             if (Config.D2Dirs.Count < 1) return;
             realFileIndex = nowFileIndex * contentInLine + nowLeft2RightIndex;
-            if (contents.Count > 0 && contents[0].action == ShowBest && Config.D2Dirs[realFileIndex].d2Best.Count == 0)
+            foreach (var c in contents)
             {
-                contents[0].lines[0][2] = "正在生成本期筛选结果……";
-                contents[0].lines[0][3] = "";
-                Flush(null);
-                Config.D2Dirs[realFileIndex].d2Best = TheBest.GetBest(Config.D2Dirs[realFileIndex].d2Gears, Config.D2Dirs[realFileIndex].d2Weapons);
-                contents[0].lines[0][2] = "筛选结果数量" + Config.D2Dirs[realFileIndex].d2Best.Count + (Config.D2Dirs[realFileIndex].d2Best.Count == 0 ? "" : "，正在加载…");
-                Flush(null);
+                if (c.action == ShowBest && Config.D2Dirs[realFileIndex].d2Best.Count == 0)
+                {
+                    c.lines[0][2] = "正在生成本期筛选结果……";
+                    c.lines[0][3] = "";
+                    Flush(null);
+                    Config.D2Dirs[realFileIndex].d2Best = TheBest.GetBest(Config.D2Dirs[realFileIndex].d2Gears, Config.D2Dirs[realFileIndex].d2Weapons);
+                    c.lines[0][2] = "筛选结果数量" + Config.D2Dirs[realFileIndex].d2Best.Count + (Config.D2Dirs[realFileIndex].d2Best.Count == 0 ? "" : "，正在加载…");
+                    Flush(null);
+                    break;
+                }
             }
             if (Config.D2Dirs[realFileIndex].d2Best.Count == 0) return;
             lockLeftRightWhenHistoryEntry = false;
@@ -587,9 +591,9 @@ namespace ConsoleTest
             contents.Clear();
             var sp = Config.D2Dirs[realFileIndex].Path.Split("\\");
             var t = sp[sp.Length - 1];
-            contents.Add(new Content() { action = ShowBest, lines = new List<List<string>>() { new List<string>() { "", $"推荐装备 - {t}", "" } } });
-            contents.Add(new Content() { action = ShowGears, lines = new List<List<string>>() { new List<string>() { "", $"查看防具 - {t}", "" } } });
-            contents.Add(new Content() { action = ShowWeapons, lines = new List<List<string>>() { new List<string>() { "", $"查看武器 - {t}", "" } } });
+            contents.Add(new Content() { action = ShowBest, lines = new List<List<string>>() { new List<string>() { "", $"推荐装备 - {t}", "", "" } } });
+            contents.Add(new Content() { action = ShowGears, lines = new List<List<string>>() { new List<string>() { "", $"查看防具 - {t}", "", "" } } });
+            contents.Add(new Content() { action = ShowWeapons, lines = new List<List<string>>() { new List<string>() { "", $"查看武器 - {t}", "", "" } } });
             ResetAndFlush();
         }
 

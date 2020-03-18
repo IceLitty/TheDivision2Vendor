@@ -199,9 +199,9 @@ namespace ConsoleTest
             Controller.contents.Add(new Content() { action = Controller.ShowGears, lines = new List<List<string>>() { new List<string>() { "", "查看防具", "" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowWeapons, lines = new List<List<string>>() { new List<string>() { "", "查看武器", "" } } });
             Controller.contents.Add(new Content() { action = Controller.OpenHistory, lines = new List<List<string>>() { new List<string>() { "", "查看已保存的往期数据", "" } } });
+            Controller.contents.Add(new Content() { action = Controller.ShowBrandsUseShower, lines = new List<List<string>>() { new List<string>() { "", "列出套装效果（同屏显示）", "" } } });
+            Controller.contents.Add(new Content() { action = Controller.ShowAllBrands, lines = new List<List<string>>() { new List<string>() { "", "列出套装效果（逐一显示）", "" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowAllTalents, lines = new List<List<string>>() { new List<string>() { "", "列出全部天赋", "" } } });
-            Controller.contents.Add(new Content() { action = Controller.ShowAllBrands, lines = new List<List<string>>() { new List<string>() { "", "列出套装效果", "" } } });
-            Controller.contents.Add(new Content() { action = Controller.ShowBrandsUseShower, lines = new List<List<string>>() { new List<string>() { "", "列出套装效果（全部显示）", "" } } });
             Controller.contents.Add(new Content() { action = Controller.Exit, lines = new List<List<string>>() { new List<string>() { "", "退出", "" } } });
             Controller.shower.lines = Shower.GetDefaultMsg();
             Controller.shower.color = Color.Default;

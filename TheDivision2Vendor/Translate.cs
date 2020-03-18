@@ -215,12 +215,12 @@ namespace TheDivision2Vendor
                 {
                     try
                     {
-                        cn = trans["attributesGearMain"][adesc].ToString();
+                        cn = trans["attributesMain"][adesc].ToString();
                         isMainAttr = true;
                     }
                     catch (Exception)
                     {
-                        try { cn = trans["attributesGear"][adesc].ToString(); }
+                        try { cn = trans["attributesOff"][adesc].ToString(); }
                         catch (Exception)
                         {
                             cn = adesc;
@@ -251,7 +251,7 @@ namespace TheDivision2Vendor
                 {
                     try
                     {
-                        cn = trans["attributesWeaponMain"][adesc].ToString();
+                        cn = trans["attributesMain"][adesc].ToString();
                         isMainAttr = true;
                         try
                         {
@@ -263,7 +263,7 @@ namespace TheDivision2Vendor
                     {
                         try
                         {
-                            cn = trans["attributesWeapon"][adesc].ToString();
+                            cn = trans["attributesOff"][adesc].ToString();
                             try
                             {
                                 foreach (Attribute attr in list)
