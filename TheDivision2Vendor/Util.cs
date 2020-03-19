@@ -15,6 +15,7 @@ namespace TheDivision2Vendor
         {
             var n = DateTime.Now;
             n = DateTime.Parse($"{n.Year}.{n.Month}.{n.Day} PM 03:00:00");
+            n = TimeZoneInfo.ConvertTime(n, TimeZoneInfo.FindSystemTimeZoneById("China Standard Time"), TimeZoneInfo.Local);
             while (n.DayOfWeek != DayOfWeek.Tuesday)
             {
                 n = n.AddDays(-1);
@@ -26,6 +27,7 @@ namespace TheDivision2Vendor
         {
             var n = DateTime.Now;
             n = DateTime.Parse($"{n.Year}.{n.Month}.{n.Day} PM 03:00:00");
+            n = TimeZoneInfo.ConvertTime(n, TimeZoneInfo.FindSystemTimeZoneById("China Standard Time"), TimeZoneInfo.Local);
             while (n.DayOfWeek != DayOfWeek.Tuesday)
             {
                 n = n.AddDays(1);
