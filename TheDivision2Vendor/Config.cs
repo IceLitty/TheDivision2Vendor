@@ -84,12 +84,13 @@ namespace TheDivision2Vendor
         public List<D2Empty> d2Best { get; set; } = new List<D2Empty>();
         public List<D2Gear> d2Gears { get; set; } = new List<D2Gear>();
         public List<D2Weapon> d2Weapons { get; set; } = new List<D2Weapon>();
+        public List<D2Mod> d2Mods { get; set; } = new List<D2Mod>();
 
         public void Vaild()
         {
             try { d2Gears = JsonConvert.DeserializeObject<List<D2Gear>>(File.ReadAllText(Gear)); } catch (Exception) { }
             try { d2Weapons = JsonConvert.DeserializeObject<List<D2Weapon>>(File.ReadAllText(Weapon)); } catch (Exception) { }
-            //try { } catch (Exception) { }
+            try { d2Mods = JsonConvert.DeserializeObject<List<D2Mod>>(File.ReadAllText(Mod)); } catch (Exception) { }
         }
     }
 }

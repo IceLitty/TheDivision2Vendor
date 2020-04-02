@@ -13,14 +13,17 @@ namespace TheDivision2Vendor
         [JsonProperty("vendor")]
         public string vendor { get; set; }
 
-        [JsonProperty("score")]
-        public int score { get; set; }
+        [JsonProperty("level")]
+        public int level { get; set; }
 
         [JsonProperty("name")]
         public string name { get; set; }
 
         [JsonProperty("brand")]
         public string brand { get; set; }
+
+        [JsonProperty("slot")]
+        public string slot { get; set; }
 
         [JsonProperty("armor")]
         public string armor { get; set; }

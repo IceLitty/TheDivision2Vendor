@@ -2,6 +2,7 @@
 {
     public static class FormatProfile
     {
+        // use Translate#RarityS ?
         public static Color Rarity2Color(string rarity)
         {
             switch (rarity)

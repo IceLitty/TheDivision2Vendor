@@ -195,9 +195,10 @@ namespace ConsoleTest
             Controller.lockLeftRightWhenHistoryEntry = false;
             Controller.contents.Clear();
             Controller.contents.Add(new Content() { action = Controller.ShowBest, lines = new List<List<string>>() { new List<string>() { "", "推荐装备", "现算法不考虑天赋/具名/套装影响，非紫装只考虑装备非主电", "优质(>=80%)词条数量/全部词条数值略高(>=70%)", "" } } });
-            Controller.contents.Add(new Content() { action = Controller.UpdateResources, lines = new List<List<string>>() { new List<string>() { "", "更新数据源", "最后资源日期：" + FileHint(), "数据源是人工输入，故会出现录入错误，请谅解。" } } });
+            Controller.contents.Add(new Content() { action = Controller.UpdateResources, lines = new List<List<string>>() { new List<string>() { "", "更新数据源（数据源可能会有延期情况）", "最后资源日期：" + FileHint(), "数据源是人工输入，故会出现录入错误，请谅解。" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowGears, lines = new List<List<string>>() { new List<string>() { "", "查看防具", "" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowWeapons, lines = new List<List<string>>() { new List<string>() { "", "查看武器", "" } } });
+            Controller.contents.Add(new Content() { action = Controller.ShowMods, lines = new List<List<string>>() { new List<string>() { "", "查看模组（秒/米单位不显示）", "" } } });
             Controller.contents.Add(new Content() { action = Controller.OpenHistory, lines = new List<List<string>>() { new List<string>() { "", "查看已保存的往期数据", "" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowBrandsUseShower, lines = new List<List<string>>() { new List<string>() { "", "列出套装效果（同屏显示）", "" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowAllBrands, lines = new List<List<string>>() { new List<string>() { "", "列出套装效果（逐一显示）", "" } } });

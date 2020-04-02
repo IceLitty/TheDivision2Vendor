@@ -10,6 +10,7 @@ namespace TheDivision2Vendor
     public static class Translate
     {
         public static JObject trans = null;
+        public static int ATTRVALMAXDEFAULT = 88888888;
 
         static Translate()
         {
@@ -27,7 +28,7 @@ namespace TheDivision2Vendor
             }
             catch (Exception)
             {
-                Logger.Put(LogPopType.File, LogType.Debug, String.Format("type类型找不到语言文本: {0}", en));
+                if (!String.IsNullOrWhiteSpace(en)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("type类型找不到语言文本: {0}", en));
                 return en;
             }
         }
@@ -40,7 +41,7 @@ namespace TheDivision2Vendor
             }
             catch (Exception)
             {
-                Logger.Put(LogPopType.File, LogType.Debug, String.Format("rarity类型找不到语言文本: {0}", en));
+                if (!String.IsNullOrWhiteSpace(en)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("rarity类型找不到语言文本: {0}", en));
                 return en;
             }
         }
@@ -56,7 +57,7 @@ namespace TheDivision2Vendor
             }
             catch (Exception)
             {
-                Logger.Put(LogPopType.File, LogType.Debug, String.Format("rarity类型找不到语言文本: {0}", en));
+                if (!String.IsNullOrWhiteSpace(en)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("rarity类型找不到语言文本: {0}", en));
                 return en;
             }
         }
@@ -69,7 +70,7 @@ namespace TheDivision2Vendor
             }
             catch (Exception)
             {
-                Logger.Put(LogPopType.File, LogType.Debug, String.Format("vendor类型找不到语言文本: {0}", en));
+                if (!String.IsNullOrWhiteSpace(en)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("vendor类型找不到语言文本: {0}", en));
                 return en;
             }
         }
@@ -82,7 +83,7 @@ namespace TheDivision2Vendor
             }
             catch (Exception)
             {
-                Logger.Put(LogPopType.File, LogType.Debug, String.Format("brand类型找不到语言文本: {0}", en));
+                if (!String.IsNullOrWhiteSpace(en)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("brand类型找不到语言文本: {0}", en));
                 return en;
             }
         }
@@ -95,7 +96,7 @@ namespace TheDivision2Vendor
             }
             catch (Exception)
             {
-                Logger.Put(LogPopType.File, LogType.Debug, String.Format("brandDesc类型找不到语言文本: {0}", cn));
+                if (!String.IsNullOrWhiteSpace(cn)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("brandDesc类型找不到语言文本: {0}", cn));
                 return String.Empty;
             }
         }
@@ -111,11 +112,16 @@ namespace TheDivision2Vendor
                     en = en.Substring(8);
                     return "完美" + trans["talents"][en].ToString();
                 }
+                else if (en.StartsWith("Perfectly "))
+                {
+                    en = en.Substring(10);
+                    return "完美" + trans["talents"][en].ToString();
+                }
                 return trans["talents"][en].ToString();
             }
             catch (Exception)
             {
-                Logger.Put(LogPopType.File, LogType.Debug, String.Format("talents类型找不到语言文本: {0}", en));
+                if (!String.IsNullOrWhiteSpace(en)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("talents类型找不到语言文本: {0}", en));
                 return en;
             }
         }
@@ -133,7 +139,7 @@ namespace TheDivision2Vendor
             }
             catch (Exception)
             {
-                Logger.Put(LogPopType.File, LogType.Debug, String.Format("talentsDescription类型找不到语言文本: {0}", cn));
+                if (!String.IsNullOrWhiteSpace(cn)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("talentsDescription类型找不到语言文本: {0}", cn));
                 return new string[0];
             }
         }
@@ -144,6 +150,7 @@ namespace TheDivision2Vendor
             if (!String.IsNullOrWhiteSpace(en2) && !en2.Equals("-")) en += "<br/>" + en2;
             if (!String.IsNullOrWhiteSpace(en3) && !en3.Equals("-")) en += "<br/>" + en3;
             string sss = en.Replace("<span class=\"icon-utility\"></span>", "")
+                .Replace("<span class=\"icon-weapons\"></span>", "")
                 .Replace("<span class=\"icon-offensive\"></span>", "")
                 .Replace("<span class=\"icon-defensive\"></span>", "")
                 .Replace("<br/>", "\n");
@@ -207,7 +214,7 @@ namespace TheDivision2Vendor
                     adesc = text;
                 }
                 string cn;
-                double mval = 1000000;
+                double mval = ATTRVALMAXDEFAULT;
                 bool isMainAttr = false;
                 AttrWeaponType? cnt = null;
                 var type = AttrValType.Unknown;
@@ -224,7 +231,7 @@ namespace TheDivision2Vendor
                         catch (Exception)
                         {
                             cn = adesc;
-                            Logger.Put(LogPopType.File, LogType.Debug, String.Format("attributesGear类型找不到语言文本: {0}", adesc));
+                            if (!String.IsNullOrWhiteSpace(adesc)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("attributesGear类型找不到语言文本: {0}", adesc));
                         }
                     }
                     try { mval = Double.Parse(trans["attributesValMaxGear"][cn].ToString()); } catch (Exception) { }
@@ -301,7 +308,7 @@ namespace TheDivision2Vendor
                         catch (Exception)
                         {
                             cn = adesc;
-                            Logger.Put(LogPopType.File, LogType.Debug, String.Format("attributesWeapon类型找不到语言文本: {0}", adesc));
+                            if (!String.IsNullOrWhiteSpace(adesc)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("attributesWeapon类型找不到语言文本: {0}", adesc));
                         }
                     }
                     try
@@ -359,18 +366,145 @@ namespace TheDivision2Vendor
             }
         }
 
+        public static List<Attribute> AttrValAndTextMods(string en, string modNameCn)
+        {
+            string sss = en.Replace("<br/>", "\n");
+            string[] l = sss.Split('\n');
+            for (int i = 0; i < l.Length; i++)
+            {
+                if (l[i].EndsWith("   ")) l[i] = l[i].Substring(0, l[i].Length - 3);
+                if (l[i].EndsWith("  ")) l[i] = l[i].Substring(0, l[i].Length - 2);
+                if (l[i].EndsWith(" ")) l[i] = l[i].Substring(0, l[i].Length - 1);
+                if (l[i].StartsWith(" ")) l[i] = l[i].Substring(1, l[i].Length - 1);
+            }
+            var list = new List<Attribute>();
+            var a = new Attribute();
+            string tmp = l[0];
+            if (l.Length > 1)
+            {
+                a.modsUseful = tmp;
+                tmp = l[1];
+            }
+            var li = tmp.ToCharArray();
+            var ind = 0;
+            if (li.Length == 0) return list;
+            for (int j = 0; j < li.Length; j++)
+            {
+                switch (li[j])
+                {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                    case '.':
+                    case ',':
+                    case '%':
+                    case 'm':
+                    case 's':
+                        break;
+                    default:
+                        ind = j;
+                        break;
+                }
+                if (ind != 0) break;
+            }
+            AttributeType at;
+            double avl;
+            string adesc;
+            if (ind == 0)
+            {
+                at = AttributeType.Direct;
+                avl = 0;
+                adesc = tmp;
+            }
+            else
+            {
+                var val = tmp.Substring(0, ind).Replace(",", "");
+                var text = tmp.Substring(ind);
+                if (text.StartsWith("   ")) text = text.Substring(3);
+                if (text.StartsWith("  ")) text = text.Substring(2);
+                if (text.StartsWith(" ")) text = text.Substring(1);
+                at = val.Contains("%") ? AttributeType.Percent : AttributeType.Direct;
+                avl = Double.Parse(val.Replace("%", "").Replace("m", "").Replace("s", ""));
+                adesc = text;
+            }
+            string cn;
+            double mval = ATTRVALMAXDEFAULT;
+            try
+            {
+                cn = trans["attributesMod"][adesc].ToString();
+            }
+            catch (Exception)
+            {
+                cn = adesc;
+                if (!String.IsNullOrWhiteSpace(adesc)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("attributesMod类型找不到语言文本: {0}", adesc));
+            }
+            if (!String.IsNullOrWhiteSpace(a.modsUseful))
+            {
+                try
+                {
+                    a.modsUseful = trans["attributesMod"][a.modsUseful].ToString();
+                }
+                catch (Exception)
+                {
+                    if (!String.IsNullOrWhiteSpace(a.modsUseful)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("attributesMod类型找不到语言文本: {0}", a.modsUseful));
+                }
+            }
+            if (!String.IsNullOrWhiteSpace(modNameCn))
+            {
+                if (modNameCn.StartsWith("攻击协定"))
+                    try { mval = Double.Parse(trans["attributesValMaxMod"]["攻击协定"][cn].ToString()); } catch (Exception) { }
+                else if (modNameCn.StartsWith("攻击系统"))
+                    try { mval = Double.Parse(trans["attributesValMaxMod"]["攻击系统"][cn].ToString()); } catch (Exception) { }
+                else if (modNameCn.StartsWith("防御协定"))
+                    try { mval = Double.Parse(trans["attributesValMaxMod"]["防御协定"][cn].ToString()); } catch (Exception) { }
+                else if (modNameCn.StartsWith("防御系统"))
+                    try { mval = Double.Parse(trans["attributesValMaxMod"]["防御系统"][cn].ToString()); } catch (Exception) { }
+                else if (modNameCn.StartsWith("性能协定"))
+                    try { mval = Double.Parse(trans["attributesValMaxMod"]["性能协定"][cn].ToString()); } catch (Exception) { }
+                else if (modNameCn.StartsWith("性能系统"))
+                    try { mval = Double.Parse(trans["attributesValMaxMod"]["性能系统"][cn].ToString()); } catch (Exception) { }
+                else if (!String.IsNullOrEmpty(a.modsUseful))
+                    try { mval = Double.Parse(trans["attributesValMaxMod"][a.modsUseful][cn].ToString()); } catch (Exception) { }
+            }
+            a.type = at;
+            a.val = avl;
+            a.desc = cn;
+            a.valMax = mval;
+            list.Add(a);
+            return list;
+        }
+
+        public static string Slot(string en)
+        {
+            try
+            {
+                return trans["slot"][en].ToString();
+            }
+            catch (Exception)
+            {
+                if (!String.IsNullOrWhiteSpace(en)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("slot类型找不到语言文本: {0}", en));
+                return en;
+            }
+        }
+
         public static string Name(string en)
         {
-            return en;
-            //try
-            //{
-            //    return trans["names"][en].ToString();
-            //}
-            //catch (Exception)
-            //{
-            //    Logger.Put(LogPopType.File, LogType.Debug, String.Format("attributes类型找不到语言文本: {0}", en));
-            //    return en;
-            //}
+            try
+            {
+                return trans["names"][en].ToString();
+            }
+            catch (Exception)
+            {
+                if (!String.IsNullOrWhiteSpace(en)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("attributes类型找不到语言文本: {0}", en));
+                return en;
+            }
         }
 
         public static AttrValType? Mod(string en)
@@ -382,9 +516,19 @@ namespace TheDivision2Vendor
             }
             catch (Exception)
             {
-                Logger.Put(LogPopType.File, LogType.Debug, String.Format("mods类型找不到语言文本: {0}", en));
+                if (!String.IsNullOrWhiteSpace(en)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("mods类型找不到语言文本: {0}", en));
                 return null;
             }
+        }
+
+        public static AttrModType AttrModFromGearOrSkill(string cn)
+        {
+            if (String.IsNullOrWhiteSpace(cn)) return AttrModType.Unknown;
+            if (cn.StartsWith("攻击协定") || cn.StartsWith("攻击系统") ||
+                cn.StartsWith("防御协定") || cn.StartsWith("防御系统") ||
+                cn.StartsWith("性能协定") || cn.StartsWith("性能系统"))
+                return AttrModType.Gear;
+            return AttrModType.Skill;
         }
     }
 
@@ -393,10 +537,11 @@ namespace TheDivision2Vendor
         public AttributeType type { get; set; } = AttributeType.Direct;
         public double val { get; set; } = 0;
         public string desc { get; set; } = String.Empty;
-        public double valMax { get; set; } = 1000000;
+        public double valMax { get; set; } = Translate.ATTRVALMAXDEFAULT;
         public AttrValType valType { get; set; } = AttrValType.Unknown;
         public bool isMainAttr { get; set; } = false;
         public AttrWeaponType? weaponTest { get; set; } = null;
+        public string modsUseful { get; set; } = String.Empty;
     }
 
     public enum AttrWeaponType
@@ -422,5 +567,12 @@ namespace TheDivision2Vendor
         Offensive,
         Defensive,
         Utility
+    }
+
+    public enum AttrModType
+    {
+        Unknown,
+        Gear,
+        Skill
     }
 }

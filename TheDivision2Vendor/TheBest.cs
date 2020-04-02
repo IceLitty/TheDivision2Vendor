@@ -27,6 +27,27 @@ namespace TheDivision2Vendor
                 var attr = Translate.AttrValAndText(o.attribute1, o.attribute2, o.attribute3);
                 if (CanAdd(attr, false, purple)) list.Add(o);
             }
+            // 由于最高值不可信，故仅采用无条模组直接推荐、无最高值记录则忽略、否则大于等于最高值的80%方可推荐
+            foreach (var o in mods)
+            {
+                var name = Translate.Name(o.name);
+                var attrs = Translate.AttrValAndTextMods(o.attributes, name.Equals(o.name) ? null : name);
+                foreach (var attr in attrs)
+                {
+                    if (attr.valMax == 0)
+                    {
+                        list.Add(o);
+                        break;
+                    }
+                    else if (attr.valMax == Translate.ATTRVALMAXDEFAULT) continue;
+                    else if (attr.val >= attr.valMax * 0.8)
+                    {
+                        if (Translate.RarityS(o.rarity).Equals("§p")) continue;
+                        list.Add(o);
+                        break;
+                    }
+                }
+            }
             return list;
         }
 

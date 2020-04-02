@@ -13,8 +13,8 @@ namespace TheDivision2Vendor
         [JsonProperty("vendor")]
         public string vendor { get; set; }
 
-        [JsonProperty("score")]
-        public int score { get; set; }
+        [JsonProperty("level")]
+        public int level { get; set; }
 
         [JsonProperty("name")]
         public string name { get; set; }

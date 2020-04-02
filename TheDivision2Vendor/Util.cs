@@ -13,48 +13,32 @@ namespace TheDivision2Vendor
 
         public static DateTime GetThisTuesday()
         {
-            var n = DateTime.Now;
-            n = DateTime.Parse($"{n.Year}.{n.Month}.{n.Day} PM 03:00:00");
-            n = TimeZoneInfo.ConvertTime(n, TimeZoneInfo.FindSystemTimeZoneById("China Standard Time"), TimeZoneInfo.Local);
-            while (n.DayOfWeek != DayOfWeek.Tuesday)
+            var gmt8 = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "China Standard Time");
+            if (gmt8.DayOfWeek == DayOfWeek.Tuesday && gmt8.Hour < 15)
             {
-                n = n.AddDays(-1);
+                gmt8 = gmt8.AddDays(-1);
             }
-            return n;
+            gmt8 = DateTime.Parse($"{gmt8.Year}.{gmt8.Month}.{gmt8.Day} PM 03:00:00");
+            while (gmt8.DayOfWeek != DayOfWeek.Tuesday)
+            {
+                gmt8 = gmt8.AddDays(-1);
+            }
+            return gmt8;
         }
 
         public static DateTime GetNextTuesday()
         {
-            var n = DateTime.Now;
-            n = DateTime.Parse($"{n.Year}.{n.Month}.{n.Day} PM 03:00:00");
-            n = TimeZoneInfo.ConvertTime(n, TimeZoneInfo.FindSystemTimeZoneById("China Standard Time"), TimeZoneInfo.Local);
-            while (n.DayOfWeek != DayOfWeek.Tuesday)
+            var gmt8 = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "China Standard Time");
+            if (gmt8.DayOfWeek == DayOfWeek.Tuesday && gmt8.Hour >= 15)
             {
-                n = n.AddDays(1);
+                gmt8 = gmt8.AddDays(1);
             }
-            if (DateTime.Compare(n, DateTime.Now) < 0)
+            gmt8 = DateTime.Parse($"{gmt8.Year}.{gmt8.Month}.{gmt8.Day} PM 03:00:00");
+            while (gmt8.DayOfWeek != DayOfWeek.Tuesday)
             {
-                n = n.AddDays(1);
-                while (n.DayOfWeek != DayOfWeek.Tuesday)
-                {
-                    n = n.AddDays(1);
-                }
+                gmt8 = gmt8.AddDays(1);
             }
-            return n;
-            //var w = Convert.ToInt32(DateTime.Now.DayOfWeek);
-            //if (w == 2)
-            //{
-            //    var s = (DateTime.Now.Hour * 60 + DateTime.Now.Minute) * 60;
-            //    if (s >= 28800)
-            //    {
-            //        w += 7;
-            //    }
-            //}
-            //else if (w > 2)
-            //    w += 7;
-            //var b = DateTime.Now.AddDays(2 - w);
-            //var c = DateTime.Parse($"{b.Year}.{b.Month}.{b.Day} PM 03:00:00");
-            //return c;
+            return gmt8;
         }
     }
 }

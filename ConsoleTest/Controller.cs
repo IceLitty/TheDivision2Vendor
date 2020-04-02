@@ -123,6 +123,12 @@ namespace ConsoleTest
                                 shower.lines = TextSpawner.WeaponsLarge(index + 1, oo, width - spIndex + 1 - 4);
                                 shower.color = FormatProfile.Rarity2Color(oo.rarity);
                             }
+                            else if (o.GetType() == typeof(D2Mod))
+                            {
+                                var oo = (D2Mod) o;
+                                shower.lines = TextSpawner.ModsLarge(index + 1, oo, width - spIndex + 1 - 4);
+                                shower.color = FormatProfile.Rarity2Color(oo.rarity);
+                            }
                             else
                             {
                                 shower.lines = new List<string>();
@@ -145,6 +151,11 @@ namespace ConsoleTest
                         }
                         break;
                     case PageWhat.Mod:
+                        if (Config.D2Dirs[realFileIndex].d2Mods.Count > index)
+                        {
+                            shower.lines = TextSpawner.ModsLarge(index + 1, Config.D2Dirs[realFileIndex].d2Mods[index], width - spIndex + 1 - 4);
+                            shower.color = FormatProfile.Rarity2Color(Config.D2Dirs[realFileIndex].d2Mods[index].rarity);
+                        }
                         break;
                     case PageWhat.Talent:
                         if (Config.D2Talents.Count > index)
@@ -167,7 +178,8 @@ namespace ConsoleTest
                             foreach (var bb in Translate.trans["brand"].Children<JProperty>())
                             {
                                 var b = Translate.trans["brand"][bb.Name].ToString();
-                                if (b.Equals("__套装")) nowColor = Color.Orange;
+                                if (String.IsNullOrWhiteSpace(b) || b.Equals("未知")) continue;
+                                else if (b.Equals("__套装")) nowColor = Color.Orange;
                                 else if (b.Equals("__装备组")) nowColor = Color.Green;
                                 else
                                 {
@@ -240,6 +252,7 @@ namespace ConsoleTest
             {
                 string lineStr = all[lIndex];
                 ConsoleColor? backup = null;
+                ConsoleColor? backup2 = null;
                 foreach (char lineChar in lineStr)
                 {
                     if (lineChar == '§') color = true;
@@ -309,6 +322,17 @@ namespace ConsoleTest
                                 break;
                         }
                     }
+                    else if (lineChar == '[')
+                    {
+                        Console.Write(lineChar);
+                        backup2 = Console.ForegroundColor;
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                    }
+                    else if (lineChar == ']')
+                    {
+                        if (backup2.HasValue) Console.ForegroundColor = backup2.Value;
+                        Console.Write(lineChar);
+                    }
                     else Console.Write(lineChar);
                 }
                 if (lIndex < height - 1) Console.WriteLine();
@@ -345,7 +369,7 @@ namespace ConsoleTest
                     c.lines[0][2] = "正在生成本期筛选结果……";
                     c.lines[0][3] = "";
                     Flush(null);
-                    Config.D2Dirs[realFileIndex].d2Best = TheBest.GetBest(Config.D2Dirs[realFileIndex].d2Gears, Config.D2Dirs[realFileIndex].d2Weapons);
+                    Config.D2Dirs[realFileIndex].d2Best = TheBest.GetBest(Config.D2Dirs[realFileIndex].d2Gears, Config.D2Dirs[realFileIndex].d2Weapons, Config.D2Dirs[realFileIndex].d2Mods);
                     c.lines[0][2] = "筛选结果数量" + Config.D2Dirs[realFileIndex].d2Best.Count + (Config.D2Dirs[realFileIndex].d2Best.Count == 0 ? "" : "，正在加载…");
                     Flush(null);
                     break;
@@ -377,6 +401,12 @@ namespace ConsoleTest
                         lines[i].Add(TextSpawner.WeaponsList(Config.D2Dirs[realFileIndex].d2Weapons.IndexOf(oo) + 1, oo));
                         colors[i].Add(Content.GetColorFs(Translate.RarityS(oo.rarity)));
                     }
+                    else if (o.GetType() == typeof(D2Mod))
+                    {
+                        var oo = (D2Mod) o;
+                        lines[i].Add(TextSpawner.ModsList(Config.D2Dirs[realFileIndex].d2Mods.IndexOf(oo) + 1, oo));
+                        colors[i].Add(Content.GetColorFs(Translate.RarityS(oo.rarity)));
+                    }
                     //else
                     //{
                     //    lines[i].Add(new List<string>());
@@ -395,6 +425,12 @@ namespace ConsoleTest
                     {
                         var oo = (D2Weapon) o;
                         lines.Add(new List<List<string>>() { TextSpawner.WeaponsList(Config.D2Dirs[realFileIndex].d2Weapons.IndexOf(oo) + 1, oo) });
+                        colors.Add(new List<Color>() { Content.GetColorFs(Translate.RarityS(oo.rarity)) });
+                    }
+                    else if (o.GetType() == typeof(D2Mod))
+                    {
+                        var oo = (D2Mod) o;
+                        lines.Add(new List<List<string>>() { TextSpawner.ModsList(Config.D2Dirs[realFileIndex].d2Mods.IndexOf(oo) + 1, oo) });
                         colors.Add(new List<Color>() { Content.GetColorFs(Translate.RarityS(oo.rarity)) });
                     }
                     //else
@@ -555,6 +591,57 @@ namespace ConsoleTest
             ResetAndFlush();
         }
 
+        public static void ShowMods()
+        {
+            foreach (var c in contents)
+            {
+                if (c.action == ShowMods)
+                {
+                    c.lines[0][2] = "正在加载中……请稍后";
+                    Flush(null);
+                    break;
+                }
+            }
+            lockLeftRightWhenHistoryEntry = false;
+            if (nowFileIndex < 0 || Config.D2Dirs.Count < 1) return;
+            pageState = nowFileIndex == 0 ? PageState.Entry : PageState.HistoryEntry;
+            pageWhat = PageWhat.Mod;
+            realFileIndex = nowFileIndex * contentInLine + nowLeft2RightIndex;
+            if (Config.D2Dirs.Count <= realFileIndex) return;
+            contents.Clear();
+            contentInLine = 2;
+            nowLeft2RightIndex = 0;
+            var lines = new List<List<List<string>>>();
+            var colors = new List<List<Color>>();
+            foreach (var o in Config.D2Dirs[realFileIndex].d2Mods)
+            {
+                var i = lines.Count - 1;
+                if (lines.Count != 0 && lines[i].Count < Controller.contentInLine)
+                {
+                    lines[i].Add(TextSpawner.ModsList(Config.D2Dirs[realFileIndex].d2Mods.IndexOf(o) + 1, o));
+                    colors[i].Add(Content.GetColorFs(Translate.RarityS(o.rarity)));
+                }
+                else
+                {
+                    lines.Add(new List<List<string>>() { TextSpawner.ModsList(Config.D2Dirs[realFileIndex].d2Mods.IndexOf(o) + 1, o) });
+                    colors.Add(new List<Color>() { Content.GetColorFs(Translate.RarityS(o.rarity)) });
+                }
+            }
+            foreach (var i in lines)
+                contents.Add(new Content() { lines = i, theme = colors[lines.IndexOf(i)] });
+            if (Config.D2Dirs[realFileIndex].d2Mods.Count > 0)
+            {
+                shower.lines = TextSpawner.ModsLarge(1, Config.D2Dirs[realFileIndex].d2Mods[0], Console.WindowWidth - spIndex + 1 - 4);
+                shower.color = FormatProfile.Rarity2Color(Config.D2Dirs[realFileIndex].d2Mods[0].rarity);
+            }
+            else
+            {
+                shower.lines = new List<string>();
+                shower.color = Color.Default;
+            }
+            ResetAndFlush();
+        }
+
         public static void OpenHistory()
         {
             if (Config.D2Dirs.Count < 1) return;
@@ -594,6 +681,7 @@ namespace ConsoleTest
             contents.Add(new Content() { action = ShowBest, lines = new List<List<string>>() { new List<string>() { "", $"推荐装备 - {t}", "", "" } } });
             contents.Add(new Content() { action = ShowGears, lines = new List<List<string>>() { new List<string>() { "", $"查看防具 - {t}", "", "" } } });
             contents.Add(new Content() { action = ShowWeapons, lines = new List<List<string>>() { new List<string>() { "", $"查看武器 - {t}", "", "" } } });
+            contents.Add(new Content() { action = ShowMods, lines = new List<List<string>>() { new List<string>() { "", $"查看模组 - {t}", "", "" } } });
             ResetAndFlush();
         }
 
@@ -725,7 +813,8 @@ namespace ConsoleTest
             foreach (var bb in Translate.trans["brand"].Children<JProperty>())
             {
                 var b = Translate.trans["brand"][bb.Name].ToString();
-                if (b.Equals("__套装")) nowColor = Color.Orange;
+                if (String.IsNullOrWhiteSpace(b) || b.Equals("未知")) continue;
+                else if (b.Equals("__套装")) nowColor = Color.Orange;
                 else if (b.Equals("__装备组")) nowColor = Color.Green;
                 else
                 {
