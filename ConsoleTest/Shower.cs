@@ -9,6 +9,7 @@ namespace ConsoleTest
     {
         public List<string> lines = new List<string>();
         public Color color = Color.Default;
+        public static string newestVersion = null;
 
         public List<string> Print(int row, int line)
         {
@@ -100,6 +101,7 @@ namespace ConsoleTest
             return new List<string>()
             {
                 "版本：" + Assembly.GetEntryAssembly().GetName().Version,
+                string.IsNullOrWhiteSpace(newestVersion) ? "" : newestVersion,
                 "",
                 "操作说明：",
                 "WSAD/方向键 控制上下左右选择",

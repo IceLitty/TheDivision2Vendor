@@ -232,6 +232,11 @@ namespace ConsoleTest
                         break;
                 }
             }
+            else
+            {
+                shower.lines = Shower.GetDefaultMsg();
+                shower.color = Color.Default;
+            }
             var showerStrs = pageWhat == PageWhat.BrandShower ? shower.Print(width, height) : shower.Print(width - spIndex + 1, height);
             var all = new List<string>();
             if (pageWhat == PageWhat.BrandShower) all = showerStrs;

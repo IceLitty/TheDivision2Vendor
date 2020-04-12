@@ -10,6 +10,7 @@ namespace TheDivision2Vendor
     {
         public static readonly string ConfigDir = Path.Combine(AppContext.BaseDirectory, "config");
         public static readonly string Configs = Path.Combine(AppContext.BaseDirectory, "config/Config.json");
+        public static readonly JObject Conf;
         public static readonly string Log = Path.Combine(AppContext.BaseDirectory, "config/Log.log");
         public static readonly string D2Dir = Path.Combine(AppContext.BaseDirectory, "resource");
         public static readonly List<ConfigD2> D2Dirs = new List<ConfigD2>();
@@ -24,9 +25,17 @@ namespace TheDivision2Vendor
             if (!File.Exists(Configs))
                 using(var sw = File.CreateText(Configs))
                 {
-                    var jo = JObject.Parse("{}");
+                    var jo = JObject.Parse("{\"checkUpdate\": true}");
                     sw.WriteLine(JsonConvert.SerializeObject(jo, Formatting.Indented));
                 }
+            try
+            {
+                Conf = JObject.Parse(File.ReadAllText(Configs));
+            }
+            catch (Exception)
+            {
+                Conf = JObject.Parse("{\"checkUpdate\": true}");
+            }
             if (!File.Exists(Log))
                 using (var sw = File.CreateText(Log))
                 {

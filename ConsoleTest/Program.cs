@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -134,6 +135,7 @@ namespace ConsoleTest
                 }
                 catch (Exception) { }
             }, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+            CheckUpdate();
             await Task.Delay(-1);
         }
 
@@ -207,6 +209,29 @@ namespace ConsoleTest
             Controller.shower.lines = Shower.GetDefaultMsg();
             Controller.shower.color = Color.Default;
             Controller.Flush(null);
+        }
+
+        private static void CheckUpdate()
+        {
+            _ = Task.Run(() =>
+            {
+                string val = DownloadResource.CheckUpdate().GetAwaiter().GetResult();
+                if (string.IsNullOrWhiteSpace(val)) Shower.newestVersion = "更新检查失败，请检查网络设置。";
+                else if ("false".Equals(val)) Shower.newestVersion = "已关闭检查更新功能。";
+                else
+                {
+                    Shower.newestVersion = "最新版本：" + val;
+                    string[] d = val.Substring(1, val.Length - 1).Split(".");
+                    try
+                    {
+                        if (int.Parse(d[0]) > Assembly.GetEntryAssembly().GetName().Version.Major || int.Parse(d[1]) > Assembly.GetEntryAssembly().GetName().Version.Minor)
+                        {
+                            MainFunc.updateStr = "【有更新：" + val + "】";
+                        }
+                    }
+                    catch (Exception) { }
+                }
+            });
         }
     }
 }

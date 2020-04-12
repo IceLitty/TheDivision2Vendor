@@ -205,6 +205,9 @@ namespace TheDivision2Vendor
                 else
                 {
                     var val = l[i].Substring(0, ind).Replace(",", "");
+                    // fix some typo
+                    val = val.Replace("..", ".");
+                    // end
                     var text = l[i].Substring(ind);
                     if (text.StartsWith("   ")) text = text.Substring(3);
                     if (text.StartsWith("  ")) text = text.Substring(2);
@@ -426,6 +429,9 @@ namespace TheDivision2Vendor
             else
             {
                 var val = tmp.Substring(0, ind).Replace(",", "");
+                // fix some typo
+                val = val.Replace("..", ".");
+                // end
                 var text = tmp.Substring(ind);
                 if (text.StartsWith("   ")) text = text.Substring(3);
                 if (text.StartsWith("  ")) text = text.Substring(2);

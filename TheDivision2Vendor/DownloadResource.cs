@@ -55,5 +55,29 @@ namespace TheDivision2Vendor
                 return true;
             });
         }
+
+        public static async Task<string> CheckUpdate()
+        {
+            return await Task.Run(async () =>
+            {
+                try
+                {
+                    if (bool.Parse(Config.Conf["checkUpdate"].ToString()))
+                    {
+                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                        var hct = new HttpClient();
+                        hct.DefaultRequestHeaders.Add("User-Agent", "The Division 2 Vendor C# App");
+                        var json = await hct.GetStringAsync("https://api.github.com/repos/IceLitty/TheDivision2Vendor/releases");
+                        var ja = JsonConvert.DeserializeObject<JArray>(json);
+                        return ja[0]["tag_name"].ToString();
+                    }
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+                return "false";
+            });
+        }
     }
 }

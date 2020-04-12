@@ -59,4 +59,6 @@
 
 - [ ] 完善全部模组名称、词条名称、词条属性最大值。
 
+- [x] v1.7 使用v3api https://api.github.com/repos/IceLitty/TheDivision2Vendor/releases 来检测更新
+
 - [ ] 其他的还没想到。
