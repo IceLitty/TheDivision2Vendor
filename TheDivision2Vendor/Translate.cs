@@ -14,7 +14,7 @@ namespace TheDivision2Vendor
 
         static Translate()
         {
-            var transJsonRes = typeof(MainFunc).Assembly.GetManifestResourceStream("TheDivision2Vendor.Trans.json");
+            var transJsonRes = typeof(TitleFunc).Assembly.GetManifestResourceStream("TheDivision2Vendor.Trans.json");
             var transJson = String.Empty;
             using (var sr = new StreamReader(transJsonRes, Encoding.UTF8)) transJson = sr.ReadToEndAsync().GetAwaiter().GetResult();
             trans = (JObject) JsonConvert.DeserializeObject(transJson);
@@ -460,6 +460,7 @@ namespace TheDivision2Vendor
                 catch (Exception)
                 {
                     if (!String.IsNullOrWhiteSpace(a.modsUseful)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("attributesMod类型找不到语言文本: {0}", a.modsUseful));
+                    a.modsUseful = null;
                 }
             }
             if (!String.IsNullOrWhiteSpace(modNameCn))
@@ -527,14 +528,26 @@ namespace TheDivision2Vendor
             }
         }
 
-        public static AttrModType AttrModFromGearOrSkill(string cn)
+        public static AttrModType AttrModFromGearOrSkill(bool isTranslated, string cn, string attributes)
         {
-            if (String.IsNullOrWhiteSpace(cn)) return AttrModType.Unknown;
-            if (cn.StartsWith("攻击协定") || cn.StartsWith("攻击系统") ||
-                cn.StartsWith("防御协定") || cn.StartsWith("防御系统") ||
-                cn.StartsWith("性能协定") || cn.StartsWith("性能系统"))
-                return AttrModType.Gear;
-            return AttrModType.Skill;
+            var str = attributes.Replace("<br/>", "\n").Split('\n')[0];
+            if (str.StartsWith("   ")) str = str.Substring(3);
+            if (str.StartsWith("  ")) str = str.Substring(2);
+            if (str.StartsWith(" ")) str = str.Substring(1);
+            var strCn = string.Empty;
+            try { strCn = trans["attributesMod"][str].ToString(); }
+            catch (Exception) { strCn = string.Empty; }
+            if (!String.IsNullOrWhiteSpace(strCn))
+                return AttrModType.Skill;
+            else
+            {
+                if (!isTranslated) return AttrModType.Unknown;
+                if (cn.StartsWith("攻击协定") || cn.StartsWith("攻击系统") ||
+                    cn.StartsWith("防御协定") || cn.StartsWith("防御系统") ||
+                    cn.StartsWith("性能协定") || cn.StartsWith("性能系统"))
+                    return AttrModType.Gear;
+                return AttrModType.Unknown;
+            }
         }
     }
 

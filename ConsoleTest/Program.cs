@@ -22,7 +22,7 @@ namespace ConsoleTest
             Console.WindowHeight = 37;
             Console.TreatControlCAsInput = true;
             Logs();
-            MainFunc.Init();
+            TitleFunc.Init();
             if (Config.D2Dirs.Count > 0) Controller.nowFileIndex = 0;
             WelcomeScreen();
             _ = Task.Factory.StartNew(() =>
@@ -190,6 +190,7 @@ namespace ConsoleTest
             Controller.nowFileIndex = 0;
             Controller.nowLeft2RightIndex = 0;
             Controller.contentInLine = 1;
+            TitleFunc.pageStr = "主菜单";
             Controller.pageState = PageState.Main;
             Controller.pageWhat = PageWhat.None;
             Controller.lockScrollUp = 0;
@@ -226,7 +227,7 @@ namespace ConsoleTest
                     {
                         if (int.Parse(d[0]) > Assembly.GetEntryAssembly().GetName().Version.Major || int.Parse(d[1]) > Assembly.GetEntryAssembly().GetName().Version.Minor)
                         {
-                            MainFunc.updateStr = "【有更新：" + val + "】";
+                            TitleFunc.updateStr = "【有更新：" + val + "】";
                         }
                     }
                     catch (Exception) { }

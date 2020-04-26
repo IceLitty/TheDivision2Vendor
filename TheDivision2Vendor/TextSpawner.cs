@@ -309,7 +309,7 @@ namespace TheDivision2Vendor
             {
                 var l = new List<string>();
                 var name = Translate.Name(mod.name);
-                var whichType = name.Equals(mod.name) ? AttrModType.Unknown : Translate.AttrModFromGearOrSkill(mod.name);
+                var whichType = Translate.AttrModFromGearOrSkill(!name.Equals(mod.name), name, mod.attributes);
                 var attribute = Translate.AttrValAndTextMods(mod.attributes, whichType == AttrModType.Unknown ? null : name);
                 l.Add(stdoutIndex + ". " + name);
                 var format = "".PadLeft((stdoutIndex + ". ").Length);
@@ -340,7 +340,7 @@ namespace TheDivision2Vendor
             {
                 var l = new List<string>();
                 var name = Translate.Name(mod.name);
-                var whichType = name.Equals(mod.name) ? AttrModType.Unknown : Translate.AttrModFromGearOrSkill(mod.name);
+                var whichType = Translate.AttrModFromGearOrSkill(!name.Equals(mod.name), name, mod.attributes);
                 var rarity = Translate.Rarity(mod.rarity);
                 var attribute = Translate.AttrValAndTextMods(mod.attributes, whichType == AttrModType.Unknown ? null : name);
                 l.Add(stdoutIndex + ". " + rarity + "§w " + name);

@@ -382,6 +382,7 @@ namespace ConsoleTest
             }
             if (Config.D2Dirs[realFileIndex].d2Best.Count == 0) return;
             lockLeftRightWhenHistoryEntry = false;
+            TitleFunc.pageStr = nowFileIndex == 0 ? "最佳筛选页" : "历史最佳筛选页";
             pageState = nowFileIndex == 0 ? PageState.Entry : PageState.HistoryEntry;
             pageWhat = PageWhat.Best;
             contents.Clear();
@@ -507,6 +508,7 @@ namespace ConsoleTest
             }
             lockLeftRightWhenHistoryEntry = false;
             if (nowFileIndex < 0 || Config.D2Dirs.Count < 1) return;
+            TitleFunc.pageStr = nowFileIndex == 0 ? "装备页" : "历史装备页";
             pageState = nowFileIndex == 0 ? PageState.Entry : PageState.HistoryEntry;
             pageWhat = PageWhat.Gear;
             realFileIndex = nowFileIndex * contentInLine + nowLeft2RightIndex;
@@ -558,6 +560,7 @@ namespace ConsoleTest
             }
             lockLeftRightWhenHistoryEntry = false;
             if (nowFileIndex < 0 || Config.D2Dirs.Count < 1) return;
+            TitleFunc.pageStr = nowFileIndex == 0 ? "武器页" : "历史武器页";
             pageState = nowFileIndex == 0 ? PageState.Entry : PageState.HistoryEntry;
             pageWhat = PageWhat.Weapon;
             realFileIndex = nowFileIndex * contentInLine + nowLeft2RightIndex;
@@ -609,6 +612,7 @@ namespace ConsoleTest
             }
             lockLeftRightWhenHistoryEntry = false;
             if (nowFileIndex < 0 || Config.D2Dirs.Count < 1) return;
+            TitleFunc.pageStr = nowFileIndex == 0 ? "模组页" : "历史模组页";
             pageState = nowFileIndex == 0 ? PageState.Entry : PageState.HistoryEntry;
             pageWhat = PageWhat.Mod;
             realFileIndex = nowFileIndex * contentInLine + nowLeft2RightIndex;
@@ -650,6 +654,7 @@ namespace ConsoleTest
         public static void OpenHistory()
         {
             if (Config.D2Dirs.Count < 1) return;
+            TitleFunc.pageStr = "历史页";
             pageState = PageState.History;
             contents.Clear();
             nowFileIndex = 0;
@@ -678,6 +683,7 @@ namespace ConsoleTest
             if (nowFileIndex < 0) return;
             realFileIndex = nowFileIndex * contentInLine + nowLeft2RightIndex;
             if (Config.D2Dirs.Count <= realFileIndex) return;
+            TitleFunc.pageStr = "历史选择页";
             pageState = PageState.HistorySelected;
             lockLeftRightWhenHistoryEntry = true;
             contents.Clear();
@@ -692,6 +698,7 @@ namespace ConsoleTest
 
         public static void ShowAllTalents()
         {
+            TitleFunc.pageStr = "天赋页";
             pageState = PageState.Entry;
             pageWhat = PageWhat.Talent;
             contents.Clear();
@@ -795,6 +802,7 @@ namespace ConsoleTest
 
         public static void ShowBrandsUseShower()
         {
+            TitleFunc.pageStr = "装备套组页";
             pageState = PageState.Entry;
             pageWhat = PageWhat.BrandShower;
             contents.Clear();
@@ -805,6 +813,7 @@ namespace ConsoleTest
 
         public static void ShowAllBrands()
         {
+            TitleFunc.pageStr = "装备套组页";
             pageState = PageState.Entry;
             pageWhat = PageWhat.Brand;
             contents.Clear();
