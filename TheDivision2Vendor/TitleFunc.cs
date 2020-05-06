@@ -34,7 +34,6 @@ namespace TheDivision2Vendor
 
         public static string GetNextCassie()
         {
-            // 隐藏商人每周三下午4点刷新（GMT+8），持续24小时（开一天关一天？还是一周只开两天？）
             bool onOffNow;
             var date = Util.GetNextCassie(out onOffNow);
             var span = date - TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "China Standard Time");
