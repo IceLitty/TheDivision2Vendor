@@ -175,13 +175,14 @@ namespace ConsoleTest
                         {
                             var list = new List<string>() { "" };
                             var nowColor = Color.Default;
+                            var history = new List<string>();
                             foreach (var bb in Translate.trans["brand"].Children<JProperty>())
                             {
                                 var b = Translate.trans["brand"][bb.Name].ToString();
                                 if (String.IsNullOrWhiteSpace(b) || b.Equals("未知")) continue;
                                 else if (b.Equals("__套装")) nowColor = Color.Orange;
                                 else if (b.Equals("__装备组")) nowColor = Color.Green;
-                                else
+                                else if (!string.IsNullOrWhiteSpace(b) && !history.Contains(b))
                                 {
                                     var ll = Translate.BrandDesc(b).Split('\n');
                                     var line = new StringBuilder();
@@ -219,6 +220,7 @@ namespace ConsoleTest
                                         }
                                     }
                                     list.Add(line.ToString());
+                                    history.Add(b);
                                 }
                             }
                             shower.lines = list;
@@ -411,7 +413,11 @@ namespace ConsoleTest
                     {
                         var oo = (D2Mod) o;
                         lines[i].Add(TextSpawner.ModsList(Config.D2Dirs[realFileIndex].d2Mods.IndexOf(oo) + 1, oo));
-                        colors[i].Add(Content.GetColorFs(Translate.RarityS(oo.rarity)));
+                        colors[i].Add(Content.GetColorFs(
+                            oo.rarity.Equals(Translate.Rarity(oo.rarity)) ?
+                            Translate.RarityS("header-unknown") :
+                            Translate.RarityS(("header-he".Equals(oo.rarity) || "header-purple".Equals(oo.rarity)) ? "header-purple" : "header-he")
+                        ));
                     }
                     //else
                     //{
@@ -437,7 +443,11 @@ namespace ConsoleTest
                     {
                         var oo = (D2Mod) o;
                         lines.Add(new List<List<string>>() { TextSpawner.ModsList(Config.D2Dirs[realFileIndex].d2Mods.IndexOf(oo) + 1, oo) });
-                        colors.Add(new List<Color>() { Content.GetColorFs(Translate.RarityS(oo.rarity)) });
+                        colors.Add(new List<Color>() { Content.GetColorFs(
+                            oo.rarity.Equals(Translate.Rarity(oo.rarity)) ?
+                            Translate.RarityS("header-unknown") :
+                            Translate.RarityS(("header-he".Equals(oo.rarity) || "header-purple".Equals(oo.rarity)) ? "header-purple" : "header-he")
+                        ) });
                     }
                     //else
                     //{
@@ -628,12 +638,20 @@ namespace ConsoleTest
                 if (lines.Count != 0 && lines[i].Count < Controller.contentInLine)
                 {
                     lines[i].Add(TextSpawner.ModsList(Config.D2Dirs[realFileIndex].d2Mods.IndexOf(o) + 1, o));
-                    colors[i].Add(Content.GetColorFs(Translate.RarityS(o.rarity)));
+                    colors[i].Add(Content.GetColorFs(
+                        o.rarity.Equals(Translate.Rarity(o.rarity)) ?
+                        Translate.RarityS("header-unknown") :
+                        Translate.RarityS(("header-he".Equals(o.rarity) || "header-purple".Equals(o.rarity)) ? "header-purple" : "header-he")
+                    ));
                 }
                 else
                 {
                     lines.Add(new List<List<string>>() { TextSpawner.ModsList(Config.D2Dirs[realFileIndex].d2Mods.IndexOf(o) + 1, o) });
-                    colors.Add(new List<Color>() { Content.GetColorFs(Translate.RarityS(o.rarity)) });
+                    colors.Add(new List<Color>() { Content.GetColorFs(
+                            o.rarity.Equals(Translate.Rarity(o.rarity)) ?
+                            Translate.RarityS("header-unknown") :
+                            Translate.RarityS(("header-he".Equals(o.rarity) || "header-purple".Equals(o.rarity)) ? "header-purple" : "header-he")
+                    ) });
                 }
             }
             foreach (var i in lines)
@@ -710,6 +728,7 @@ namespace ConsoleTest
             var nowType = String.Empty;
             var ind = 1;
             var isFirstInit = Config.D2Talents.Count == 0;
+            var history = new List<string>();
             foreach (var bb in Translate.trans["talents"].Children<JProperty>())
             {
                 var b = Translate.trans["talents"][bb.Name].ToString();
@@ -764,23 +783,27 @@ namespace ConsoleTest
                         nowType = b.Substring(2);
                         break;
                     default:
-                        var i = lines.Count - 1;
-                        if (lines.Count != 0 && lines[i].Count < Controller.contentInLine)
+                        if (!string.IsNullOrWhiteSpace(b) && !history.Contains(b))
                         {
-                            lines[i].Add(TextSpawner.TalentsList(ind, b, nowType));
-                            colors[i].Add(nowColor);
+                            var i = lines.Count - 1;
+                            if (lines.Count != 0 && lines[i].Count < Controller.contentInLine)
+                            {
+                                lines[i].Add(TextSpawner.TalentsList(ind, b, nowType));
+                                colors[i].Add(nowColor);
+                            }
+                            else
+                            {
+                                lines.Add(new List<List<string>>() { TextSpawner.TalentsList(ind, b, nowType) });
+                                colors.Add(new List<Color>() { nowColor });
+                            }
+                            if (isFirstInit)
+                            {
+                                Config.D2Talents.Add(b);
+                                Config.D2TalentsFrom.Add(nowType);
+                            }
+                            history.Add(b);
+                            ind++;
                         }
-                        else
-                        {
-                            lines.Add(new List<List<string>>() { TextSpawner.TalentsList(ind, b, nowType) });
-                            colors.Add(new List<Color>() { nowColor });
-                        }
-                        if (isFirstInit)
-                        {
-                            Config.D2Talents.Add(b);
-                            Config.D2TalentsFrom.Add(nowType);
-                        }
-                        ind++;
                         break;
                 }
             }
@@ -824,13 +847,14 @@ namespace ConsoleTest
             var nowColor = Color.Default;
             var ind = 1;
             var isFirstInit = Config.D2Brands.Count == 0;
+            var history = new List<string>();
             foreach (var bb in Translate.trans["brand"].Children<JProperty>())
             {
                 var b = Translate.trans["brand"][bb.Name].ToString();
                 if (String.IsNullOrWhiteSpace(b) || b.Equals("未知")) continue;
                 else if (b.Equals("__套装")) nowColor = Color.Orange;
                 else if (b.Equals("__装备组")) nowColor = Color.Green;
-                else
+                else if (!string.IsNullOrWhiteSpace(b) && !history.Contains(b))
                 {
                     var i = lines.Count - 1;
                     var c = nowColor == Color.Orange ? "顶级" : (nowColor == Color.Green ? "装备组" : "");
@@ -849,6 +873,7 @@ namespace ConsoleTest
                         Config.D2Brands.Add(b);
                         Config.D2BrandsColor.Add(c);
                     }
+                    history.Add(b);
                     ind++;
                 }
             }

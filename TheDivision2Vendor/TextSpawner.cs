@@ -8,6 +8,7 @@ namespace TheDivision2Vendor
     {
         public static List<string> GearsList(int stdoutIndex, D2Gear gear)
         {
+            var stdoutIndexStr = stdoutIndex.ToString().ToCharArray().Length < 2 ? "0" + stdoutIndex.ToString() : stdoutIndex.ToString();
             try
             {
                 var l = new List<string>();
@@ -19,9 +20,9 @@ namespace TheDivision2Vendor
                 var attribute = Translate.AttrValAndText(coreStr + gear.attributes);
                 AttrValType? mod = Translate.Mod(gear.mods);
                 var talent = Translate.Talents(gear.talents);
-                l.Add(stdoutIndex + ". " + name);
+                l.Add(stdoutIndexStr + ". " + name);
                 l.Add("[" + slot + "] " + brand);
-                var attrstr = String.Empty;
+                var attrstr = string.Empty;
                 var attrstrmain = new List<string>();
                 var attrstroff = new List<string>();
                 foreach (var attr in attribute)
@@ -42,9 +43,9 @@ namespace TheDivision2Vendor
                     if (attr.isMainAttr) attrstrmain.Add(tmp);
                     else attrstroff.Add(tmp);
                 }
-                attrstr += "主属性：" + String.Join(" ", attrstrmain);
+                attrstr += "主属性：" + string.Join(" ", attrstrmain);
                 l.Add(attrstr);
-                attrstr = "次属性：" + String.Join(" ", attrstroff);
+                attrstr = "次属性：" + string.Join(" ", attrstroff);
                 l.Add(attrstr);
                 var modAndTal = new StringBuilder();
                 if (mod.HasValue) modAndTal.Append("模组：" + Translate.TransAttrValType(mod.Value) + "§- ");
@@ -56,7 +57,7 @@ namespace TheDivision2Vendor
             catch (Exception)
             {
                 var l = new List<string>();
-                l.Add(stdoutIndex + ". " + gear.name);
+                l.Add(stdoutIndexStr + ". " + gear.name);
                 l.Add("");
                 l.Add("");
                 l.Add("数据源信息不正常");
@@ -66,6 +67,7 @@ namespace TheDivision2Vendor
 
         public static List<string> GearsLarge(int stdoutIndex, D2Gear gear, int barLength)
         {
+            var stdoutIndexStr = stdoutIndex.ToString().ToCharArray().Length < 2 ? "0" + stdoutIndex.ToString() : stdoutIndex.ToString();
             try
             {
                 var l = new List<string>();
@@ -80,8 +82,8 @@ namespace TheDivision2Vendor
                 AttrValType? mod = Translate.Mod(gear.mods);
                 var talent = Translate.Talents(gear.talents);
                 var talentDesc = Translate.TalentsDesc(talent);
-                var format = "".PadLeft((stdoutIndex + ". ").Length);
-                l.Add(stdoutIndex + ". " + name);
+                var format = "".PadLeft((stdoutIndexStr + ". ").Length);
+                l.Add(stdoutIndexStr + ". " + name);
                 l.Add(format + rarity + "§w [" + slot + "] " + brand);
                 l.Add(format + gear.armor + " 装甲 " + Translate.Vendor(gear.vendor));
                 l.Add("");
@@ -100,6 +102,11 @@ namespace TheDivision2Vendor
                         valMax + (attr.type == AttributeType.Percent ? "%" : "") + checkValError);
                     var percent = (int)Math.Floor(attr.val / attr.valMax * barLength) / 2;
                     var percent2 = (int)Math.Floor((barLength - (double)percent * 2) / 2);
+                    if (percent2 < 0)
+                    {
+                        percent += percent2;
+                        percent2 = 0;
+                    }
                     var color = "";
                     switch (attr.valType)
                     {
@@ -136,7 +143,7 @@ namespace TheDivision2Vendor
                     l.Add("");
                     l.Add("模组槽位：" + Translate.TransAttrValType(mod.Value));
                 }
-                if (!String.IsNullOrWhiteSpace(talent))
+                if (!string.IsNullOrWhiteSpace(talent))
                 {
                     l.Add("");
                     l.Add("天赋：" + talent);
@@ -144,7 +151,7 @@ namespace TheDivision2Vendor
                         foreach (string str in talentDesc)
                             l.Add(str);
                 }
-                if (!String.IsNullOrWhiteSpace(brandDesc))
+                if (!string.IsNullOrWhiteSpace(brandDesc))
                 {
                     l.Add("");
                     l.Add(brand + " 套装效果：");
@@ -162,7 +169,7 @@ namespace TheDivision2Vendor
             catch (Exception)
             {
                 var l = new List<string>();
-                l.Add(stdoutIndex + ". " + gear.name);
+                l.Add(stdoutIndexStr + ". " + gear.name);
                 l.Add("");
                 l.Add("");
                 l.Add("数据源信息不正常");
@@ -172,16 +179,17 @@ namespace TheDivision2Vendor
 
         public static List<string> WeaponsList(int stdoutIndex, D2Weapon weapon)
         {
+            var stdoutIndexStr = stdoutIndex.ToString().ToCharArray().Length < 2 ? "0" + stdoutIndex.ToString() : stdoutIndex.ToString();
             try
             {
                 var l = new List<string>();
-                var name = Translate.Name(weapon.name);
+                var name = Translate.Name(weapon.name, true);
                 var attribute = Translate.AttrValAndText(weapon.attribute1, weapon.attribute2, weapon.attribute3);
                 var talent = Translate.Talents(weapon.talent);
-                l.Add(stdoutIndex + ". " + name);
+                l.Add(stdoutIndexStr + ". " + name);
                 //l.Add("伤害：" + weapon.dmg + " 射速：" + weapon.rpm + " 弹夹：" + weapon.mag);
                 l.Add("");
-                var attrstr = String.Empty;
+                var attrstr = string.Empty;
                 var attrstrmain = new List<string>();
                 var attrstroff = new List<string>();
                 foreach (var attr in attribute)
@@ -202,17 +210,17 @@ namespace TheDivision2Vendor
                     if (attr.isMainAttr) attrstrmain.Add(tmp);
                     else attrstroff.Add(tmp);
                 }
-                attrstr += "主属性：" + String.Join(" ", attrstrmain);
+                attrstr += "主属性：" + string.Join(" ", attrstrmain);
                 l.Add(attrstr);
-                attrstr = "次属性：" + String.Join(" ", attrstroff);
+                attrstr = "次属性：" + string.Join(" ", attrstroff);
                 l.Add(attrstr);
-                if (!String.IsNullOrWhiteSpace(talent)) l.Add("天赋：" + talent);
+                if (!string.IsNullOrWhiteSpace(talent)) l.Add("天赋：" + talent);
                 return l;
             }
             catch (Exception)
             {
                 var l = new List<string>();
-                l.Add(stdoutIndex + ". " + weapon.name);
+                l.Add(stdoutIndexStr + ". " + weapon.name);
                 l.Add("");
                 l.Add("");
                 l.Add("数据源信息不正常");
@@ -222,16 +230,17 @@ namespace TheDivision2Vendor
 
         public static List<string> WeaponsLarge(int stdoutIndex, D2Weapon weapon, int barLength)
         {
+            var stdoutIndexStr = stdoutIndex.ToString().ToCharArray().Length < 2 ? "0" + stdoutIndex.ToString() : stdoutIndex.ToString();
             try
             {
                 var l = new List<string>();
-                var name = Translate.Name(weapon.name);
+                var name = Translate.Name(weapon.name, true);
                 var rarity = Translate.Rarity(weapon.rarity);
                 var attribute = Translate.AttrValAndText(weapon.attribute1, weapon.attribute2, weapon.attribute3);
                 var talent = Translate.Talents(weapon.talent);
                 var talentDesc = Translate.TalentsDesc(talent);
-                var format = "".PadLeft((stdoutIndex + ". ").Length);
-                l.Add(stdoutIndex + ". " + rarity + "§w " + name);
+                var format = "".PadLeft((stdoutIndexStr + ". ").Length);
+                l.Add(stdoutIndexStr + ". " + rarity + "§w " + name);
                 l.Add(format + weapon.dmg + " 伤害");
                 l.Add(format + "射速：" + weapon.rpm + " 弹夹：" + weapon.mag);
                 l.Add(format + "商人：" + Translate.Vendor(weapon.vendor));
@@ -251,6 +260,11 @@ namespace TheDivision2Vendor
                         valMax + (attr.type == AttributeType.Percent ? "%" : "") + checkValError);
                     var percent = (int)Math.Floor(attr.val / attr.valMax * barLength) / 2;
                     var percent2 = (int)Math.Floor((barLength - (double)percent * 2) / 2);
+                    if (percent2 < 0)
+                    {
+                        percent += percent2;
+                        percent2 = 0;
+                    }
                     var color = "";
                     switch (attr.valType)
                     {
@@ -282,7 +296,7 @@ namespace TheDivision2Vendor
                 l.Add("");
                 l.Add("次要属性：");
                 l.AddRange(lattroff);
-                if (!String.IsNullOrWhiteSpace(talent))
+                if (!string.IsNullOrWhiteSpace(talent))
                 {
                     l.Add("");
                     l.Add("天赋：" + talent);
@@ -295,7 +309,7 @@ namespace TheDivision2Vendor
             catch (Exception)
             {
                 var l = new List<string>();
-                l.Add(stdoutIndex + ". " + weapon.name);
+                l.Add(stdoutIndexStr + ". " + weapon.name);
                 l.Add("");
                 l.Add("");
                 l.Add("数据源信息不正常");
@@ -305,20 +319,22 @@ namespace TheDivision2Vendor
 
         public static List<string> ModsList(int stdoutIndex, D2Mod mod)
         {
+            var stdoutIndexStr = stdoutIndex.ToString().ToCharArray().Length < 2 ? "0" + stdoutIndex.ToString() : stdoutIndex.ToString();
             try
             {
                 var l = new List<string>();
                 var name = Translate.Name(mod.name);
                 var whichType = Translate.AttrModFromGearOrSkill(!name.Equals(mod.name), name, mod.attributes);
                 var attribute = Translate.AttrValAndTextMods(mod.attributes, whichType == AttrModType.Unknown ? null : name);
-                l.Add(stdoutIndex + ". " + name);
-                var format = "".PadLeft((stdoutIndex + ". ").Length);
+                l.Add(stdoutIndexStr + ". " + name);
+                var format = "".PadLeft((stdoutIndexStr + ". ").Length);
                 l.Add(attribute.Count > 0 && whichType == AttrModType.Skill ? format + attribute[0].modsUseful + "技能模组" : (whichType == AttrModType.Gear ? format + "装备模组" : format + "未知模组"));
                 l.Add("");
                 var attrSB = new StringBuilder();
                 foreach (var attr in attribute)
                 {
-                    attrSB.Append(format + attr.desc + (attr.val >= attr.valMax ? "[满]" : "") + " ");
+                    var suffix = attr.desc.StartsWith("§") ? attr.desc.Substring(0, 2) : "";
+                    attrSB.Append(format + suffix + attr.val + (attr.type == AttributeType.Percent ? "%" : "") + " " + attr.desc + (attr.val >= attr.valMax ? "[满]" : "") + " ");
                 }
                 l.Add(attrSB.ToString());
                 return l;
@@ -326,7 +342,7 @@ namespace TheDivision2Vendor
             catch (Exception)
             {
                 var l = new List<string>();
-                l.Add(stdoutIndex + ". " + mod.name);
+                l.Add(stdoutIndexStr + ". " + mod.name);
                 l.Add("");
                 l.Add("");
                 l.Add("数据源信息不正常");
@@ -336,6 +352,7 @@ namespace TheDivision2Vendor
 
         public static List<string> ModsLarge(int stdoutIndex, D2Mod mod, int barLength)
         {
+            var stdoutIndexStr = stdoutIndex.ToString().ToCharArray().Length < 2 ? "0" + stdoutIndex.ToString() : stdoutIndex.ToString();
             try
             {
                 var l = new List<string>();
@@ -343,8 +360,8 @@ namespace TheDivision2Vendor
                 var whichType = Translate.AttrModFromGearOrSkill(!name.Equals(mod.name), name, mod.attributes);
                 var rarity = Translate.Rarity(mod.rarity);
                 var attribute = Translate.AttrValAndTextMods(mod.attributes, whichType == AttrModType.Unknown ? null : name);
-                l.Add(stdoutIndex + ". " + rarity + "§w " + name);
-                var format = "".PadLeft((stdoutIndex + ". ").Length);
+                l.Add(stdoutIndexStr + ". " + rarity + "§w " + name);
+                var format = "".PadLeft((stdoutIndexStr + ". ").Length);
                 l.Add(format + (attribute.Count > 0 && whichType == AttrModType.Skill ? attribute[0].modsUseful + "技能模组" : (whichType == AttrModType.Gear ? "装备模组" : "未知模组")));
                 l.Add(format + Translate.Vendor(mod.vendor));
                 l.Add("");
@@ -368,6 +385,11 @@ namespace TheDivision2Vendor
                     }
                     var percent = (int)Math.Floor(p * barLength) / 2;
                     var percent2 = (int)Math.Floor((barLength - (double)percent * 2) / 2);
+                    if (percent2 < 0)
+                    {
+                        percent += percent2;
+                        percent2 = 0;
+                    }
                     var barStr = new StringBuilder();
                     for (int i = 0; i < percent; i++)
                         barStr.Append("█");
@@ -383,7 +405,7 @@ namespace TheDivision2Vendor
             catch (Exception)
             {
                 var l = new List<string>();
-                l.Add(stdoutIndex + ". " + mod.name);
+                l.Add(stdoutIndexStr + ". " + mod.name);
                 l.Add("");
                 l.Add("");
                 l.Add("数据源信息不正常");
@@ -403,7 +425,7 @@ namespace TheDivision2Vendor
         public static List<string> TalentsLarge(int stdoutIndex, string talentCn, string talentType)
         {
             var l = new List<string>();
-            var talentDesc = Translate.TalentsDesc(talentCn);
+            var talentDesc = Translate.TalentsDesc(talentCn, false);
             l.Add(stdoutIndex + ". " + talentCn);
             var format = "".PadLeft((stdoutIndex + ". ").Length);
             l.Add(format + talentType);
@@ -432,7 +454,7 @@ namespace TheDivision2Vendor
             l.Add(stdoutIndex + ". " + brandCn);
             var format = "".PadLeft((stdoutIndex + ". ").Length);
             l.Add(format + brandType);
-            if (!String.IsNullOrWhiteSpace(brandDesc))
+            if (!string.IsNullOrWhiteSpace(brandDesc))
             {
                 l.Add("");
                 l.Add(brandCn + " 套装效果：");

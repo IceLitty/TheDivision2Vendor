@@ -26,9 +26,19 @@ namespace TheDivision2Vendor
                 Logger.Put(LogPopType.Title, LogType.Info,
                     (string.IsNullOrWhiteSpace(updateStr) ? "" : updateStr + " ") +
                     (string.IsNullOrWhiteSpace(pageStr) ? "" : "[" + pageStr + "] ") +
-                    "距离下次商人更新还差" + Span.ToString(@"dd\d\:hh\h\:mm\m\:ss\s")
+                    "距离下次商人更新还差【" + Span.ToString(@"dd\d\:hh\h\:mm\m\:ss\s") + "】" +
+                    "    " + GetNextCassie()
                 );
-            }, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+            }, null, TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(1));
+        }
+
+        public static string GetNextCassie()
+        {
+            // 隐藏商人每周三下午4点刷新（GMT+8），持续24小时（开一天关一天？还是一周只开两天？）
+            bool onOffNow;
+            var date = Util.GetNextCassie(out onOffNow);
+            var span = date - TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "China Standard Time");
+            return onOffNow ? "隐藏商人已到来，离关闭还差【" + span.ToString(@"dd\d\:hh\h\:mm\m\:ss\s") + "】" : "隐藏商人关闭中，离开启还需【" + span.ToString(@"dd\d\:hh\h\:mm\m\:ss\s") + "】";
         }
     }
 }

@@ -126,16 +126,32 @@ namespace TheDivision2Vendor
             }
         }
 
-        public static string[] TalentsDesc(string cn)
+        public static string[] TalentsDesc(string cn, bool normal = true)
         {
             try
             {
+                var result = string.Empty;
                 if (cn.StartsWith("完美"))
                 {
                     var cn2 = cn.Substring(2);
-                    return trans["talentsDescription"][cn2].ToString().Split('\n');
+                    result = trans["talentsDescription"][cn2].ToString();
                 }
-                else return trans["talentsDescription"][cn].ToString().Split('\n');
+                else result = trans["talentsDescription"][cn].ToString();
+                if (result.StartsWith("\n"))
+                {
+                    if (normal)
+                    {
+                        result = result.Substring(1, result.Length - 1);
+                        var index = result.IndexOf("\n");
+                        if (index != -1)
+                        {
+                            result = result.Substring(index + 1, result.Length - index - 1);
+                        }
+                    }
+                    else
+                        result = result.Substring(1, result.Length - 1);
+                }
+                return result.Split('\n');
             }
             catch (Exception)
             {
@@ -441,10 +457,12 @@ namespace TheDivision2Vendor
                 adesc = text;
             }
             string cn;
+            string cnWoColor = string.Empty;
             double mval = ATTRVALMAXDEFAULT;
             try
             {
                 cn = trans["attributesMod"][adesc].ToString();
+                cnWoColor = cn.StartsWith("§") ? cn.Substring(2, cn.Length - 2) : cn;
             }
             catch (Exception)
             {
@@ -466,19 +484,19 @@ namespace TheDivision2Vendor
             if (!String.IsNullOrWhiteSpace(modNameCn))
             {
                 if (modNameCn.StartsWith("攻击协定"))
-                    try { mval = Double.Parse(trans["attributesValMaxMod"]["攻击协定"][cn].ToString()); } catch (Exception) { }
+                    try { mval = Double.Parse(trans["attributesValMaxMod"]["攻击协定"][cnWoColor].ToString()); } catch (Exception) { }
                 else if (modNameCn.StartsWith("攻击系统"))
-                    try { mval = Double.Parse(trans["attributesValMaxMod"]["攻击系统"][cn].ToString()); } catch (Exception) { }
+                    try { mval = Double.Parse(trans["attributesValMaxMod"]["攻击系统"][cnWoColor].ToString()); } catch (Exception) { }
                 else if (modNameCn.StartsWith("防御协定"))
-                    try { mval = Double.Parse(trans["attributesValMaxMod"]["防御协定"][cn].ToString()); } catch (Exception) { }
+                    try { mval = Double.Parse(trans["attributesValMaxMod"]["防御协定"][cnWoColor].ToString()); } catch (Exception) { }
                 else if (modNameCn.StartsWith("防御系统"))
-                    try { mval = Double.Parse(trans["attributesValMaxMod"]["防御系统"][cn].ToString()); } catch (Exception) { }
+                    try { mval = Double.Parse(trans["attributesValMaxMod"]["防御系统"][cnWoColor].ToString()); } catch (Exception) { }
                 else if (modNameCn.StartsWith("性能协定"))
-                    try { mval = Double.Parse(trans["attributesValMaxMod"]["性能协定"][cn].ToString()); } catch (Exception) { }
+                    try { mval = Double.Parse(trans["attributesValMaxMod"]["性能协定"][cnWoColor].ToString()); } catch (Exception) { }
                 else if (modNameCn.StartsWith("性能系统"))
-                    try { mval = Double.Parse(trans["attributesValMaxMod"]["性能系统"][cn].ToString()); } catch (Exception) { }
+                    try { mval = Double.Parse(trans["attributesValMaxMod"]["性能系统"][cnWoColor].ToString()); } catch (Exception) { }
                 else if (!String.IsNullOrEmpty(a.modsUseful))
-                    try { mval = Double.Parse(trans["attributesValMaxMod"][a.modsUseful][cn].ToString()); } catch (Exception) { }
+                    try { mval = Double.Parse(trans["attributesValMaxMod"][a.modsUseful][cnWoColor].ToString()); } catch (Exception) { }
             }
             a.type = at;
             a.val = avl;
@@ -501,16 +519,41 @@ namespace TheDivision2Vendor
             }
         }
 
-        public static string Name(string en)
+        public static string Name(string en, bool isWeapon = false)
         {
-            try
+            if (isWeapon)
             {
-                return trans["names"][en].ToString();
+                try
+                {
+                    return trans["names"][en].ToString();
+                }
+                catch (Exception)
+                {
+                    return en.Replace("First Wave", "第一波")
+                        .Replace("Officer's", "军官的")
+                        .Replace("Black Market", "黑市")
+                        .Replace("Military ", "军规 ")
+                        .Replace("Tactical ", "战术 ")
+                        .Replace(" Tactical", " 战术")
+                        .Replace("Classic ", "经典 ")
+                        .Replace("Converted ", "改装 ")
+                        .Replace("Covert ", "改装 ")
+                        .Replace("Police ", "警用 ")
+                        .Replace("Custom ", "定制 ")
+                        .Replace("Lightweight ", "轻型 ");
+                }
             }
-            catch (Exception)
+            else
             {
-                if (!String.IsNullOrWhiteSpace(en)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("attributes类型找不到语言文本: {0}", en));
-                return en;
+                try
+                {
+                    return trans["names"][en].ToString();
+                }
+                catch (Exception)
+                {
+                    if (!String.IsNullOrWhiteSpace(en)) Logger.Put(LogPopType.File, LogType.Debug, String.Format("attributes类型找不到语言文本: {0}", en));
+                    return en;
+                }
             }
         }
 
