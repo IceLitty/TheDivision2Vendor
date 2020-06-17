@@ -100,7 +100,7 @@ namespace ConsoleTest
         {
             return new List<string>()
             {
-                "游戏版本：1.08 / TU9",
+                "游戏版本：1.10 / TU10",
                 "软件版本：v" + Assembly.GetEntryAssembly().GetName().Version.Major + "." + Assembly.GetEntryAssembly().GetName().Version.Minor,
                 string.IsNullOrWhiteSpace(newestVersion) ? "" : newestVersion,
                 "",

@@ -540,7 +540,8 @@ namespace TheDivision2Vendor
                         .Replace("Covert ", "改装 ")
                         .Replace("Police ", "警用 ")
                         .Replace("Custom ", "定制 ")
-                        .Replace("Lightweight ", "轻型 ");
+                        .Replace("Lightweight ", "轻型 ")
+                        .Replace("Enhanced", "加强版");
                 }
             }
             else
