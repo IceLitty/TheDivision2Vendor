@@ -10,7 +10,7 @@
 
 每周数据来源：https://rubenalamina.mx/
 
-当前匹配游戏版本：1.08
+当前匹配游戏版本：1.10
 
 ## 目前已知bug：
 
@@ -39,7 +39,7 @@
 
 - 从数据源获取每周商人数据并翻译。
 
-- 格式化输出商人数据内容（装备、武器、模组）。
+- 格式化输出商人数据内容（装备、武器、模组、所在槽位、数值上限与当前占比）。
 
 - 根据特定条件输出仅符合条件的“推荐道具”
 
@@ -47,18 +47,6 @@
 
 ## Todo List：
 
-- [ ] 由于数据源没完整实现模组的每周更新，故未制作模组相关内容。
-
-- [x] v1.2 引入天赋解释文本，利于例如我这种光看天赋名字记不住效果的人。
-
-- [ ] 引入所有的装备组特殊天赋名称和汉化。
-
-- [ ] 翻译所有的装备/武器名称并将其按槽位归类（[工作量](https://docs.google.com/spreadsheets/d/e/2PACX-1vTJEX5DerCvOj3a_m36TRy1gPBAUvrduOIdmXI9j1Y0MpQk1wIXaZ9KOcPa7HzXzp_N5qGmjDj6yEfL/pubhtml#)太大，谁来救救孩子）。
-
-- [x] v1.3 将天赋和套装效果做个输出。
-
-- [ ] 完善全部模组名称、词条名称、词条属性最大值。
-
-- [x] v1.7 使用v3api https://api.github.com/repos/IceLitty/TheDivision2Vendor/releases 来检测更新
+- [x] （持续）引入所有的装备组特殊天赋名称和汉化。
 
 - [ ] 其他的还没想到。
