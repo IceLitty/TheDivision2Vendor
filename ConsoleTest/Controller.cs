@@ -114,19 +114,19 @@ namespace ConsoleTest
                             if (o.GetType() == typeof(D2Gear))
                             {
                                 var oo = (D2Gear) o;
-                                shower.lines = TextSpawner.GearsLarge(index + 1, oo, width - spIndex + 1 - 4);
+                                shower.lines = TextSpawner.GearsLarge(index + 1, oo, width - spIndex + 1 - 3);
                                 shower.color = FormatProfile.Rarity2Color(oo.rarity);
                             }
                             else if (o.GetType() == typeof(D2Weapon))
                             {
                                 var oo = (D2Weapon) o;
-                                shower.lines = TextSpawner.WeaponsLarge(index + 1, oo, width - spIndex + 1 - 4);
+                                shower.lines = TextSpawner.WeaponsLarge(index + 1, oo, width - spIndex + 1 - 3);
                                 shower.color = FormatProfile.Rarity2Color(oo.rarity);
                             }
                             else if (o.GetType() == typeof(D2Mod))
                             {
                                 var oo = (D2Mod) o;
-                                shower.lines = TextSpawner.ModsLarge(index + 1, oo, width - spIndex + 1 - 4);
+                                shower.lines = TextSpawner.ModsLarge(index + 1, oo, width - spIndex + 1 - 3);
                                 shower.color = FormatProfile.Rarity2Color(oo.rarity);
                             }
                             else
@@ -139,21 +139,21 @@ namespace ConsoleTest
                     case PageWhat.Gear:
                         if (Config.D2Dirs[realFileIndex].d2Gears.Count > index)
                         {
-                            shower.lines = TextSpawner.GearsLarge(index + 1, Config.D2Dirs[realFileIndex].d2Gears[index], width - spIndex + 1 - 4);
+                            shower.lines = TextSpawner.GearsLarge(index + 1, Config.D2Dirs[realFileIndex].d2Gears[index], width - spIndex + 1 - 3);
                             shower.color = FormatProfile.Rarity2Color(Config.D2Dirs[realFileIndex].d2Gears[index].rarity);
                         }
                         break;
                     case PageWhat.Weapon:
                         if (Config.D2Dirs[realFileIndex].d2Weapons.Count > index)
                         {
-                            shower.lines = TextSpawner.WeaponsLarge(index + 1, Config.D2Dirs[realFileIndex].d2Weapons[index], width - spIndex + 1 - 4);
+                            shower.lines = TextSpawner.WeaponsLarge(index + 1, Config.D2Dirs[realFileIndex].d2Weapons[index], width - spIndex + 1 - 3);
                             shower.color = FormatProfile.Rarity2Color(Config.D2Dirs[realFileIndex].d2Weapons[index].rarity);
                         }
                         break;
                     case PageWhat.Mod:
                         if (Config.D2Dirs[realFileIndex].d2Mods.Count > index)
                         {
-                            shower.lines = TextSpawner.ModsLarge(index + 1, Config.D2Dirs[realFileIndex].d2Mods[index], width - spIndex + 1 - 4);
+                            shower.lines = TextSpawner.ModsLarge(index + 1, Config.D2Dirs[realFileIndex].d2Mods[index], width - spIndex + 1 - 3);
                             shower.color = FormatProfile.Rarity2Color(Config.D2Dirs[realFileIndex].d2Mods[index].rarity);
                         }
                         break;
@@ -239,7 +239,7 @@ namespace ConsoleTest
                 shower.lines = Shower.GetDefaultMsg();
                 shower.color = Color.Default;
             }
-            var showerStrs = pageWhat == PageWhat.BrandShower ? shower.Print(width, height) : shower.Print(width - spIndex + 1, height);
+            var showerStrs = pageWhat == PageWhat.BrandShower ? shower.Print(width - 1, height) : shower.Print(width - spIndex + 1, height);
             var all = new List<string>();
             if (pageWhat == PageWhat.BrandShower) all = showerStrs;
             else
@@ -248,7 +248,7 @@ namespace ConsoleTest
                 {
                     string line = String.Empty;
                     if (contentsStrs.Count > index) line += contentsStrs[index];
-                    else for (int i = 0; i < spIndex - 2; i++) line += " ";
+                    else for (int i = 0; i < spIndex - 3; i++) line += " ";
                     if (showerStrs.Count > index) line += showerStrs[index];
                     all.Add(line);
                 }
@@ -376,7 +376,7 @@ namespace ConsoleTest
                     c.lines[0][2] = "正在生成本期筛选结果……";
                     c.lines[0][3] = "";
                     Flush(null);
-                    Config.D2Dirs[realFileIndex].d2Best = TheBest.GetBest(Config.D2Dirs[realFileIndex].d2Gears, Config.D2Dirs[realFileIndex].d2Weapons, Config.D2Dirs[realFileIndex].d2Mods);
+                    Config.D2Dirs[realFileIndex].d2Best = TheBest.GetBestTU10(Config.D2Dirs[realFileIndex].d2Gears, Config.D2Dirs[realFileIndex].d2Weapons, Config.D2Dirs[realFileIndex].d2Mods);
                     c.lines[0][2] = "筛选结果数量" + Config.D2Dirs[realFileIndex].d2Best.Count + (Config.D2Dirs[realFileIndex].d2Best.Count == 0 ? "" : "，正在加载…");
                     Flush(null);
                     break;
@@ -464,13 +464,13 @@ namespace ConsoleTest
                 if (o.GetType() == typeof(D2Gear))
                 {
                     var oo = (D2Gear) o;
-                    shower.lines = TextSpawner.GearsLarge(1, oo, Console.WindowWidth - spIndex + 1 - 4);
+                    shower.lines = TextSpawner.GearsLarge(1, oo, Console.WindowWidth - spIndex + 1 - 3);
                     shower.color = FormatProfile.Rarity2Color(oo.rarity);
                 }
                 else if (o.GetType() == typeof(D2Weapon))
                 {
                     var oo = (D2Weapon) o;
-                    shower.lines = TextSpawner.WeaponsLarge(1, oo, Console.WindowWidth - spIndex + 1 - 4);
+                    shower.lines = TextSpawner.WeaponsLarge(1, oo, Console.WindowWidth - spIndex + 1 - 3);
                     shower.color = FormatProfile.Rarity2Color(oo.rarity);
                 }
                 else
@@ -546,7 +546,7 @@ namespace ConsoleTest
                 contents.Add(new Content() { lines = i, theme = colors[lines.IndexOf(i)] });
             if (Config.D2Dirs[realFileIndex].d2Gears.Count > 0)
             {
-                shower.lines = TextSpawner.GearsLarge(1, Config.D2Dirs[realFileIndex].d2Gears[0], Console.WindowWidth - spIndex + 1 - 4);
+                shower.lines = TextSpawner.GearsLarge(1, Config.D2Dirs[realFileIndex].d2Gears[0], Console.WindowWidth - spIndex + 1 - 3);
                 shower.color = FormatProfile.Rarity2Color(Config.D2Dirs[realFileIndex].d2Gears[0].rarity);
             }
             else
@@ -598,7 +598,7 @@ namespace ConsoleTest
                 contents.Add(new Content() { lines = i, theme = colors[lines.IndexOf(i)] });
             if (Config.D2Dirs[realFileIndex].d2Weapons.Count > 0)
             {
-                shower.lines = TextSpawner.WeaponsLarge(1, Config.D2Dirs[realFileIndex].d2Weapons[0], Console.WindowWidth - spIndex + 1 - 4);
+                shower.lines = TextSpawner.WeaponsLarge(1, Config.D2Dirs[realFileIndex].d2Weapons[0], Console.WindowWidth - spIndex + 1 - 3);
                 shower.color = FormatProfile.Rarity2Color(Config.D2Dirs[realFileIndex].d2Weapons[0].rarity);
             }
             else
@@ -658,7 +658,7 @@ namespace ConsoleTest
                 contents.Add(new Content() { lines = i, theme = colors[lines.IndexOf(i)] });
             if (Config.D2Dirs[realFileIndex].d2Mods.Count > 0)
             {
-                shower.lines = TextSpawner.ModsLarge(1, Config.D2Dirs[realFileIndex].d2Mods[0], Console.WindowWidth - spIndex + 1 - 4);
+                shower.lines = TextSpawner.ModsLarge(1, Config.D2Dirs[realFileIndex].d2Mods[0], Console.WindowWidth - spIndex + 1 - 3);
                 shower.color = FormatProfile.Rarity2Color(Config.D2Dirs[realFileIndex].d2Mods[0].rarity);
             }
             else

@@ -4,6 +4,104 @@ namespace TheDivision2Vendor
 {
     public static class TheBest
     {
+        public static List<D2Empty> GetBestTU10(List<D2Gear> gears = null, List<D2Weapon> weapons = null, List<D2Mod> mods = null)
+        {
+            var nowThreshold = float.Parse(Config.GetValueConf("bestFilterThreshold").ToString());
+            var list = new List<D2Empty>();
+            if (gears == null) gears = new List<D2Gear>();
+            if (weapons == null) weapons = new List<D2Weapon>();
+            if (mods == null) mods = new List<D2Mod>();
+            foreach (var o in gears)
+            {
+                var coreStr = string.Empty;
+                if (o.core != null && !string.IsNullOrEmpty(o.core)) coreStr = o.core + "<br/>";
+                var attr = Translate.AttrValAndText(coreStr + o.attributes);
+                int counter = 0;
+                var colorList = new List<AttrValType>();
+                foreach (var an in attr)
+                {
+                    if (an.val >= an.valMax * nowThreshold)
+                    {
+                        counter++;
+                        colorList.Add(an.valType);
+                    }
+                }
+                if (counter >= attr.Count - 1)
+                {
+                    if (colorList.Count <= 1)
+                    {
+                        list.Add(o);
+                    }
+                    else if (colorList.Count == attr.Count)
+                    {
+                        int maxVal = -1;
+                        var r = RepeatItem<AttrValType>.GetRepeat(colorList);
+                        foreach (var item in r)
+                        {
+                            if (item.Counter > maxVal)
+                            {
+                                maxVal = item.Counter;
+                            }
+                        }
+                        if (maxVal != -1 && maxVal >= attr.Count - 1)
+                        {
+                            list.Add(o);
+                        }
+                    }
+                    else
+                    {
+                        int maxVal = -1;
+                        var r = RepeatItem<AttrValType>.GetRepeat(colorList);
+                        foreach (var item in r)
+                        {
+                            if (item.Counter > maxVal)
+                            {
+                                maxVal = item.Counter;
+                            }
+                        }
+                        if (maxVal != -1 && maxVal == colorList.Count)
+                        {
+                            list.Add(o);
+                        }
+                    }
+                }
+            }
+            foreach (var o in weapons)
+            {
+                var attr = Translate.AttrValAndText(o.attribute1, o.attribute2, o.attribute3);
+                int counter = 0;
+                foreach (var an in attr)
+                {
+                    if (an.val >= an.valMax * nowThreshold)
+                    {
+                        counter++;
+                    }
+                }
+                if (counter >= attr.Count - 1)
+                {
+                    list.Add(o);
+                }
+            }
+            foreach (var o in mods)
+            {
+                var name = Translate.Name(o.name);
+                var attr = Translate.AttrValAndTextMods(o.attributes, name.Equals(o.name) ? null : name);
+                int counter = 0;
+                foreach (var an in attr)
+                {
+                    if (an.val >= an.valMax * nowThreshold)
+                    {
+                        counter++;
+                    }
+                }
+                if (counter == attr.Count)
+                {
+                    list.Add(o);
+                }
+            }
+            return list;
+        }
+
         public static List<D2Empty> GetBest(List<D2Gear> gears = null, List<D2Weapon> weapons = null, List<D2Mod> mods = null)
         {
             var list = new List<D2Empty>();

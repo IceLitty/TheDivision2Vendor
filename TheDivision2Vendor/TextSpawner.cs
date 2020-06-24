@@ -100,8 +100,9 @@ namespace TheDivision2Vendor
                     var checkValError = attr.val > attr.valMax ? " §y数值异常？§w" : "";
                     tmp.Add(str + attr.val + (attr.type == AttributeType.Percent ? "%" : "") + " " + attr.desc + "§w / " +
                         valMax + (attr.type == AttributeType.Percent ? "%" : "") + checkValError);
-                    var percent = (int)Math.Floor(attr.val / attr.valMax * barLength) / 2;
-                    var percent2 = (int)Math.Floor((barLength - (double)percent * 2) / 2);
+                    var bl = int.Parse(Config.GetValueConf("barLength").ToString());
+                    var percent = (int)Math.Floor(attr.val / attr.valMax * (barLength - 1)) / bl;
+                    var percent2 = (int)Math.Floor(((barLength - 1) - (double)percent * bl) / bl);
                     if (percent2 < 0)
                     {
                         percent += percent2;
@@ -258,8 +259,9 @@ namespace TheDivision2Vendor
                     var checkValError = attr.val > attr.valMax ? " §y数值异常？§w" : "";
                     tmp.Add(str + attr.val + (attr.type == AttributeType.Percent ? "%" : "") + " " + attr.desc + "§w / " +
                         valMax + (attr.type == AttributeType.Percent ? "%" : "") + checkValError);
-                    var percent = (int)Math.Floor(attr.val / attr.valMax * barLength) / 2;
-                    var percent2 = (int)Math.Floor((barLength - (double)percent * 2) / 2);
+                    var bl = int.Parse(Config.GetValueConf("barLength").ToString());
+                    var percent = (int)Math.Floor(attr.val / attr.valMax * barLength) / bl;
+                    var percent2 = (int)Math.Floor((barLength - (double)percent * bl) / bl);
                     if (percent2 < 0)
                     {
                         percent += percent2;
@@ -383,8 +385,9 @@ namespace TheDivision2Vendor
                             valMax + (attr.type == AttributeType.Percent ? "%" : ""));
                         p = attr.val / attr.valMax;
                     }
-                    var percent = (int)Math.Floor(p * barLength) / 2;
-                    var percent2 = (int)Math.Floor((barLength - (double)percent * 2) / 2);
+                    var bl = int.Parse(Config.GetValueConf("barLength").ToString());
+                    var percent = (int)Math.Floor(p * barLength) / bl;
+                    var percent2 = (int)Math.Floor((barLength - (double)percent * bl) / bl);
                     if (percent2 < 0)
                     {
                         percent += percent2;

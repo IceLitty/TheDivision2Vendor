@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TheDivision2Vendor
 {
@@ -113,6 +116,35 @@ namespace TheDivision2Vendor
                     break;
             }
             return dest;
+        }
+    }
+
+    public class RepeatItem <T>
+    {
+        public RepeatItem(T _obj)
+        {
+            Object = _obj;
+            Counter = 1;
+        }
+
+        public T Object { get; set; }
+        public int Counter { get; set; }
+
+        public static List<RepeatItem<T>> GetRepeat(List<T> list)
+        {
+            var dict = new Dictionary<T, RepeatItem<T>>();
+            foreach (var item in list)
+            {
+                if (dict.ContainsKey(item))
+                {
+                    dict[item].Counter++;
+                }
+                else
+                {
+                    dict.Add(item, new RepeatItem<T>(item));
+                }
+            }
+            return dict.Values.ToList();
         }
     }
 }

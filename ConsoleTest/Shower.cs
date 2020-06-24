@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using TheDivision2Vendor;
 
 namespace ConsoleTest
 {
@@ -20,10 +21,10 @@ namespace ConsoleTest
                 if (hIndex == 0)
                 {
                     var sb = new StringBuilder();
-                    for (int wIndex = 0; wIndex < row - 1; wIndex++)
+                    for (int wIndex = 0; wIndex < row; wIndex++)
                     {
                         if (wIndex == 0) sb.Append("┏");
-                        else if (wIndex == row - 2) sb.Append("┓");
+                        else if (wIndex == row - 1) sb.Append("┓");
                         else sb.Append("━");
                     }
                     sbl.Add(Content.GetColorS(color) + sb.ToString());
@@ -31,10 +32,10 @@ namespace ConsoleTest
                 else if (hIndex == line - 1)
                 {
                     var sb = new StringBuilder();
-                    for (int wIndex = 0; wIndex < row - 1; wIndex++)
+                    for (int wIndex = 0; wIndex < row; wIndex++)
                     {
                         if (wIndex == 0) sb.Append("┗");
-                        else if (wIndex == row - 2) sb.Append("┛");
+                        else if (wIndex == row - 1) sb.Append("┛");
                         else sb.Append("━");
                     }
                     sbl.Add(Content.GetColorS(color) + sb.ToString());
@@ -58,30 +59,39 @@ namespace ConsoleTest
                                 {
                                     int l = Encoding.UTF8.GetBytes(c.ToString()).Length;
                                     if (l > 1) l -= 1;
+                                    if (c == '█' || c == '▁') l = int.Parse(Config.GetValueConf("barLength").ToString());
                                     length += l;
                                 }
                             }
                         }
                     }
-                    // row == spIndex; spIndex - 3 == each line text can be length; -1 is for space append each line.
-                    int canRange = row - 3 - 1;
+                    // sync with Controller.class (width - spIndex + 1 - 3)
+                    int canRange = row - 3;
                     if (length > canRange)
                     {
-                        var ss = new StringBuilder();
-                        int nowLength = 0;
-                        foreach (char c in text)
+                        if (text.Contains("█") || text.Contains("▁"))
                         {
-                            int l = Encoding.UTF8.GetBytes(c.ToString()).Length;
-                            if (nowLength + l > canRange)
-                            {
-                                for (int i = 0; i < canRange - nowLength; i++)
-                                    ss.Append(" ");
-                                break;
-                            }
-                            ss.Append(c);
-                            nowLength += l;
+                            text = " ";
                         }
-                        text = ss.ToString();
+                        else
+                        {
+                            var ss = new StringBuilder();
+                            int nowLength = 0;
+                            foreach (char c in text)
+                            {
+                                int l = Encoding.UTF8.GetBytes(c.ToString()).Length;
+                                if (l > 1) l -= 1;
+                                if (nowLength + l > canRange)
+                                {
+                                    for (int i = 0; i < canRange - nowLength; i++)
+                                        ss.Append(" ");
+                                    break;
+                                }
+                                ss.Append(c);
+                                nowLength += l;
+                            }
+                            text = ss.ToString();
+                        }
                     }
                     else
                         for (int i = 0; i < canRange - length; i++)

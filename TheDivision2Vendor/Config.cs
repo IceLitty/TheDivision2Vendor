@@ -10,7 +10,8 @@ namespace TheDivision2Vendor
     {
         public static readonly string ConfigDir = Path.Combine(AppContext.BaseDirectory, "config");
         public static readonly string Configs = Path.Combine(AppContext.BaseDirectory, "config/Config.json");
-        public static readonly JObject Conf;
+        private static JObject Conf;
+        private static readonly string _defaultConf = "{\"checkUpdate\": true, \"bestFilterThreshold\":0.95, \"barLength\": 1}";
         public static readonly string Log = Path.Combine(AppContext.BaseDirectory, "config/Log.log");
         public static readonly string D2Dir = Path.Combine(AppContext.BaseDirectory, "resource");
         public static readonly List<ConfigD2> D2Dirs = new List<ConfigD2>();
@@ -25,7 +26,7 @@ namespace TheDivision2Vendor
             if (!File.Exists(Configs))
                 using(var sw = File.CreateText(Configs))
                 {
-                    var jo = JObject.Parse("{\"checkUpdate\": true}");
+                    var jo = JObject.Parse(_defaultConf);
                     sw.WriteLine(JsonConvert.SerializeObject(jo, Formatting.Indented));
                 }
             try
@@ -34,7 +35,7 @@ namespace TheDivision2Vendor
             }
             catch (Exception)
             {
-                Conf = JObject.Parse("{\"checkUpdate\": true}");
+                Conf = JObject.Parse(_defaultConf);
             }
             if (!File.Exists(Log))
                 using (var sw = File.CreateText(Log))
@@ -43,6 +44,22 @@ namespace TheDivision2Vendor
                 }
             if (!Directory.Exists(D2Dir)) Directory.CreateDirectory(D2Dir);
             FlushD2Dir();
+        }
+
+        public static object GetValueConf(string key)
+        {
+            var r = Conf[key];
+            if (r == null)
+            {
+                File.Delete(Configs);
+                Conf = JObject.Parse(_defaultConf);
+                using (var sw = File.CreateText(Configs))
+                {
+                    sw.WriteLine(JsonConvert.SerializeObject(Conf, Formatting.Indented));
+                }
+                return GetValueConf(key);
+            }
+            return r;
         }
 
         public static string GetThisSaturdayGear()
