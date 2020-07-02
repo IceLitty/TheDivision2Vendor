@@ -197,7 +197,7 @@ namespace ConsoleTest
             Controller.lockScrollDown = 1;
             Controller.lockLeftRightWhenHistoryEntry = false;
             Controller.contents.Clear();
-            Controller.contents.Add(new Content() { action = Controller.ShowBest, lines = new List<List<string>>() { new List<string>() { "", "推荐装备", "现算法不考虑天赋/具名/套装影响", "半数以上词条优质(>=95%)则进入推荐，可配置文件自行更改", "" } } });
+            Controller.contents.Add(new Content() { action = Controller.ShowBest, lines = new List<List<string>>() { new List<string>() { "", "推荐装备", "现算法不考虑天赋/具名/套装影响，装备额外考虑词条颜色统一", "半数以上词条优质(>=95%)则进入推荐，可配置文件自行更改", "" } } });
             Controller.contents.Add(new Content() { action = Controller.UpdateResources, lines = new List<List<string>>() { new List<string>() { "", "更新数据源（数据源可能会有延期情况）", "最后资源日期：" + FileHint(), "数据源是人工输入，故会出现录入错误，请谅解。" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowGears, lines = new List<List<string>>() { new List<string>() { "", "查看防具", "" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowWeapons, lines = new List<List<string>>() { new List<string>() { "", "查看武器", "" } } });

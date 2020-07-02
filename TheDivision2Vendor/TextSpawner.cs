@@ -97,7 +97,7 @@ namespace TheDivision2Vendor
                     var str = attr.val >= attr.valMax ? "§o▲§w +" : "+";
                     if (attr.isMainAttr && attr.valType == AttrValType.Utility)
                         str = "+";
-                    var checkValError = attr.val > attr.valMax ? " §y数值异常？§w" : "";
+                    var checkValError = attr.val > (attr.valMax * 1.67) ? " §y数值异常？§w" : "";
                     tmp.Add(str + attr.val + (attr.type == AttributeType.Percent ? "%" : "") + " " + attr.desc + "§w / " +
                         valMax + (attr.type == AttributeType.Percent ? "%" : "") + checkValError);
                     var bl = int.Parse(Config.GetValueConf("barLength").ToString());
@@ -256,7 +256,7 @@ namespace TheDivision2Vendor
                     var str = attr.val >= attr.valMax ? "§o▲§w +" : "+";
                     if (attr.isMainAttr && attr.valType == AttrValType.Utility)
                         str = "+";
-                    var checkValError = attr.val > attr.valMax ? " §y数值异常？§w" : "";
+                    var checkValError = attr.val > (attr.valMax * 1.67) ? " §y数值异常？§w" : "";
                     tmp.Add(str + attr.val + (attr.type == AttributeType.Percent ? "%" : "") + " " + attr.desc + "§w / " +
                         valMax + (attr.type == AttributeType.Percent ? "%" : "") + checkValError);
                     var bl = int.Parse(Config.GetValueConf("barLength").ToString());

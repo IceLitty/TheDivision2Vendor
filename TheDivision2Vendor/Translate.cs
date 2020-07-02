@@ -541,7 +541,8 @@ namespace TheDivision2Vendor
                         .Replace("Police ", "警用 ")
                         .Replace("Custom ", "定制 ")
                         .Replace("Lightweight ", "轻型 ")
-                        .Replace("Enhanced", "加强版");
+                        .Replace("Enhanced", "加强版")
+                        .Replace("SOCOM ", "特战 ");
                 }
             }
             else
