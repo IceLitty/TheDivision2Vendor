@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TheDivision2Vendor
 {
@@ -11,95 +12,134 @@ namespace TheDivision2Vendor
             if (gears == null) gears = new List<D2Gear>();
             if (weapons == null) weapons = new List<D2Weapon>();
             if (mods == null) mods = new List<D2Mod>();
+            var errorCount = 0;
             foreach (var o in gears)
             {
-                var coreStr = string.Empty;
-                if (o.core != null && !string.IsNullOrEmpty(o.core)) coreStr = o.core + "<br/>";
-                var attr = Translate.AttrValAndText(coreStr + o.attributes);
-                int counter = 0;
-                var colorList = new List<AttrValType>();
-                foreach (var an in attr)
+                try
                 {
-                    if (an.val >= an.valMax * nowThreshold)
+                    var coreStr = string.Empty;
+                    if (o.core != null && !string.IsNullOrEmpty(o.core)) coreStr = o.core + "<br/>";
+                    var attr = FilterAttribute(Translate.AttrValAndText(coreStr + o.attributes));
+                    int counter = 0;
+                    var colorList = new List<AttrValType>();
+                    foreach (var an in attr)
                     {
-                        counter++;
-                        colorList.Add(an.valType);
+                        if (an.val >= an.valMax * nowThreshold)
+                        {
+                            counter++;
+                            colorList.Add(an.valType);
+                        }
+                    }
+                    if (counter >= attr.Count - 1)
+                    {
+                        if (colorList.Count <= 1)
+                        {
+                            list.Add(o);
+                        }
+                        else if (colorList.Count == attr.Count)
+                        {
+                            int maxVal = -1;
+                            var r = RepeatItem<AttrValType>.GetRepeat(colorList);
+                            foreach (var item in r)
+                            {
+                                if (item.Counter > maxVal)
+                                {
+                                    maxVal = item.Counter;
+                                }
+                            }
+                            if (maxVal != -1 && maxVal >= attr.Count - 1)
+                            {
+                                list.Add(o);
+                            }
+                        }
+                        else
+                        {
+                            int maxVal = -1;
+                            var r = RepeatItem<AttrValType>.GetRepeat(colorList);
+                            foreach (var item in r)
+                            {
+                                if (item.Counter > maxVal)
+                                {
+                                    maxVal = item.Counter;
+                                }
+                            }
+                            if (maxVal != -1 && maxVal == colorList.Count)
+                            {
+                                list.Add(o);
+                            }
+                        }
                     }
                 }
-                if (counter >= attr.Count - 1)
+                catch (Exception)
                 {
-                    if (colorList.Count <= 1)
-                    {
-                        list.Add(o);
-                    }
-                    else if (colorList.Count == attr.Count)
-                    {
-                        int maxVal = -1;
-                        var r = RepeatItem<AttrValType>.GetRepeat(colorList);
-                        foreach (var item in r)
-                        {
-                            if (item.Counter > maxVal)
-                            {
-                                maxVal = item.Counter;
-                            }
-                        }
-                        if (maxVal != -1 && maxVal >= attr.Count - 1)
-                        {
-                            list.Add(o);
-                        }
-                    }
-                    else
-                    {
-                        int maxVal = -1;
-                        var r = RepeatItem<AttrValType>.GetRepeat(colorList);
-                        foreach (var item in r)
-                        {
-                            if (item.Counter > maxVal)
-                            {
-                                maxVal = item.Counter;
-                            }
-                        }
-                        if (maxVal != -1 && maxVal == colorList.Count)
-                        {
-                            list.Add(o);
-                        }
-                    }
+                    errorCount++;
+                    Logger.Put(LogPopType.File, LogType.Warn, String.Format("筛选优质装备时出现错误，原名称为: {0}", o.name));
                 }
             }
             foreach (var o in weapons)
             {
-                var attr = Translate.AttrValAndText(o.attribute1, o.attribute2, o.attribute3);
-                int counter = 0;
-                foreach (var an in attr)
+                try
                 {
-                    if (an.val >= an.valMax * nowThreshold)
+                    var attr = FilterAttribute(Translate.AttrValAndText(o.attribute1, o.attribute2, o.attribute3));
+                    int counter = 0;
+                    foreach (var an in attr)
                     {
-                        counter++;
+                        if (an.val >= an.valMax * nowThreshold)
+                        {
+                            counter++;
+                        }
+                    }
+                    if (counter >= attr.Count - 1)
+                    {
+                        list.Add(o);
                     }
                 }
-                if (counter >= attr.Count - 1)
+                catch (Exception)
                 {
-                    list.Add(o);
+                    errorCount++;
+                    Logger.Put(LogPopType.File, LogType.Warn, String.Format("筛选优质武器时出现错误，原名称为: {0}", o.name));
                 }
             }
             foreach (var o in mods)
             {
-                var name = Translate.Name(o.name);
-                var attr = Translate.AttrValAndTextMods(o.attributes, name.Equals(o.name) ? null : name);
-                int counter = 0;
-                foreach (var an in attr)
+                try
                 {
-                    if (an.val >= an.valMax * nowThreshold)
+                    var name = Translate.Name(o.name);
+                    var attr = FilterAttribute(Translate.AttrValAndTextMods(o.attributes, name.Equals(o.name) ? null : name));
+                    int counter = 0;
+                    foreach (var an in attr)
                     {
-                        counter++;
+                        if (an.val >= an.valMax * nowThreshold)
+                        {
+                            counter++;
+                        }
+                    }
+                    if (counter == attr.Count)
+                    {
+                        list.Add(o);
                     }
                 }
-                if (counter == attr.Count)
+                catch (Exception)
                 {
-                    list.Add(o);
+                    errorCount++;
+                    Logger.Put(LogPopType.File, LogType.Warn, String.Format("筛选优质模组时出现错误，原名称为: {0}", o.name));
                 }
             }
+            TitleFunc.theBestErrorCount = errorCount;
             return list;
+        }
+
+        private static List<Attribute> FilterAttribute(List<Attribute> attrs)
+        {
+            var res = new List<Attribute>();
+            foreach (var item in attrs)
+            {
+                if (item.valMax != Translate.ATTRVALMAXDEFAULT)
+                {
+                    res.Add(item);
+                }
+            }
+            return res;
         }
 
         public static List<D2Empty> GetBest(List<D2Gear> gears = null, List<D2Weapon> weapons = null, List<D2Mod> mods = null)

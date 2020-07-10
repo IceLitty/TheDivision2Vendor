@@ -180,12 +180,13 @@ namespace ConsoleTest
             string[] day = new string[] { "周日", "周一", "周二", "周三", "周四", "周五", "周六" };
             string week = day[Convert.ToInt32(dt.DayOfWeek.ToString("d"))].ToString();
             int weekYear = Util.GetWeekOfYear(dt);
-            var text = dt.ToString("MM月dd日") + " " + week + " 第" + weekYear + "周";
+            var text = dt.ToString("MM月dd日") + " " + week + " 第" + weekYear + "周" + (weekYear == Util.GetWeekOfYear() ? "" : " (该更新了)");
             return text;
         }
 
         public static void WelcomeScreen()
         {
+            TitleFunc.theBestErrorCount = 0;
             Controller.nowChoose = 0;
             Controller.nowFileIndex = 0;
             Controller.nowLeft2RightIndex = 0;
@@ -216,6 +217,7 @@ namespace ConsoleTest
         {
             _ = Task.Run(() =>
             {
+                Logger.Put(LogPopType.File, LogType.Info, string.Format("The Division 2 Vendor 软件已启动。"));
                 string val = DownloadResource.CheckUpdate().GetAwaiter().GetResult();
                 if (string.IsNullOrWhiteSpace(val)) Shower.newestVersion = "更新检查失败，请检查网络设置。";
                 else if ("false".Equals(val)) Shower.newestVersion = "已关闭检查更新功能。";

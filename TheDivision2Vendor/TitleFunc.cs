@@ -10,6 +10,7 @@ namespace TheDivision2Vendor
         public static DateTime DateTemp;
         public static string updateStr = null;
         public static string pageStr = null;
+        public static int theBestErrorCount = 0;
 
         public static void Init()
         {
@@ -26,6 +27,7 @@ namespace TheDivision2Vendor
                 Logger.Put(LogPopType.Title, LogType.Info,
                     (string.IsNullOrWhiteSpace(updateStr) ? "" : updateStr + " ") +
                     (string.IsNullOrWhiteSpace(pageStr) ? "" : "[" + pageStr + "] ") +
+                    (theBestErrorCount <= 0 ? "" : "[筛选时出现" + theBestErrorCount + "个错误] ") + 
                     "距离下次商人更新还差【" + Span.ToString(@"dd\d\:hh\h\:mm\m\:ss\s") + "】" +
                     "    " + GetNextCassie()
                 );

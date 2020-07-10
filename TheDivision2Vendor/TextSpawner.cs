@@ -60,7 +60,7 @@ namespace TheDivision2Vendor
                 l.Add(stdoutIndexStr + ". " + gear.name);
                 l.Add("");
                 l.Add("");
-                l.Add("数据源信息不正常");
+                l.Add("数据源异常");
                 return l;
             }
         }
@@ -173,7 +173,9 @@ namespace TheDivision2Vendor
                 l.Add(stdoutIndexStr + ". " + gear.name);
                 l.Add("");
                 l.Add("");
-                l.Add("数据源信息不正常");
+                l.Add("数据源信息无法正常显示");
+                l.Add("可能是源录入错误");
+                l.Add("可自行打开当周json文件排错");
                 return l;
             }
         }
@@ -224,7 +226,7 @@ namespace TheDivision2Vendor
                 l.Add(stdoutIndexStr + ". " + weapon.name);
                 l.Add("");
                 l.Add("");
-                l.Add("数据源信息不正常");
+                l.Add("数据源异常");
                 return l;
             }
         }
@@ -314,7 +316,9 @@ namespace TheDivision2Vendor
                 l.Add(stdoutIndexStr + ". " + weapon.name);
                 l.Add("");
                 l.Add("");
-                l.Add("数据源信息不正常");
+                l.Add("数据源信息无法正常显示");
+                l.Add("可能是源录入错误");
+                l.Add("可自行打开当周json文件排错");
                 return l;
             }
         }
@@ -347,7 +351,7 @@ namespace TheDivision2Vendor
                 l.Add(stdoutIndexStr + ". " + mod.name);
                 l.Add("");
                 l.Add("");
-                l.Add("数据源信息不正常");
+                l.Add("数据源异常");
                 return l;
             }
         }
@@ -411,7 +415,9 @@ namespace TheDivision2Vendor
                 l.Add(stdoutIndexStr + ". " + mod.name);
                 l.Add("");
                 l.Add("");
-                l.Add("数据源信息不正常");
+                l.Add("数据源信息无法正常显示");
+                l.Add("可能是源录入错误");
+                l.Add("可自行打开当周json文件排错");
                 return l;
             }
         }

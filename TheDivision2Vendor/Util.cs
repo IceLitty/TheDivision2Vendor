@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,6 +8,15 @@ namespace TheDivision2Vendor
     {
         private static int FLUSH_HOUR = 16;
         private static string FLUSH_HOUR_MM = "04";
+
+        public static int GetWeekOfYear()
+        {
+            var dt = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "China Standard Time");
+            int firstWeekend = 7 - Convert.ToInt32(DateTime.Parse(DateTime.Today.Year + ".01.01").DayOfWeek);
+            int currentDay = dt.DayOfYear;
+            var sub = dt.DayOfWeek == DayOfWeek.Sunday || dt.DayOfWeek == DayOfWeek.Monday || dt.DayOfWeek == DayOfWeek.Tuesday;
+            return Convert.ToInt32(Math.Ceiling((currentDay - firstWeekend) / 7.0)) + 1 - (sub ? 1 : 0);
+        }
 
         public static int GetWeekOfYear(DateTime dt)
         {
