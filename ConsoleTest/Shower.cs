@@ -11,6 +11,7 @@ namespace ConsoleTest
         public List<string> lines = new List<string>();
         public Color color = Color.Default;
         public static string newestVersion = null;
+        public static List<string> serverStatus = new List<string>();
 
         public List<string> Print(int row, int line)
         {
@@ -108,7 +109,8 @@ namespace ConsoleTest
 
         public static List<string> GetDefaultMsg()
         {
-            return new List<string>()
+            serverStatus = ServerStatus.Status;
+            var tmp = new List<string>()
             {
                 "游戏版本：1.10 / TU10",
                 "软件版本：v" + Assembly.GetEntryAssembly().GetName().Version.Major + "." + Assembly.GetEntryAssembly().GetName().Version.Minor,
@@ -126,7 +128,12 @@ namespace ConsoleTest
                 "软件仓库：",
                 "https://github.com/IceLitty",
                 "/TheDivision2Vendor",
+                "",
+                "若有数值错误请尽可能将正确数值",
+                "和数据来源提交仓库",
             };
+            tmp.AddRange(serverStatus);
+            return tmp;
         }
     }
 }

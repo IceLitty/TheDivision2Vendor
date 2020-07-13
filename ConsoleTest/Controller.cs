@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TheDivision2Vendor;
 
@@ -24,6 +25,7 @@ namespace ConsoleTest
         public static int nowLeft2RightIndex = 0;
         public static bool lockLeftRightWhenHistoryEntry = false;
         public static int realFileIndex = 0;
+        public static ManualResetEvent flushDone = new ManualResetEvent(true);
 
         public static int CanShow()
         {
@@ -40,6 +42,8 @@ namespace ConsoleTest
 
         public static void Flush(bool? upper, bool isLeftRight = false)
         {
+            flushDone.WaitOne();
+            flushDone.Reset();
             Console.SetCursorPosition(0, 0);
             int width = Console.WindowWidth;
             int height = Console.WindowHeight;
@@ -88,7 +92,7 @@ namespace ConsoleTest
                     else
                     {
                         int canShowOutLines = height - eachHeight * canShow;
-                        int splitIndex = nowChoose - canShow;
+                        int splitIndex = nowChoose + 1 - canShow;
                         int index = splitIndex * eachHeight + (eachHeight - canShowOutLines);
                         for (int i = index; i < Math.Min(index + canShow * eachHeight + canShowOutLines, tmpContentsStrs.Count); i++)
                             contentsStrs.Add(tmpContentsStrs[i]);
@@ -269,63 +273,63 @@ namespace ConsoleTest
                         switch (lineChar)
                         {
                             case 'p':
-                                Console.BackgroundColor = ConsoleColor.Black;
-                                Console.ForegroundColor = ConsoleColor.Magenta;
+                                if (Console.BackgroundColor != ConsoleColor.Black) Console.BackgroundColor = ConsoleColor.Black;
+                                if (Console.ForegroundColor != ConsoleColor.Magenta) Console.ForegroundColor = ConsoleColor.Magenta;
                                 break;
                             case 'o':
-                                Console.BackgroundColor = ConsoleColor.Black;
-                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                if (Console.BackgroundColor != ConsoleColor.Black) Console.BackgroundColor = ConsoleColor.Black;
+                                if (Console.ForegroundColor != ConsoleColor.DarkYellow) Console.ForegroundColor = ConsoleColor.DarkYellow;
                                 break;
                             case 'n':
-                                Console.BackgroundColor = ConsoleColor.Black;
-                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                if (Console.BackgroundColor != ConsoleColor.Black) Console.BackgroundColor = ConsoleColor.Black;
+                                if (Console.ForegroundColor != ConsoleColor.Yellow) Console.ForegroundColor = ConsoleColor.Yellow;
                                 break;
                             case 'g':
-                                Console.BackgroundColor = ConsoleColor.Black;
-                                Console.ForegroundColor = ConsoleColor.Green;
+                                if (Console.BackgroundColor != ConsoleColor.Black) Console.BackgroundColor = ConsoleColor.Black;
+                                if (Console.ForegroundColor != ConsoleColor.Green) Console.ForegroundColor = ConsoleColor.Green;
                                 break;
                             case 'q':
-                                Console.BackgroundColor = ConsoleColor.DarkMagenta;
-                                Console.ForegroundColor = ConsoleColor.White;
+                                if (Console.BackgroundColor != ConsoleColor.DarkMagenta) Console.BackgroundColor = ConsoleColor.DarkMagenta;
+                                if (Console.ForegroundColor != ConsoleColor.White) Console.ForegroundColor = ConsoleColor.White;
                                 break;
                             case '0':
-                                Console.BackgroundColor = ConsoleColor.DarkYellow;
-                                Console.ForegroundColor = ConsoleColor.White;
+                                if (Console.BackgroundColor != ConsoleColor.DarkYellow) Console.BackgroundColor = ConsoleColor.DarkYellow;
+                                if (Console.ForegroundColor != ConsoleColor.White) Console.ForegroundColor = ConsoleColor.White;
                                 break;
                             case 'u':
-                                Console.BackgroundColor = ConsoleColor.Yellow;
-                                Console.ForegroundColor = ConsoleColor.Black;
+                                if (Console.BackgroundColor != ConsoleColor.Yellow) Console.BackgroundColor = ConsoleColor.Yellow;
+                                if (Console.ForegroundColor != ConsoleColor.Black) Console.ForegroundColor = ConsoleColor.Black;
                                 break;
                             case '8':
-                                Console.BackgroundColor = ConsoleColor.DarkGreen;
-                                Console.ForegroundColor = ConsoleColor.White;
+                                if (Console.BackgroundColor != ConsoleColor.DarkGreen) Console.BackgroundColor = ConsoleColor.DarkGreen;
+                                if (Console.ForegroundColor != ConsoleColor.White) Console.ForegroundColor = ConsoleColor.White;
                                 break;
                             case 'b':
-                                Console.BackgroundColor = ConsoleColor.Gray;
-                                Console.ForegroundColor = ConsoleColor.Black;
+                                if (Console.BackgroundColor != ConsoleColor.Gray) Console.BackgroundColor = ConsoleColor.Gray;
+                                if (Console.ForegroundColor != ConsoleColor.Black) Console.ForegroundColor = ConsoleColor.Black;
                                 break;
                             case 'r':
                                 backup = Console.ForegroundColor;
-                                Console.ForegroundColor = ConsoleColor.Red;
+                                if (Console.ForegroundColor != ConsoleColor.Red) Console.ForegroundColor = ConsoleColor.Red;
                                 break;
                             case 'c':
                                 backup = Console.ForegroundColor;
-                                Console.ForegroundColor = ConsoleColor.Blue;
+                                if (Console.ForegroundColor != ConsoleColor.Blue) Console.ForegroundColor = ConsoleColor.Blue;
                                 break;
                             case 'y':
                                 backup = Console.ForegroundColor;
-                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                if (Console.ForegroundColor != ConsoleColor.Yellow) Console.ForegroundColor = ConsoleColor.Yellow;
                                 break;
                             case '-':
                                 if (backup != null)
                                 {
-                                    Console.ForegroundColor = backup.Value;
+                                    if (Console.ForegroundColor != backup.Value) Console.ForegroundColor = backup.Value;
                                     backup = null;
                                 }
                                 break;
                             default:
-                                Console.BackgroundColor = ConsoleColor.Black;
-                                Console.ForegroundColor = ConsoleColor.White;
+                                if (Console.BackgroundColor != ConsoleColor.Black) Console.BackgroundColor = ConsoleColor.Black;
+                                if (Console.ForegroundColor != ConsoleColor.White) Console.ForegroundColor = ConsoleColor.White;
                                 break;
                         }
                     }
@@ -344,6 +348,7 @@ namespace ConsoleTest
                 }
                 if (lIndex < height - 1) Console.WriteLine();
             }
+            flushDone.Set();
         }
 
         public static void TurnBack()

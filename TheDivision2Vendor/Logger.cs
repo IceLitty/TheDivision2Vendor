@@ -13,9 +13,12 @@ namespace TheDivision2Vendor
         {
             return await Task.Run(() =>
             {
-                var a = new Log();
-                while(!logs.TryDequeue(out a)) { Thread.SpinWait(1); }
-                return a;
+                while (true)
+                {
+                    var a = new Log();
+                    SpinWait.SpinUntil(() => logs.TryDequeue(out a), 1);
+                    return a;
+                }
             });
         }
 
@@ -48,7 +51,9 @@ namespace TheDivision2Vendor
 
         public override string ToString()
         {
-            return e == null ? String.Format("{0} [{1}] {2}", dt.ToString("MM/dd/H:mm"), type.ToString(), msg) : String.Format("{0} [{1}] {2}\n{3}", dt.ToString("MM/dd/H:mm"), type.ToString(), msg, e.StackTrace);
+            return e == null ?
+                String.Format("{0} [{1}] {2}", dt.ToString("MM/dd/H:mm:ss"), type.ToString(), msg) :
+                String.Format("{0} [{1}] {2}\n{3}", dt.ToString("MM/dd/H:mm:ss"), type.ToString(), msg, e.StackTrace);
         }
     }
 

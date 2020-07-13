@@ -11,6 +11,8 @@ namespace TheDivision2Vendor
         public static string updateStr = null;
         public static string pageStr = null;
         public static int theBestErrorCount = 0;
+        public static bool serverMaintance = false;
+        public static bool serverProblem = false;
 
         public static void Init()
         {
@@ -25,13 +27,25 @@ namespace TheDivision2Vendor
                     Span = DateTemp - TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "China Standard Time");
                 }
                 Logger.Put(LogPopType.Title, LogType.Info,
-                    (string.IsNullOrWhiteSpace(updateStr) ? "" : updateStr + " ") +
-                    (string.IsNullOrWhiteSpace(pageStr) ? "" : "[" + pageStr + "] ") +
-                    (theBestErrorCount <= 0 ? "" : "[筛选时出现" + theBestErrorCount + "个错误] ") + 
+                    (string.IsNullOrWhiteSpace(updateStr) ? "" : $"{updateStr} ") +
+                    (string.IsNullOrWhiteSpace(pageStr) ? "" : $"[{pageStr}] ") +
+                    (serverMaintance ? "[服务器维护中]" : (serverProblem ? "[服务器异常]" : "")) +
+                    (theBestErrorCount <= 0 ? "" : $"[筛选时出现{theBestErrorCount}个错误] ") +
                     "距离下次商人更新还差【" + Span.ToString(@"dd\d\:hh\h\:mm\m\:ss\s") + "】" +
                     "    " + GetNextCassie()
                 );
             }, null, TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(1));
+            if (bool.Parse(Config.GetValueConf("checkServerStatus").ToString()))
+            {
+                new Thread(() =>
+                {
+                    while (true)
+                    {
+                        _ = ServerStatus.GetStatus();
+                        Thread.Sleep(TimeSpan.FromSeconds(60));
+                    }
+                }).Start();
+            }
         }
 
         public static string GetNextCassie()

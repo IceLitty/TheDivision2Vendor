@@ -6,7 +6,7 @@
     <ApplicationIcon>thedivision2.ico</ApplicationIcon>
     <AssemblyName>D2Vendor</AssemblyName>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>1.13</Version>
+    <Version>1.14</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -11,7 +11,7 @@ namespace TheDivision2Vendor
         public static readonly string ConfigDir = Path.Combine(AppContext.BaseDirectory, "config");
         public static readonly string Configs = Path.Combine(AppContext.BaseDirectory, "config/Config.json");
         private static JObject Conf;
-        private static readonly string _defaultConf = "{\"checkUpdate\": true, \"bestFilterThreshold\":0.95, \"barLength\": 1}";
+        private static readonly string _defaultConf = "{\"checkUpdate\": true, \"checkServerStatus\": true, \"bestFilterThreshold\":0.95, \"barLength\": 1}";
         public static readonly string Log = Path.Combine(AppContext.BaseDirectory, "config/Log.log");
         public static readonly string D2Dir = Path.Combine(AppContext.BaseDirectory, "resource");
         public static readonly List<ConfigD2> D2Dirs = new List<ConfigD2>();
@@ -95,7 +95,7 @@ namespace TheDivision2Vendor
                     Weapon = Path.Combine(directoryInfo, "weapons.json"),
                     Mod = Path.Combine(directoryInfo, "mods.json"),
                 };
-                c.Vaild();
+                //c.Vaild();
                 D2Dirs.Insert(0, c);
             }
         }
@@ -103,20 +103,40 @@ namespace TheDivision2Vendor
 
     public class ConfigD2
     {
+        public bool isVaild { get; set; } = false;
         public string Path { get; set; }
         public string Gear { get; set; }
         public string Weapon { get; set; }
         public string Mod { get; set; }
         public List<D2Empty> d2Best { get; set; } = new List<D2Empty>();
-        public List<D2Gear> d2Gears { get; set; } = new List<D2Gear>();
-        public List<D2Weapon> d2Weapons { get; set; } = new List<D2Weapon>();
-        public List<D2Mod> d2Mods { get; set; } = new List<D2Mod>();
+        public List<D2Gear> d2Gears
+        {
+            get { if (isVaild) return d2Gears_shadow; else { Vaild(); return d2Gears_shadow; }}
+            set { d2Gears_shadow = value; }
+        }
+        private List<D2Gear> d2Gears_shadow = new List<D2Gear>();
+        public List<D2Weapon> d2Weapons
+        {
+            get { if (isVaild) return d2Weapons_shadow; else { Vaild(); return d2Weapons_shadow; }}
+            set { d2Weapons_shadow = value; }
+        }
+        private List<D2Weapon> d2Weapons_shadow = new List<D2Weapon>();
+        public List<D2Mod> d2Mods
+        {
+            get { if (isVaild) return d2Mods_shadow; else { Vaild(); return d2Mods_shadow; }}
+            set { d2Mods_shadow = value; }
+        }
+        private List<D2Mod> d2Mods_shadow = new List<D2Mod>();
 
         public void Vaild()
         {
-            try { d2Gears = JsonConvert.DeserializeObject<List<D2Gear>>(File.ReadAllText(Gear)); } catch (Exception) { }
-            try { d2Weapons = JsonConvert.DeserializeObject<List<D2Weapon>>(File.ReadAllText(Weapon)); } catch (Exception) { }
-            try { d2Mods = JsonConvert.DeserializeObject<List<D2Mod>>(File.ReadAllText(Mod)); } catch (Exception) { }
+            if (!isVaild)
+            {
+                isVaild = true;
+                try { d2Gears = JsonConvert.DeserializeObject<List<D2Gear>>(File.ReadAllText(Gear)); } catch (Exception) { }
+                try { d2Weapons = JsonConvert.DeserializeObject<List<D2Weapon>>(File.ReadAllText(Weapon)); } catch (Exception) { }
+                try { d2Mods = JsonConvert.DeserializeObject<List<D2Mod>>(File.ReadAllText(Mod)); } catch (Exception) { }
+            }
         }
     }
 }

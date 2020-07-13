@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TheDivision2Vendor;
@@ -145,30 +146,35 @@ namespace ConsoleTest
             {
                 while (true)
                 {
-                    try
+                    SpinWait.SpinUntil(() =>
                     {
                         Log l = Logger.Take().GetAwaiter().GetResult();
-                        switch (l.popup)
+                        if (l == null)
+                            return false;
+                        else
                         {
-                            case LogPopType.Title:
-                                Console.Title = l.msg;
-                                break;
-                            case LogPopType.File:
-                                string msg = l.ToString().Replace("\r", "").Replace("\n", "").Replace("\t", "");
-                                File.AppendAllLinesAsync(Config.Log, new List<string>() { msg }, Encoding.UTF8);
-                                break;
-                            case LogPopType.Popup:
-                                if (l.e == null) MessageBox.Show(l.msg, "...", MessageBoxButtons.OK);
-                                else MessageBox.Show(l.msg + "\r\n" + l.e.StackTrace, "?!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                break;
+                            switch (l.popup)
+                            {
+                                case LogPopType.Title:
+                                    Console.Title = l.msg;
+                                    break;
+                                case LogPopType.File:
+                                    string msg = l.ToString().Replace("\r", "").Replace("\n", "").Replace("\t", "");
+                                    File.AppendAllLinesAsync(Config.Log, new List<string>() { msg }, Encoding.UTF8);
+                                    break;
+                                case LogPopType.Popup:
+                                    if (l.e == null) MessageBox.Show(l.msg, "...", MessageBoxButtons.OK);
+                                    else MessageBox.Show(l.msg + "\r\n" + l.e.StackTrace, "?!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    break;
+                            }
+                            return true;
                         }
-                    }
-                    catch (Exception) { }
+                    }, 1);
                 }
             });
         }
 
-        public static string FileHint()
+        public static string FileHint(bool updateHint = false)
         {
             if (Config.D2Dirs.Count == 0) return "本地未找到任何资源文件，请联网获取。";
             if (Controller.nowFileIndex < 0 || Config.D2Dirs.Count < Controller.nowFileIndex) return "文件读取下标错误：" + Controller.nowFileIndex;
@@ -180,7 +186,8 @@ namespace ConsoleTest
             string[] day = new string[] { "周日", "周一", "周二", "周三", "周四", "周五", "周六" };
             string week = day[Convert.ToInt32(dt.DayOfWeek.ToString("d"))].ToString();
             int weekYear = Util.GetWeekOfYear(dt);
-            var text = dt.ToString("MM月dd日") + " " + week + " 第" + weekYear + "周" + (weekYear == Util.GetWeekOfYear() ? "" : " (该更新了)");
+            var updatehhhhh = weekYear == Util.GetWeekOfYear() ? "" : " (该更新了)";
+            var text = dt.ToString("MM月dd日") + " " + week + " 第" + weekYear + "周" + (updateHint ? updatehhhhh : string.Empty);
             return text;
         }
 
@@ -199,7 +206,7 @@ namespace ConsoleTest
             Controller.lockLeftRightWhenHistoryEntry = false;
             Controller.contents.Clear();
             Controller.contents.Add(new Content() { action = Controller.ShowBest, lines = new List<List<string>>() { new List<string>() { "", "推荐装备", "现算法不考虑天赋/具名/套装影响，装备额外考虑词条颜色统一", "半数以上词条优质(>=95%)则进入推荐，可配置文件自行更改", "" } } });
-            Controller.contents.Add(new Content() { action = Controller.UpdateResources, lines = new List<List<string>>() { new List<string>() { "", "更新数据源（数据源可能会有延期情况）", "最后资源日期：" + FileHint(), "数据源是人工输入，故会出现录入错误，请谅解。" } } });
+            Controller.contents.Add(new Content() { action = Controller.UpdateResources, lines = new List<List<string>>() { new List<string>() { "", "更新数据源（数据源可能会有延期情况）", "最后资源日期：" + FileHint(true), "数据源是人工输入，故会出现录入错误，请谅解。" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowGears, lines = new List<List<string>>() { new List<string>() { "", "查看防具", "" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowWeapons, lines = new List<List<string>>() { new List<string>() { "", "查看武器", "" } } });
             Controller.contents.Add(new Content() { action = Controller.ShowMods, lines = new List<List<string>>() { new List<string>() { "", "查看模组（秒/米单位不显示）", "" } } });
