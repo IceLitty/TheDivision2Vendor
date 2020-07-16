@@ -11,7 +11,8 @@ namespace TheDivision2Vendor
         public static readonly string ConfigDir = Path.Combine(AppContext.BaseDirectory, "config");
         public static readonly string Configs = Path.Combine(AppContext.BaseDirectory, "config/Config.json");
         private static JObject Conf;
-        private static readonly string _defaultConf = "{\"checkUpdate\": true, \"checkServerStatus\": true, \"bestFilterThreshold\":0.95, \"barLength\": 1}";
+        private static readonly string _defaultConf = "{\"checkUpdate\": true, \"checkServerStatus\": true, \"bestFilterThreshold\":0.95, \"bestFilterUpToMax\":-1, \"bestFilterUpToMaxPercent\":1, \"barLength\": 1, \"ignoreSetsMainAttrIsUtility\":true}";
+        private static readonly JObject _defaultConfObj = (JObject)JsonConvert.DeserializeObject(_defaultConf);
         public static readonly string Log = Path.Combine(AppContext.BaseDirectory, "config/Log.log");
         public static readonly string D2Dir = Path.Combine(AppContext.BaseDirectory, "resource");
         public static readonly List<ConfigD2> D2Dirs = new List<ConfigD2>();
@@ -46,20 +47,16 @@ namespace TheDivision2Vendor
             FlushD2Dir();
         }
 
-        public static object GetValueConf(string key)
+        public static string GetValueConf(string key)
         {
             var r = Conf[key];
             if (r == null)
             {
-                File.Delete(Configs);
-                Conf = JObject.Parse(_defaultConf);
-                using (var sw = File.CreateText(Configs))
-                {
-                    sw.WriteLine(JsonConvert.SerializeObject(Conf, Formatting.Indented));
-                }
+                Conf[key] = _defaultConfObj[key];
+                File.WriteAllText(Configs, JsonConvert.SerializeObject(Conf, Formatting.Indented));
                 return GetValueConf(key);
             }
-            return r;
+            return r.ToString();
         }
 
         public static string GetThisSaturdayGear()

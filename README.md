@@ -30,9 +30,23 @@
 ![最佳筛选功能](https://user-images.githubusercontent.com/6522057/85621302-a69f5c00-b697-11ea-9b68-0d5d389bfd52.png)
 ![第三方命令行兼容](https://user-images.githubusercontent.com/6522057/85621297-a4d59880-b697-11ea-993e-70764ff8a7f0.png)
 
+## 设置文件：
+
+key | 功用 | 默认值 | 可选值
+---|---|---|---
+`checkUpdate` | 软件是否自检查更新 | `true` | `true/false`
+`checkServerStatus` | 每分钟是否刷新监测游戏服务器状态 | `true` | `true/false`
+`barLength` | 数值条方块字符长度 | `1` | 任意数值，建议范围`1`~`2`
+`bestFilterThreshold` | 最佳属性装备筛选最低百分比条件 | `0.95` | 任意数值，可选范围`0`~`1`
+`bestFilterUpToMax` | 筛选备选条件，当数值距上限低于此数则判断通过 | `-1` | 任意数值，负数关闭此功能
+`bestFilterUpToMaxPercent` | 筛选备选条件，当数值(百分比)距上限低于此数则判断通过 | `1` | 任意数值，负数关闭此功能
+`ignoreSetsMainAttrIsUtility` | 是否忽略装备组主属性为电时的推荐 | `true` | `true/false`
+
 ## Todo List：
 
 - [ ] 长期：引入所有的装备组特殊天赋名称和汉化。
+
+- [ ] 寻找新的TU10模组上限数值，现数值已发现多处不匹配。
 
 ## 目前已知bug：
 

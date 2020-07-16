@@ -35,7 +35,7 @@ namespace TheDivision2Vendor
                     "    " + GetNextCassie()
                 );
             }, null, TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(1));
-            if (bool.Parse(Config.GetValueConf("checkServerStatus").ToString()))
+            if (bool.Parse(Config.GetValueConf("checkServerStatus")))
             {
                 new Thread(() =>
                 {

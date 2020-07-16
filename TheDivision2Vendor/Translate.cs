@@ -160,6 +160,18 @@ namespace TheDivision2Vendor
             }
         }
 
+        public static string WeaponAttrToType(List<Attribute> mainAttr)
+        {
+            foreach (var attr in mainAttr)
+            {
+                if (attr.desc.EndsWith("伤害"))
+                {
+                    return attr.desc.Substring(0, attr.desc.Length - 2);
+                }
+            }
+            return null;
+        }
+
         public static List<Attribute> AttrValAndText(string en, string en2 = null, string en3 = null)
         {
             var isGear = en2 == null && en3 == null;
@@ -542,7 +554,8 @@ namespace TheDivision2Vendor
                         .Replace("Custom ", "定制 ")
                         .Replace("Lightweight ", "轻型 ")
                         .Replace("Enhanced", "加强版")
-                        .Replace("SOCOM ", "特战 ");
+                        .Replace("SOCOM ", "特战 ")
+                        .Replace(" Magnum", " 麦格农");
                 }
             }
             else

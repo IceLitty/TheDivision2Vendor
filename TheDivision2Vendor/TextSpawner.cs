@@ -100,7 +100,7 @@ namespace TheDivision2Vendor
                     var checkValError = attr.val > (attr.valMax * 1.67) ? " §y数值异常？§w" : "";
                     tmp.Add(str + attr.val + (attr.type == AttributeType.Percent ? "%" : "") + " " + attr.desc + "§w / " +
                         valMax + (attr.type == AttributeType.Percent ? "%" : "") + checkValError);
-                    var bl = int.Parse(Config.GetValueConf("barLength").ToString());
+                    var bl = int.Parse(Config.GetValueConf("barLength"));
                     var percent = (int)Math.Floor(attr.val / attr.valMax * (barLength - 1)) / bl;
                     var percent2 = (int)Math.Floor(((barLength - 1) - (double)percent * bl) / bl);
                     if (percent2 < 0)
@@ -188,10 +188,11 @@ namespace TheDivision2Vendor
                 var l = new List<string>();
                 var name = Translate.Name(weapon.name, true);
                 var attribute = Translate.AttrValAndText(weapon.attribute1, weapon.attribute2, weapon.attribute3);
+                var type = Translate.WeaponAttrToType(attribute);
                 var talent = Translate.Talents(weapon.talent);
                 l.Add(stdoutIndexStr + ". " + name);
                 //l.Add("伤害：" + weapon.dmg + " 射速：" + weapon.rpm + " 弹夹：" + weapon.mag);
-                l.Add("");
+                l.Add(string.IsNullOrWhiteSpace(type) ? "" : $"[{type}]");
                 var attrstr = string.Empty;
                 var attrstrmain = new List<string>();
                 var attrstroff = new List<string>();
@@ -261,7 +262,7 @@ namespace TheDivision2Vendor
                     var checkValError = attr.val > (attr.valMax * 1.67) ? " §y数值异常？§w" : "";
                     tmp.Add(str + attr.val + (attr.type == AttributeType.Percent ? "%" : "") + " " + attr.desc + "§w / " +
                         valMax + (attr.type == AttributeType.Percent ? "%" : "") + checkValError);
-                    var bl = int.Parse(Config.GetValueConf("barLength").ToString());
+                    var bl = int.Parse(Config.GetValueConf("barLength"));
                     var percent = (int)Math.Floor(attr.val / attr.valMax * (barLength - 1)) / bl;
                     var percent2 = (int)Math.Floor(((barLength - 1) - (double)percent * bl) / bl);
                     if (percent2 < 0)
@@ -389,7 +390,7 @@ namespace TheDivision2Vendor
                             valMax + (attr.type == AttributeType.Percent ? "%" : ""));
                         p = attr.val / attr.valMax;
                     }
-                    var bl = int.Parse(Config.GetValueConf("barLength").ToString());
+                    var bl = int.Parse(Config.GetValueConf("barLength"));
                     var percent = (int)Math.Floor(p * (barLength - 1)) / bl;
                     var percent2 = (int)Math.Floor(((barLength - 1) - (double)percent * bl) / bl);
                     if (percent2 < 0)

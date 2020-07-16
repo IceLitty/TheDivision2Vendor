@@ -60,7 +60,7 @@ namespace ConsoleTest
                                 {
                                     int l = Encoding.UTF8.GetBytes(c.ToString()).Length;
                                     if (l > 1) l -= 1;
-                                    if (c == '█' || c == '▁') l = int.Parse(Config.GetValueConf("barLength").ToString());
+                                    if (c == '█' || c == '▁') l = int.Parse(Config.GetValueConf("barLength"));
                                     length += l;
                                 }
                             }

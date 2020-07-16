@@ -62,7 +62,7 @@ namespace TheDivision2Vendor
             {
                 try
                 {
-                if (bool.Parse(Config.GetValueConf("checkUpdate").ToString()))
+                if (bool.Parse(Config.GetValueConf("checkUpdate")))
                     {
                         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                         var hct = new HttpClient();

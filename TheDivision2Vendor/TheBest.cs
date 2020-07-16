@@ -7,7 +7,9 @@ namespace TheDivision2Vendor
     {
         public static List<D2Empty> GetBestTU10(List<D2Gear> gears = null, List<D2Weapon> weapons = null, List<D2Mod> mods = null)
         {
-            var nowThreshold = float.Parse(Config.GetValueConf("bestFilterThreshold").ToString());
+            var nowThreshold = float.Parse(Config.GetValueConf("bestFilterThreshold"));
+            var nowThresholdVal = float.Parse(Config.GetValueConf("bestFilterUpToMax"));
+            var nowThresholdValPercent = float.Parse(Config.GetValueConf("bestFilterUpToMaxPercent"));
             var list = new List<D2Empty>();
             if (gears == null) gears = new List<D2Gear>();
             if (weapons == null) weapons = new List<D2Weapon>();
@@ -20,6 +22,13 @@ namespace TheDivision2Vendor
                     var coreStr = string.Empty;
                     if (o.core != null && !string.IsNullOrEmpty(o.core)) coreStr = o.core + "<br/>";
                     var attr = FilterAttribute(Translate.AttrValAndText(coreStr + o.attributes));
+                    if (bool.Parse(Config.GetValueConf("ignoreSetsMainAttrIsUtility")))
+                    {
+                        if (attr.Count > 0 && attr.Count < 3 && attr[0].isMainAttr && attr[0].valType == AttrValType.Utility && attr[0].valMax == 1)
+                        {
+                            continue;
+                        }
+                    }
                     int counter = 0;
                     var colorList = new List<AttrValType>();
                     foreach (var an in attr)
@@ -28,6 +37,26 @@ namespace TheDivision2Vendor
                         {
                             counter++;
                             colorList.Add(an.valType);
+                        }
+                        else
+                        {
+                            var c = an.valMax - an.val;
+                            if (an.type == AttributeType.Direct)
+                            {
+                                if (nowThresholdVal >= 0 && c <= nowThresholdVal)
+                                {
+                                    counter++;
+                                    colorList.Add(an.valType);
+                                }
+                            }
+                            else
+                            {
+                                if (nowThresholdValPercent >= 0 && c <= nowThresholdValPercent)
+                                {
+                                    counter++;
+                                    colorList.Add(an.valType);
+                                }
+                            }
                         }
                     }
                     if (counter >= attr.Count - 1)
@@ -88,6 +117,24 @@ namespace TheDivision2Vendor
                         {
                             counter++;
                         }
+                        else
+                        {
+                            var c = an.valMax - an.val;
+                            if (an.type == AttributeType.Direct)
+                            {
+                                if (nowThresholdVal >= 0 && c <= nowThresholdVal)
+                                {
+                                    counter++;
+                                }
+                            }
+                            else
+                            {
+                                if (nowThresholdValPercent >= 0 && c <= nowThresholdValPercent)
+                                {
+                                    counter++;
+                                }
+                            }
+                        }
                     }
                     if (counter >= attr.Count - 1)
                     {
@@ -112,6 +159,24 @@ namespace TheDivision2Vendor
                         if (an.val >= an.valMax * nowThreshold)
                         {
                             counter++;
+                        }
+                        else
+                        {
+                            var c = an.valMax - an.val;
+                            if (an.type == AttributeType.Direct)
+                            {
+                                if (nowThresholdVal >= 0 && c <= nowThresholdVal)
+                                {
+                                    counter++;
+                                }
+                            }
+                            else
+                            {
+                                if (nowThresholdValPercent >= 0 && c <= nowThresholdValPercent)
+                                {
+                                    counter++;
+                                }
+                            }
                         }
                     }
                     if (counter == attr.Count)
