@@ -28,7 +28,7 @@ namespace TheDivision2Vendor
                 }
                 catch (Exception e)
                 {
-                    Logger.Put(LogPopType.Popup, LogType.Warn, "从数据源获取装备信息失败", e);
+                    Logger.Put(LogPopType.Popup, LogType.Warn, "从数据源获取装备信息失败。", e);
                     failed = true;
                 }
                 if (failed) return false;
@@ -43,7 +43,7 @@ namespace TheDivision2Vendor
                 }
                 catch (Exception e)
                 {
-                    Logger.Put(LogPopType.Popup, LogType.Warn, "保存数据源信息失败", e);
+                    Logger.Put(LogPopType.Popup, LogType.Warn, "保存数据源信息失败。", e);
                     failed = true;
                     return false;
                 }
@@ -77,6 +77,63 @@ namespace TheDivision2Vendor
                     return null;
                 }
                 return "false";
+            });
+        }
+
+        public static async Task<bool> DownloadTransJson(string path)
+        {
+            Logger.Put(LogPopType.Title, LogType.Info, "正在更新翻译文件……");
+            return await Task.Run(async () =>
+            {
+                var json = string.Empty;
+                bool failed = false;
+                try
+                {
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                    var hct = new HttpClient();
+                    json = await hct.GetStringAsync("https://raw.githubusercontent.com/IceLitty/TheDivision2Vendor/master/TheDivision2Vendor/Trans.json");
+                }
+                catch (Exception e)
+                {
+                    Logger.Put(LogPopType.Popup, LogType.Warn, "下载翻译文件失败。", e);
+                    failed = true;
+                }
+                if (failed) return false;
+                try
+                {
+                    var j = (JObject) JsonConvert.DeserializeObject(json);
+                    try
+                    {
+                        if (File.Exists(path))
+                        {
+                            var oj = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(path));
+                            if (int.Parse(oj["version"].ToString()) > int.Parse(j["version"].ToString()))
+                                goto place;
+                        }
+                        else
+                            goto place;
+                    }
+                    catch (Exception)
+                    {
+                        goto place;
+                    }
+                    goto ctn;
+                    place:
+                    File.WriteAllText(path, JsonConvert.SerializeObject(j, Formatting.Indented));
+                }
+                catch (Exception e)
+                {
+                    Logger.Put(LogPopType.Popup, LogType.Warn, "保存翻译文件失败。", e);
+                    failed = true;
+                    return false;
+                }
+                if (!failed)
+                {
+                    Config.FlushD2Dir();
+                    Logger.Put(LogPopType.Title, LogType.Info, "下载并保存翻译文件成功，请再次点击刚才功能。");
+                }
+                ctn:
+                return true;
             });
         }
     }

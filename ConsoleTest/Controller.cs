@@ -739,6 +739,10 @@ namespace ConsoleTest
                 var b = Translate.trans["talents"][bb.Name].ToString();
                 switch (b)
                 {
+                    case "__具名武器天赋":
+                        nowColor = Color.Default;
+                        nowType = b.Substring(2);
+                        break;
                     case "__通用武器天赋":
                         nowColor = Color.Purple;
                         nowType = b.Substring(2);

@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace TheDivision2Vendor
 {
@@ -11,7 +12,7 @@ namespace TheDivision2Vendor
         public static readonly string ConfigDir = Path.Combine(AppContext.BaseDirectory, "config");
         public static readonly string Configs = Path.Combine(AppContext.BaseDirectory, "config/Config.json");
         private static JObject Conf;
-        private static readonly string _defaultConf = "{\"checkUpdate\": true, \"checkServerStatus\": true, \"bestFilterThreshold\":0.95, \"bestFilterUpToMax\":-1, \"bestFilterUpToMaxPercent\":1, \"barLength\": 1, \"ignoreSetsMainAttrIsUtility\":true}";
+        private static readonly string _defaultConf = "{\"checkUpdate\": true, \"checkServerStatus\": true, \"checkTransUpdateDates\": 1, \"bestFilterThreshold\":0.95, \"bestFilterUpToMax\":-1, \"bestFilterUpToMaxPercent\":0.9, \"barLength\": 1, \"ignoreSetsMainAttrIsUtility\":true}";
         private static readonly JObject _defaultConfObj = (JObject)JsonConvert.DeserializeObject(_defaultConf);
         public static readonly string Log = Path.Combine(AppContext.BaseDirectory, "config/Log.log");
         public static readonly string D2Dir = Path.Combine(AppContext.BaseDirectory, "resource");
@@ -20,6 +21,7 @@ namespace TheDivision2Vendor
         public static readonly List<string> D2TalentsFrom = new List<string>();
         public static readonly List<string> D2Brands = new List<string>();
         public static readonly List<string> D2BrandsColor = new List<string>();
+        private static readonly string TranslatePath = Path.Combine(AppContext.BaseDirectory, "config/Translate.json");
 
         static Config()
         {
@@ -95,6 +97,34 @@ namespace TheDivision2Vendor
                 //c.Vaild();
                 D2Dirs.Insert(0, c);
             }
+        }
+
+        public static string GetTransJsonPath()
+        {
+            var dates = 1;
+            try
+            {
+                dates = int.Parse(GetValueConf("checkTransUpdateDates"));
+            }
+            catch (Exception) { }
+            if (!File.Exists(TranslatePath))
+            {
+                var transJsonRes = typeof(TitleFunc).Assembly.GetManifestResourceStream("TheDivision2Vendor.Trans.json");
+                var transJson = string.Empty;
+                using (var sr = new StreamReader(transJsonRes, Encoding.UTF8)) transJson = sr.ReadToEndAsync().GetAwaiter().GetResult();
+                var j = (JObject)JsonConvert.DeserializeObject(transJson);
+                File.WriteAllText(TranslatePath, JsonConvert.SerializeObject(j, Formatting.Indented));
+            }
+            else
+            {
+                if (dates < 0)
+                    return TranslatePath;
+                else if (DateTime.Today - File.GetLastWriteTime(TranslatePath).Date >= TimeSpan.FromDays(dates))
+                {
+                    DownloadResource.DownloadTransJson(TranslatePath).GetAwaiter().GetResult();
+                }
+            }
+            return TranslatePath;
         }
     }
 

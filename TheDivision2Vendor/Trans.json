@@ -1,4 +1,5 @@
 ﻿{
+    "version": 20200725,
     "colorsReadOnly": {
         "§p": "Purple",
         "§o": "Orange",
@@ -75,7 +76,7 @@
         "Foundry Bulwark": "铸造厂堡垒",
         "Foundry Bullwark": "铸造厂堡垒",
         "Future Initiative": "未来主动权",
-        "Eclipse Protocol": "日蚀协定",
+        "Eclipse Protocol": "日蚀协定"
     },
     "brandDesc": {
         "5.11 Tactical": "+10% 生命值\n+20% 修复降临\n+10% 危害防护\n核心属性：装甲",
@@ -109,13 +110,14 @@
         "系统毁损": "2件：+15% 击杀时装甲值\n3件：+40% 干扰抗性 +40% 脉冲抗性\n4件：骇步协定\n以一个可以瞬间使用无限次数的技能替换装甲包。\n技能效果为获得50%加成装甲并隐藏名条，\n并修复20%装甲。\n每获得5%加成装甲武器伤+1%，最高20。\n持续5秒，冷却20秒。",
         "铸造厂堡垒": "2件：+10% 总装甲值\n3件：+3% 装甲回复\n4件：临场修复\n你或护盾受伤时，15秒内回复伤害量的20%。",
         "未来主动权": "2件：+30% 技能修复\n3件：+30% 技能持续时间 +15% 技能加速\n4件：地面控制\n装甲全满时，你和友军+15%总武器伤/技能伤。\n为友军修复时，\n你和5米内友军同时获得60%恢复效果。",
-        "日蚀协定": "2件：+15% 状态效果\n3件：+15% 技能加速 +30% 危害防护\n4件：间接传播\n状态效果会在击杀时扩散15米内敌方。\n并重置50%的持续时间。",
+        "日蚀协定": "2件：+15% 状态效果\n3件：+15% 技能加速 +30% 危害防护\n4件：间接传播\n状态效果会在击杀时扩散15米内敌方。\n并重置50%的持续时间。"
     },
     "talents": {
-        "__通用武器天赋": "__通用武器天赋",
+        "__具名武器天赋": "__具名武器天赋",
         "Optimized": "最佳化",
         "Allegro": "快板",
         "Jazz Hands": "爵士手",
+        "__通用武器天赋": "__通用武器天赋",
         "Breadbasket": "面包篮",
         "Killer": "杀手",
         "Preservation": "维护保存",
@@ -187,7 +189,7 @@
         "Tamper Proof": "防止窜改",
         "Efficient": "效率第一",
         "Entrench": "巩固",
-        "猎头者": "猎头者",
+        "Headhunter": "猎头者",
         "__背包天赋": "__背包天赋",
         "Combined Arms": "联合武装",
         "Energize": "充能",
@@ -237,13 +239,14 @@
         "先锋部队1": "？？？？",
         "Proliferation": "大幅扩散",
         "铸造厂堡垒1": "改良材料",
-        "未来主动权1": "战术优势",
+        "未来主动权1": "战术优势"
     },
     "talentsDescription": {
-        "__通用武器天赋": "",
+        "__具名武器天赋": "",
         "最佳化": "+??(▲§o30§w)%武器控制力",
         "快板": "+??(▲§o12§w)%射速",
         "爵士手": "+??(▲§o30§w)%装弹速度",
+        "__通用武器天赋": "",
         "面包篮": "击中身体+35(▲§o50§w)%爆头伤\n持续10秒\n最多3(▲§o2§w)次",
         "杀手": "爆击击杀+40%爆击伤\n持续10秒",
         "维护保存": "击杀后5秒回复10%装甲\n爆头击杀再提高10%回复效果",
@@ -254,8 +257,8 @@
         "虐待狂": "对出血敌人造成+20%武器伤\n击杀4名后可对下一个击中的造成出血效果",
         "报复之心": "击杀受状态效果影响会赋予\n你和周围15米内友军15%爆击率、爆击伤\n持续20秒",
         "游骑兵": "与目标每5米增加2%武器伤",
-        "双手沉稳": "命中叠加1%准确度、稳定度\n叠加100次时可消耗叠加数补充弹匣",
-        "刺击": "爆头+20%技能伤\n持续15秒",
+        "双手沉稳": "命中叠加1%准确度、稳定度\n叠加100(▲§o75§w)次时可消耗叠加数补充弹匣",
+        "刺击": "爆头+20(▲§o25§w)%技能伤\n持续15秒",
         "失明": "对致盲敌人造成+20(▲§o25§w)%武器伤\n击杀4名后可对下一个击中的造成致盲效果",
         "点燃": "对着火敌人造成+20(▲§o25§w)%武器伤\n击杀4(▲§o3§w)名后可对下一个击中的造成着火效果",
         "长存": "爆头+50%状态效果伤和\n下次使用状态效果的持续时间\n冷却20秒",
@@ -357,7 +360,7 @@
         "没有极限": "\nA8两对\n将亡者手牌伤害加成从30%增加到50%",
         "大幅扩散": "\n日蚀协定\n间接传播范围从15米增加到20\n重置百分比从50%到75%",
         "改良材料": "\n铸造厂堡垒\n临场修复的回复量从20%增加到30%。",
-        "战术优势": "\n未来主动权\n地面控制的伤害加成从+15%增加到+25%。",
+        "战术优势": "\n未来主动权\n地面控制的伤害加成从+15%增加到+25%。"
     },
     "attributesColorWeapon": {
         "__武器核心属性": "",
@@ -430,7 +433,8 @@
         "技能伤害": "§y",
         "修复技能": "§y",
         "技能加速": "§y",
-        "状态效果": "§y"
+        "状态效果": "§y",
+        "生命值伤害": "§r"
     },
     "attributesValMaxGear": {
         "武器伤害": "15",
@@ -447,7 +451,8 @@
         "技能伤害": "10",
         "修复技能": "20",
         "技能加速": "12",
-        "状态效果": "10"
+        "状态效果": "10",
+        "生命值伤害": "10"
     },
     "attributesMain": {
         "__武器天赋": "__武器天赋",
@@ -491,7 +496,9 @@
         "Repair Skills": "修复技能",
         "Repair-skills": "修复技能",
         "Skill Haste": "技能加速",
-        "Status Effects": "状态效果"
+        "Status Effects": "状态效果",
+        "__特殊天赋": "__特殊天赋",
+        "Damage to Health": "生命值伤害"
     },
     "attributesValMaxMod": {
         "装备模组数据上限来源": "http://bitlilin.com/td2sheet/#&gid=1&pid=7",
@@ -554,7 +561,7 @@
             ".伤害": "4.6=0.82997；",
             "电击范围": "7.5",
             ".电击范围": "7.1=0.9279；6.9=0.87896；4.7=0.437；",
-            "": "",
+            ".": ""
         },
         "诱饵": {
             "持续时间": "7.5",
@@ -634,7 +641,7 @@
             "伤害加成（每个敌人）": "5",
             "偏离器伤害": "5",
             "启动回复": "5"
-        },
+        }
     },
     "attributesMod": {
         "__装备词条": "装备词条",
@@ -655,6 +662,7 @@
         "Deflect Duration": "§c伤害减免",
         "Damage": "§r伤害",
         "Blast Radius": "§r爆炸范围",
+        "Repair Skills": "§y修复技能",
         "Repair-skills": "§y修复技能",
         "Duration": "§y持续时间",
         "Headshot Damage": "§r爆头伤害",
@@ -674,7 +682,6 @@
         "Protection from Elites": "§c对精英的防御",
         "Blind Effect Duration": "§y致盲效果持续时间",
         "Incoming Repairs": "§c修复降临",
-        "Stinger Charges": "§y刺针蜂窝使用次数",
         "Max Targets": "§y最大目标数",
         "Shock Resistance": "§c电击抗性",
         "Ensnare Health": "§c诱捕生命值",
@@ -687,7 +694,6 @@
         "Damage Bonus Per Enemy": "§r伤害加成（每个敌人）",
         "Shock Radius": "§y电击范围",
         "Damage Reduction": "§c伤害减免",
-        "Repair Charges": "§y修复蜂窝使用次数",
         "Trap Duration": "§y持续时间",
         "Ammo": "§r弹药",
         "Speed": "§y速度",
@@ -702,9 +708,11 @@
         "Active Regeneration": "§c启动回复",
         "Burn Strenght": "§y燃烧持续时间",
         "Effect Duration": "§y效果持续时间",
+        "Stinger Charges": "§y刺针蜂窝使用次数",
+        "Repair Charges": "§y修复蜂窝使用次数",
+        "Stim Charges": "§y兴奋蜂窝使用次数",
         "???!!!!!!!!!!!!!!!!!!!": "以下未验证汉化是否准确",
         "1Shield Health": "护盾血量",
-        "1Stim Charges": "Stim Charges",
         "asdasd1": "",
         "asdasd2": "",
         "asdasd3": "",
@@ -713,6 +721,7 @@
         "asdasd6": "",
         "asdasd7": "",
         "asdasd8": "",
+        ".": ""
     },
     "slot": {
         "Mask": "面具",
@@ -796,6 +805,7 @@
         "Trauma Analyzer": "创伤分析仪",
         "Multi-Tool": "多功能工具",
         "Additional Ordnance": "额外弹药",
+        "authоr": "icyr",
         "Steel Harness": "钢铁背带",
         "Ultra-Thin Cartridges": "极薄弹壳",
         "Ball Bearings": "球状轴承",
@@ -833,6 +843,9 @@
         "Ecotoxicology Research": "生态毒理学研究数据",
         "Network Firewall": "网络防火墙",
         "Cell Penetrating Peptide": "细胞穿透肽",
+        "Freedom Package": "自由包裹",
+        "Polypropylene Recipe": "聚丙烯制作法",
+        "Chromatics Training": "色彩学训练",
         "__装备名称": "",
         "Duban Fitted Hauler": "德班订制收纳包",
         "Crew-Adapted Chest Rig": "团队型胸前装备",
@@ -878,6 +891,7 @@
         "Tenebrous Sidearm Mount": "黑暗随身武器皮套",
         "Maxillam Respirator": "\"腭骨\"呼吸器",
         "Battle Gloves": "战斗手套",
+        "lIcэnsэ": "该文件由IceLitty制作，请勿用作他用",
         "Pridwen Holster": "普立德温枪套",
         "All Hazards Prime Backpack": "All Hazards Prime 背包",
         "Tatami Cuirass": "\"榻榻米\"胸甲",
@@ -956,6 +970,12 @@
         "Ranger Ballistics Vest": "突击兵防弹背心",
         "Javelina Mask": "猪獾面具",
         "Station Grip Gloves": "Station Grip 手套",
+        "Roamer Pack Sow": "漫游者包\"梭尔\"",
+        "X-TREYME Pro Ribcage": "极限专业化胸甲",
+        "Guerilla Backpack": "游击战背包",
+        "Stridssäck Combat Sack": "Stridssack 瑞典战斗背袋",
+        "Vertical Y Holster": "垂直 Y 枪套",
+        "Luktskydd Protective Mask": "Luktskydd 瑞典防护面具",
         "asdasd6": "",
         "asdasd7": "",
         "asdasd8": "",
@@ -1024,6 +1044,7 @@
         "Bounding Kneepads": "跃动护膝",
         "Mirror Gloves": "迎合手套",
         "Anti-Tear Joint Shielding": "防撕裂护膝",
+        "PPE Adapted Thigh Rig": "防护改良腿挂包",
         "__具名装备": "",
         "Strategic Alignment": "战略一致",
         "Contractor's Gloves": "承包商手套",
@@ -1032,6 +1053,10 @@
         "Matador": "斗牛士",
         "Fox's Prayer": "散兵坑祷词",
         "The Sacrifice": "牺牲奉献",
+        "Devil's Due": "魔鬼回报",
+        "Emperor's Guard": "御前护卫",
+        "The Hollow Man": "空心人",
+        "Chain Killer": "连环杀手",
         "__具名武器": "",
         "Safety Distance - MPX": "安全距离 - MPX",
         "Tsunami - Tactical SASG-12 K": "海啸 - 战术 SASG-12 K",
@@ -1045,6 +1070,7 @@
         "The Virginian - 1886": "维吉尼亚州人 - 1886",
         "Artist's Tool - SIG 716 CQB": "艺术家工具 - SIG 716 CQB",
         "Cuélebre – Military M870": "库耶列布希 – 军规 M870",
+        "Tabula Rasa - Military L86 LSW": "白板 - 军规 L86 LSW",
         "Baker's Dozen": "十三一打",
         "New Reliable": "崭新牢靠",
         "Surge": "涌动",
@@ -1075,6 +1101,23 @@
         "KSG Shotgun": "KSG 霰弹枪",
         "Urban MDR": "城镇 MDR",
         "Infantry MG5": "步兵 MG5",
-        "Surplus SVD": "库存 SVD",
+        "Surplus SVD": "库存 SVD"
     },
+    "namesWeapon": [
+        "First Wave|第一波",
+        "Officer's|军官的",
+        "Black Market|黑市",
+        "Military |军规 ",
+        "Tactical |战术 ",
+        " Tactical| 战术",
+        "Classic |经典 ",
+        "Converted |改装 ",
+        "Covert |改装 ",
+        "Police |警用 ",
+        "Custom |定制 ",
+        "Lightweight |轻型 ",
+        "Enhanced|加强版",
+        "SOCOM |特战 ",
+        " Magnum| 麦格农"
+    ]
 }
