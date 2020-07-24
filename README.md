@@ -36,6 +36,7 @@ key | 功用 | 默认值 | 可选值
 ---|---|---|---
 `checkUpdate` | 软件是否自检查更新 | `true` | `true/false`
 `checkServerStatus` | 每分钟是否刷新监测游戏服务器状态 | `true` | `true/false`
+`checkTransUpdateDates` | 翻译文件更新频率，负数为关闭，0为每次都检查，该值表示间隔天数 | `1` | 任意整数
 `barLength` | 数值条方块字符长度 | `1` | 任意数值，建议范围`1`~`2`
 `bestFilterThreshold` | 最佳属性装备筛选最低百分比条件 | `0.95` | 任意数值，可选范围`0`~`1`
 `bestFilterUpToMax` | 筛选备选条件，当数值距上限低于此数则判断通过 | `-1` | 任意数值，负数关闭此功能
