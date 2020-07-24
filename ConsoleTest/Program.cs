@@ -176,7 +176,7 @@ namespace ConsoleTest
 
         public static string FileHint(bool updateHint = false)
         {
-            if (Config.D2Dirs.Count == 0) return "本地未找到任何资源文件，请联网获取。";
+            if (Config.D2Dirs.Count == 0) return "本地未找到任何资源文件，请点击此处获取。";
             if (Controller.nowFileIndex < 0 || Config.D2Dirs.Count < Controller.nowFileIndex) return "文件读取下标错误：" + Controller.nowFileIndex;
             var sp = Config.D2Dirs[Controller.nowFileIndex].Path.Split("\\");
             var t = sp[sp.Length - 1];
