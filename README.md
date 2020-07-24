@@ -3,7 +3,7 @@
 
 下载请点击右侧或此处的 [Release](https://github.com/IceLitty/TheDivision2Vendor/releases) 标签，选择最新版本即可：
 
-- `D2Vendor.zip` 标准软件包版本，仅提供软件本身，通用库请看 [v1.13](https://github.com/IceLitty/TheDivision2Vendor/releases/tag/v1.13) 更新内容。
+- `D2Vendor.zip` 标准软件包版本，仅提供软件本身，关于通用库安装请看 [v1.13](https://github.com/IceLitty/TheDivision2Vendor/releases/tag/v1.13) 更新内容。
 
 - `D2Vendor_Full.zip` 完整打包版本，提供包含运行时环境的所有内容，任何Windows-x86/64系统环境皆可运行。
 
@@ -34,14 +34,14 @@
 
 key | 功用 | 默认值 | 可选值
 ---|---|---|---
-`checkUpdate` | 软件是否自检查更新 | `true` | `true/false`
-`checkServerStatus` | 每分钟是否刷新监测游戏服务器状态 | `true` | `true/false`
+`checkUpdate` | 软件是否自检查更新 | `true` | 布尔值 `true/false`
+`checkServerStatus` | 每分钟是否刷新监测游戏服务器状态 | `true` | 布尔值 `true/false`
 `checkTransUpdateDates` | 翻译文件更新频率，负数为关闭，0为每次都检查，该值表示间隔天数 | `1` | 任意整数
-`barLength` | 数值条方块字符长度 | `1` | 任意数值，建议范围`1`~`2`
+`barLength` | 数值条方块字符长度 | `1` | 任意整数，建议范围`1`~`2`
 `bestFilterThreshold` | 最佳属性装备筛选最低百分比条件 | `0.95` | 任意数值，可选范围`0`~`1`
 `bestFilterUpToMax` | 筛选备选条件，当数值距上限低于此数则判断通过 | `-1` | 任意数值，负数关闭此功能
 `bestFilterUpToMaxPercent` | 筛选备选条件，当数值(百分比)距上限低于此数则判断通过 | `1` | 任意数值，负数关闭此功能
-`ignoreSetsMainAttrIsUtility` | 是否忽略装备组主属性为电时的推荐 | `true` | `true/false`
+`ignoreSetsMainAttrIsUtility` | 是否忽略装备组主属性为电时的推荐 | `true` | 布尔值 `true/false`
 
 ## Todo List：
 
