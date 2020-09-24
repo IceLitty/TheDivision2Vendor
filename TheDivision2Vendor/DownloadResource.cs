@@ -107,7 +107,7 @@ namespace TheDivision2Vendor
                         if (File.Exists(path))
                         {
                             var oj = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(path));
-                            if (int.Parse(oj["version"].ToString()) > int.Parse(j["version"].ToString()))
+                            if (int.Parse(j["version"].ToString()) > int.Parse(oj["version"].ToString()))
                                 goto place;
                         }
                         else

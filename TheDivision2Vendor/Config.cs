@@ -107,15 +107,7 @@ namespace TheDivision2Vendor
                 dates = int.Parse(GetValueConf("checkTransUpdateDates"));
             }
             catch (Exception) { }
-            if (!File.Exists(TranslatePath))
-            {
-                var transJsonRes = typeof(TitleFunc).Assembly.GetManifestResourceStream("TheDivision2Vendor.Trans.json");
-                var transJson = string.Empty;
-                using (var sr = new StreamReader(transJsonRes, Encoding.UTF8)) transJson = sr.ReadToEndAsync().GetAwaiter().GetResult();
-                var j = (JObject)JsonConvert.DeserializeObject(transJson);
-                File.WriteAllText(TranslatePath, JsonConvert.SerializeObject(j, Formatting.Indented));
-            }
-            else
+            if (File.Exists(TranslatePath))
             {
                 if (dates < 0)
                     return TranslatePath;
@@ -123,6 +115,14 @@ namespace TheDivision2Vendor
                 {
                     DownloadResource.DownloadTransJson(TranslatePath).GetAwaiter().GetResult();
                 }
+            }
+            else
+            {
+                var transJsonRes = typeof(TitleFunc).Assembly.GetManifestResourceStream("TheDivision2Vendor.Trans.json");
+                var transJson = string.Empty;
+                using (var sr = new StreamReader(transJsonRes, Encoding.UTF8)) transJson = sr.ReadToEndAsync().GetAwaiter().GetResult();
+                var j = (JObject)JsonConvert.DeserializeObject(transJson);
+                File.WriteAllText(TranslatePath, JsonConvert.SerializeObject(j, Formatting.Indented));
             }
             return TranslatePath;
         }

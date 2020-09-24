@@ -177,7 +177,7 @@ namespace ConsoleTest
                         break;
                     case PageWhat.BrandShower:
                         {
-                            var list = new List<string>() { "" };
+                            var list = new List<string>();
                             var nowColor = Color.Default;
                             var history = new List<string>();
                             foreach (var bb in Translate.trans["brand"].Children<JProperty>())
@@ -217,7 +217,10 @@ namespace ConsoleTest
                                                     ss = "§r" + ss + "§w";
                                                 else
                                                     ss = "§p" + ss + "§w";
-                                                line.Append(TextSpawner.PadRight(ss, 30));
+                                                if (nowColor == Color.Green)
+                                                    line.Append(TextSpawner.PadRight(ss, 40));
+                                                else
+                                                    line.Append(TextSpawner.PadRight(ss, 30));
                                                 break;
                                             default:
                                                 break;

@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace TheDivision2Vendor
 {
@@ -15,6 +14,18 @@ namespace TheDivision2Vendor
         static Translate()
         {
             trans = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(Config.GetTransJsonPath()));
+        }
+
+        public static string Version()
+        {
+            try
+            {
+                return trans["version"].ToString();
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
         }
 
         public static string Type(string en)

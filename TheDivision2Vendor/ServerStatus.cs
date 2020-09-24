@@ -54,7 +54,7 @@ namespace TheDivision2Vendor
                                     nowstr += "PS4: ";
                                     break;
                                 case "xboxone":
-                                    nowstr += "X1: ";
+                                    nowstr += "Xbox: ";
                                     break;
                                 case "stadia":
                                     nowstr += "Stadia: ";
@@ -69,7 +69,7 @@ namespace TheDivision2Vendor
                                 serverMaintance = true;
                                 nowstr += "维护";
                                 nowstr = "§y" + nowstr;
-                                Logger.Put(LogPopType.File, LogType.Info, $"游戏服务器正在维护：{item.Maintenance}");
+                                Logger.Put(LogPopType.File, LogType.Info, $"游戏服务器正在维护：{item.Maintenance} ({item.Platform})");
                             }
                             else
                             {
