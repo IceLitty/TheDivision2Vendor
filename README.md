@@ -3,7 +3,7 @@
 
 下载请点击右侧或此处的 [Release](https://github.com/IceLitty/TheDivision2Vendor/releases) 标签，选择最新版本即可：
 
-- `D2Vendor.zip` 标准软件包版本，仅提供软件本身，关于通用库安装请看 [v1.13](https://github.com/IceLitty/TheDivision2Vendor/releases/tag/v1.13) 更新内容。
+- `D2Vendor.zip` 标准软件包版本，仅提供软件本身，关于通用库安装请看 [这里](https://github.com/IceLitty/TheDivision2Vendor/releases/tag/v1.13)
 
 - `D2Vendor_Full.zip` 完整打包版本，提供包含运行时环境的所有内容，任何Windows-x86/64系统环境皆可运行。
 

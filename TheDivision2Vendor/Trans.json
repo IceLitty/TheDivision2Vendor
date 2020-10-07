@@ -1,5 +1,5 @@
 ﻿{
-    "version": 20200924,
+    "version": 20201007,
     "colorsReadOnly": {
         "§p": "Purple",
         "§o": "Orange",
@@ -120,6 +120,8 @@
         "Optimized": "最佳化",
         "Allegro": "快板",
         "Jazz Hands": "爵士手",
+        "Accurate": "百步穿杨",
+        "Extra": "加大",
         "__通用武器天赋": "__通用武器天赋",
         "Breadbasket": "面包篮",
         "Killer": "杀手",
@@ -251,6 +253,8 @@
         "最佳化": "+??(▲§o30§w)%武器控制力",
         "快板": "+??(▲§o12§w)%射速",
         "爵士手": "+??(▲§o30§w)%装弹速度",
+        "百步穿杨": "+50%准确度",
+        "加大": "+50%弹匣容量",
         "__通用武器天赋": "",
         "面包篮": "击中身体+35(▲§o50§w)%爆头伤\n持续10秒\n最多3(▲§o2§w)次",
         "杀手": "爆击击杀+40%爆击伤\n持续10秒",
@@ -528,7 +532,8 @@
             "致盲 / 致聋抗性": "10",
             "燃烧抗性": "10",
             "干扰抗性": "10",
-            "电击抗性": "10"
+            "电击抗性": "10",
+            "混乱抗性": "10"
         },
         "防御系统": {
             "击杀时回复装甲": "18935",
@@ -538,7 +543,8 @@
             "致盲 / 致聋抗性": "10",
             "燃烧抗性": "10",
             "干扰抗性": "10",
-            "电击抗性": "10"
+            "电击抗性": "10",
+            "混乱抗性": "10"
         },
         "性能协定": {
             "修复技能": "20",
@@ -719,6 +725,7 @@
         "Stinger Charges": "§y刺针蜂窝使用次数",
         "Repair Charges": "§y修复蜂窝使用次数",
         "Stim Charges": "§y兴奋蜂窝使用次数",
+        "Disorient Resistance": "§c混乱抗性",
         "???!!!!!!!!!!!!!!!!!!!": "以下未验证汉化是否准确",
         "1Shield Health": "护盾血量",
         "asdasd1": "",
@@ -984,6 +991,9 @@
         "Stridssäck Combat Sack": "Stridssack 瑞典战斗背袋",
         "Vertical Y Holster": "垂直 Y 枪套",
         "Luktskydd Protective Mask": "Luktskydd 瑞典防护面具",
+        "Horo CarryBack": "\"禾落\"背包",
+        "Equipment Holster Huffle": "装备套具\"微风\"",
+        "Lochy Hand Savers": "\"洛西\"护手",
         "asdasd6": "",
         "asdasd7": "",
         "asdasd8": "",
@@ -1080,6 +1090,8 @@
         "Artist's Tool - SIG 716 CQB": "艺术家工具 - SIG 716 CQB",
         "Cuélebre – Military M870": "库耶列布希 – 军规 M870",
         "Tabula Rasa - Military L86 LSW": "白板 - 军规 L86 LSW",
+        "Rock n' Roll - ACS-12": "摇滚 - ACS-12",
+        "The Railsplitter - CTAR-21": "劈柴者 - CTAR-21",
         "Baker's Dozen": "十三一打",
         "New Reliable": "崭新牢靠",
         "Surge": "涌动",
@@ -1093,6 +1105,7 @@
         "Backup Boomstick": "后备猎枪",
         "Mozambique Special": "特殊莫桑比克",
         "The White Death": "白色死神",
+        "Quiet Roar": "无声怒吼",
         "__武器名称": "",
         "Diceros": "犀牛左轮手枪",
         "Honey Badger": "蜜罐",
