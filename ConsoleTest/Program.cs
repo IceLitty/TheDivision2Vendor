@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TheDivision2Vendor;
-
+//todo 软件自更新，先下载（判断目录下有无某些库dll）+解压，放入固定update目录，将自身exe改名（可能dll也要改，或者直接移动走并将解压的移出来）重启应用(试试 Application.Restart() ?)。
 namespace ConsoleTest
 {
     class Program
