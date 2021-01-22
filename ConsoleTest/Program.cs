@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using TheDivision2Vendor;
 //todo 软件自更新，先下载（判断目录下有无某些库dll）+解压，放入固定update目录，将自身exe改名（可能dll也要改，或者直接移动走并将解压的移出来）重启应用(试试 Application.Restart() ?)。
 namespace ConsoleTest
@@ -16,6 +15,11 @@ namespace ConsoleTest
 
         static void Main(string[] args)
             => new Program().StartAsync().GetAwaiter().GetResult();
+
+        public async Task FakeStart()
+        {
+            await Task.Delay(-1);
+        }
 
         public async Task StartAsync()
         {
@@ -156,15 +160,24 @@ namespace ConsoleTest
                             switch (l.popup)
                             {
                                 case LogPopType.Title:
-                                    Console.Title = l.msg;
+                                    {
+                                        Console.Title = l.msg;
+                                    }
                                     break;
                                 case LogPopType.File:
-                                    string msg = l.ToString().Replace("\r", "").Replace("\n", "").Replace("\t", "");
-                                    File.AppendAllLinesAsync(Config.Log, new List<string>() { msg }, Encoding.UTF8);
+                                    {
+                                        string msg = l.ToString().Replace("\r", "").Replace("\n", "").Replace("\t", "");
+                                        File.AppendAllLinesAsync(Config.Log, new List<string>() { msg }, Encoding.UTF8);
+                                    }
                                     break;
                                 case LogPopType.Popup:
-                                    if (l.e == null) MessageBox.Show(l.msg, "...", MessageBoxButtons.OK);
-                                    else MessageBox.Show(l.msg + "\r\n" + l.e.StackTrace, "?!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    {
+                                        Controller.pageState = PageState.ErrorPopup;
+                                        Controller.contents.Clear();
+                                        Controller.errorPopup = "遇到错误，查看日志文件获取详细信息\r\n信息如下（按Q键返回主菜单）：\r\n\r\n" + l.msg + "\r\n" + (l.e == null ? "" : l.e.StackTrace);
+                                        File.AppendAllLinesAsync(Config.Log, new List<string>() { l.ToString() }, Encoding.UTF8);
+                                        Controller.ResetAndFlush();
+                                    }
                                     break;
                             }
                             return true;

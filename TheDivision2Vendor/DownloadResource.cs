@@ -10,6 +10,30 @@ namespace TheDivision2Vendor
 {
     public static class DownloadResource
     {
+        private static HttpClient httpClient;
+
+        static DownloadResource()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            var httpClientHandler = new HttpClientHandler();
+            if (bool.Parse(Config.GetValueConf("useProxy")))
+            {
+                var proxy = new WebProxy
+                {
+                    Address = new Uri(Config.GetValueConf("proxyAddress")),
+                    BypassProxyOnLocal = false,
+                };
+                if (!string.IsNullOrWhiteSpace(Config.GetValueConf("proxyUsername")))
+                {
+                    proxy.UseDefaultCredentials = false;
+                    proxy.Credentials = new NetworkCredential(Config.GetValueConf("proxyUsername"), Config.GetValueConf("proxyPassword"));
+                }
+                httpClientHandler.Proxy = proxy;
+            }
+            httpClient = new HttpClient(httpClientHandler);
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "The Division 2 Vendor C# App");
+        }
+
         public static async Task<bool> Download()
         {
             return await Task.Run(async () =>
@@ -20,11 +44,9 @@ namespace TheDivision2Vendor
                 bool failed = false;
                 try
                 {
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                    var hct = new HttpClient();
-                    gearJson = await hct.GetStringAsync("https://rubenalamina.mx/division/gear.json");
-                    weaponJson = await hct.GetStringAsync("https://rubenalamina.mx/division/weapons.json");
-                    modJson = await hct.GetStringAsync("https://rubenalamina.mx/division/mods.json");
+                    gearJson = await httpClient.GetStringAsync("https://rubenalamina.mx/division/gear.json");
+                    weaponJson = await httpClient.GetStringAsync("https://rubenalamina.mx/division/weapons.json");
+                    modJson = await httpClient.GetStringAsync("https://rubenalamina.mx/division/mods.json");
                 }
                 catch (Exception e)
                 {
@@ -64,10 +86,7 @@ namespace TheDivision2Vendor
                 {
                 if (bool.Parse(Config.GetValueConf("checkUpdate")))
                     {
-                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                        var hct = new HttpClient();
-                        hct.DefaultRequestHeaders.Add("User-Agent", "The Division 2 Vendor C# App");
-                        var json = await hct.GetStringAsync("https://api.github.com/repos/IceLitty/TheDivision2Vendor/releases");
+                        var json = await httpClient.GetStringAsync("https://api.github.com/repos/IceLitty/TheDivision2Vendor/releases");
                         var ja = JsonConvert.DeserializeObject<JArray>(json);
                         return ja[0]["tag_name"].ToString();
                     }
@@ -89,13 +108,11 @@ namespace TheDivision2Vendor
                 bool failed = false;
                 try
                 {
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                    var hct = new HttpClient();
-                    json = await hct.GetStringAsync("https://raw.githubusercontent.com/IceLitty/TheDivision2Vendor/master/TheDivision2Vendor/Trans.json");
+                    json = await httpClient.GetStringAsync("https://raw.githubusercontent.com/IceLitty/TheDivision2Vendor/master/TheDivision2Vendor/Trans.json");
                 }
                 catch (Exception e)
                 {
-                    Logger.Put(LogPopType.Popup, LogType.Warn, "下载翻译文件失败。", e);
+                    Logger.Put(LogPopType.Popup, LogType.Warn, "下载翻译文件失败：" + e.Message, e);
                     failed = true;
                 }
                 if (failed) return false;

@@ -12,7 +12,7 @@ namespace TheDivision2Vendor
         public static readonly string ConfigDir = Path.Combine(AppContext.BaseDirectory, "config");
         public static readonly string Configs = Path.Combine(AppContext.BaseDirectory, "config/Config.json");
         private static JObject Conf;
-        private static readonly string _defaultConf = "{\"checkUpdate\": true, \"checkServerStatus\": true, \"checkTransUpdateDates\": 1, \"bestFilterThreshold\":0.95, \"bestFilterUpToMax\":-1, \"bestFilterUpToMaxPercent\":0.9, \"barLength\": 1, \"ignoreSetsMainAttrIsUtility\":true}";
+        private static readonly string _defaultConf = "{\"checkUpdate\": true, \"checkServerStatus\": true, \"checkTransUpdateDates\": 1, \"bestFilterThreshold\":0.95, \"bestFilterUpToMax\":-1, \"bestFilterUpToMaxPercent\":0.9, \"barLength\": 1, \"ignoreSetsMainAttrIsUtility\":true, \"useProxy\": false, \"proxyAddress\": \"http://127.0.0.1:8080\", \"proxyUsername\": \"username\", \"proxyPassword\": \"password\"}";
         private static readonly JObject _defaultConfObj = (JObject)JsonConvert.DeserializeObject(_defaultConf);
         public static readonly string Log = Path.Combine(AppContext.BaseDirectory, "config/Log.log");
         public static readonly string D2Dir = Path.Combine(AppContext.BaseDirectory, "resource");

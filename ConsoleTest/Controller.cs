@@ -26,6 +26,7 @@ namespace ConsoleTest
         public static bool lockLeftRightWhenHistoryEntry = false;
         public static int realFileIndex = 0;
         public static ManualResetEvent flushDone = new ManualResetEvent(true);
+        public static string errorPopup = string.Empty;
 
         public static int CanShow()
         {
@@ -241,6 +242,16 @@ namespace ConsoleTest
                         break;
                 }
             }
+            else if (pageState == PageState.ErrorPopup)
+            {
+                var list = new List<string>();
+                foreach (string str in errorPopup.Replace("\r", "").Split("\n"))
+                {
+                    list.Add(str);
+                }
+                shower.lines = list;
+                shower.color = Color.Default;
+            }
             else
             {
                 shower.lines = Shower.GetDefaultMsg();
@@ -362,6 +373,7 @@ namespace ConsoleTest
                     //break;
                 case PageState.HistorySelected:
                     //break;
+                case PageState.ErrorPopup:
                 case PageState.History:
                 case PageState.Entry:
                     Program.WelcomeScreen();
@@ -918,6 +930,7 @@ namespace ConsoleTest
         HistorySelected,
         HistoryEntry,
         Entry,
+        ErrorPopup,
     }
 
     public enum PageWhat
