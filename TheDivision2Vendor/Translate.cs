@@ -487,7 +487,8 @@ namespace TheDivision2Vendor
             catch (Exception)
             {
                 cn = adesc;
-                if (!string.IsNullOrWhiteSpace(adesc)) Logger.Put(LogPopType.File, LogType.Debug, string.Format("attributesMod类型找不到语言文本: {0}", adesc));
+                if (!string.IsNullOrWhiteSpace(adesc))
+                    Logger.Put(LogPopType.File, LogType.Debug, string.Format("attributesMod类型找不到语言文本: {0}", adesc));
             }
             if (!string.IsNullOrWhiteSpace(a.modsUseful))
             {
@@ -497,7 +498,9 @@ namespace TheDivision2Vendor
                 }
                 catch (Exception)
                 {
-                    if (!string.IsNullOrWhiteSpace(a.modsUseful)) Logger.Put(LogPopType.File, LogType.Debug, string.Format("attributesMod类型找不到语言文本: {0}", a.modsUseful));
+                    if (!string.IsNullOrWhiteSpace(a.modsUseful)) {
+                        Logger.Put(LogPopType.File, LogType.Debug, string.Format("attributesMod类型找不到语言文本: {0}", a.modsUseful));
+                    }
                     a.modsUseful = null;
                 }
             }
@@ -566,7 +569,7 @@ namespace TheDivision2Vendor
                 }
                 catch (Exception)
                 {
-                    if (!string.IsNullOrWhiteSpace(en)) Logger.Put(LogPopType.File, LogType.Debug, string.Format("attributes类型找不到语言文本: {0}", en));
+                    if (!string.IsNullOrWhiteSpace(en)) Logger.Put(LogPopType.File, LogType.Debug, string.Format("names类型找不到模组/装备名称对应语言文本: {0}", en));
                     return en;
                 }
             }
