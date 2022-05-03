@@ -61,23 +61,23 @@ namespace TheDivision2Vendor
             return r.ToString();
         }
 
-        public static string GetThisSaturdayGear()
+        public static string GetGearPath(String dateStr)
         {
-            var dir = Path.Combine(D2Dir, Util.GetThisTuesday().ToString("yyyyMMdd"));
+            var dir = Path.Combine(D2Dir, dateStr);
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
             return Path.Combine(dir, "gear.json");
         }
 
-        public static string GetThisSaturdayWeapons()
+        public static string GetWeaponsPath(String dateStr)
         {
-            var dir = Path.Combine(D2Dir, Util.GetThisTuesday().ToString("yyyyMMdd"));
+            var dir = Path.Combine(D2Dir, dateStr);
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
             return Path.Combine(dir, "weapons.json");
         }
 
-        public static string GetThisSaturdayMods()
+        public static string GetModsPath(String dateStr)
         {
-            var dir = Path.Combine(D2Dir, Util.GetThisTuesday().ToString("yyyyMMdd"));
+            var dir = Path.Combine(D2Dir, dateStr);
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
             return Path.Combine(dir, "mods.json");
         }

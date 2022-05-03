@@ -25,6 +25,7 @@ namespace TheDivision2Vendor
             return Convert.ToInt32(Math.Ceiling((currentDay - firstWeekend) / 7.0)) + 1;
         }
 
+        [Obsolete("原先存放数据源内容调用本方法获取本周二日期，现采用获取数据源提供的日期，调用位置：TheDivision2Vendor/Config.cs#GetGearPath(String)", false)]
         public static DateTime GetThisTuesday()
         {
             var gmt8 = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "China Standard Time");

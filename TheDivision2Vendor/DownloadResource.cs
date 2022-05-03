@@ -1,9 +1,12 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace TheDivision2Vendor
@@ -11,9 +14,11 @@ namespace TheDivision2Vendor
     public static class DownloadResource
     {
         private static HttpClient httpClient;
+        private static Regex pageVersionRegex;
 
         static DownloadResource()
         {
+            pageVersionRegex = new Regex(@"/division/gear\.json\?\d+");
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             var httpClientHandler = new HttpClientHandler();
             if (bool.Parse(Config.GetValueConf("useProxy")))
@@ -26,7 +31,11 @@ namespace TheDivision2Vendor
                 if (!string.IsNullOrWhiteSpace(Config.GetValueConf("proxyUsername")))
                 {
                     proxy.UseDefaultCredentials = false;
-                    proxy.Credentials = new NetworkCredential(Config.GetValueConf("proxyUsername"), Config.GetValueConf("proxyPassword"));
+                    var password = string.Empty;
+                    if (!string.IsNullOrWhiteSpace(Config.GetValueConf("proxyPassword"))) {
+                        password = Config.GetValueConf("proxyPassword");
+                    }
+                    proxy.Credentials = new NetworkCredential(Config.GetValueConf("proxyUsername"), password);
                 }
                 httpClientHandler.Proxy = proxy;
             }
@@ -38,15 +47,47 @@ namespace TheDivision2Vendor
         {
             return await Task.Run(async () =>
             {
+                var mainPage = string.Empty;
+                var dateVer = string.Empty;
                 var gearJson = string.Empty;
                 var weaponJson = string.Empty;
                 var modJson = string.Empty;
                 bool failed = false;
+                try {
+                    mainPage = await httpClient.GetStringAsync("https://rubenalamina.mx/the-division-weekly-vendor-reset");
+                }
+                catch (Exception e)
+                {
+                    Logger.Put(LogPopType.Popup, LogType.Warn, "从数据源获取页面信息失败。", e);
+                    failed = true;
+                }
+                if (failed) return false;
+                try {
+                    MatchCollection matches = pageVersionRegex.Matches(mainPage);
+                    if (matches.Count < 1) {
+                        Logger.Put(LogPopType.File, LogType.Warn, "日期使用Regex获取失败。");
+                        throw new VersionNotFoundException();
+                    }
+                    String result = matches[0].Value;
+                    if (result == null) {
+                        throw new VersionNotFoundException();
+                    }
+                    var split = result.Split('?');
+                    result = split[split.Length - 1];
+                    var dateTimeResult = DateTime.ParseExact(result, "yyyyMMdd", CultureInfo.InvariantCulture);
+                    dateVer = result;
+                }
+                catch (Exception e)
+                {
+                    Logger.Put(LogPopType.Popup, LogType.Warn, "从页面信息获取最后更新日期失败。", e);
+                    failed = true;
+                }
+                Logger.Put(LogPopType.File, LogType.Info, "当前更新的内容日期版本为：" + dateVer);
                 try
                 {
-                    gearJson = await httpClient.GetStringAsync("https://rubenalamina.mx/division/gear.json");
-                    weaponJson = await httpClient.GetStringAsync("https://rubenalamina.mx/division/weapons.json");
-                    modJson = await httpClient.GetStringAsync("https://rubenalamina.mx/division/mods.json");
+                    gearJson = await httpClient.GetStringAsync("https://rubenalamina.mx/division/gear.json?" + dateVer);
+                    weaponJson = await httpClient.GetStringAsync("https://rubenalamina.mx/division/weapons.json?" + dateVer);
+                    modJson = await httpClient.GetStringAsync("https://rubenalamina.mx/division/mods.json?" + dateVer);
                 }
                 catch (Exception e)
                 {
@@ -59,9 +100,9 @@ namespace TheDivision2Vendor
                     var gearJ = (JArray)JsonConvert.DeserializeObject(gearJson);
                     var weaponJ = (JArray)JsonConvert.DeserializeObject(weaponJson);
                     var modJ = (JArray)JsonConvert.DeserializeObject(modJson);
-                    File.WriteAllText(Config.GetThisSaturdayGear(), JsonConvert.SerializeObject(gearJ, Formatting.Indented));
-                    File.WriteAllText(Config.GetThisSaturdayWeapons(), JsonConvert.SerializeObject(weaponJ, Formatting.Indented));
-                    File.WriteAllText(Config.GetThisSaturdayMods(), JsonConvert.SerializeObject(modJ, Formatting.Indented));
+                    File.WriteAllText(Config.GetGearPath(dateVer), JsonConvert.SerializeObject(gearJ, Formatting.Indented));
+                    File.WriteAllText(Config.GetWeaponsPath(dateVer), JsonConvert.SerializeObject(weaponJ, Formatting.Indented));
+                    File.WriteAllText(Config.GetModsPath(dateVer), JsonConvert.SerializeObject(modJ, Formatting.Indented));
                 }
                 catch (Exception e)
                 {

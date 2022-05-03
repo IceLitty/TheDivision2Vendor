@@ -41,11 +41,11 @@ key | 功用 | 默认值 | 可选值
 `bestFilterThreshold` | 最佳属性装备筛选最低百分比条件 | `0.95` | 任意数值，可选范围`0`~`1`
 `bestFilterUpToMax` | 筛选备选条件，当数值距上限低于此数则判断通过 | `-1` | 任意数值，负数关闭此功能
 `bestFilterUpToMaxPercent` | 筛选备选条件，当数值(百分比)距上限低于此数则判断通过 | `1` | 任意数值，负数关闭此功能
-`ignoreSetsMainAttrIsUtility` | 是否忽略装备组主属性为电时的推荐 | `true` | 布尔值 `true/false`
+`ignoreSetsMainAttrIsUtility` | 是否忽略装备组主属性为电以避免对推荐算法的影响 | `true` | 布尔值 `true/false`
 `useProxy` | 是否使用如下配置的代理 | `false` | 布尔值 `true/false`
 `proxyAddress` | 代理地址 | `http://127.0.0.1:8080` | 完整URL `协议名://主机名:端口号`
-`proxyUsername` | 代理若需要登录则填入的用户名，不需要则留空 | `username` | 字符串
-`proxyPassword` | 代理若需要登录则填入的密码 | `password` | 字符串
+`proxyUsername` | 代理若需要登录则填入的用户名，不需要则留空(则不生效) | 空 | 字符串
+`proxyPassword` | 代理若需要登录则填入的密码 | 空 | 字符串
 
 ## Todo List：
 
@@ -53,7 +53,7 @@ key | 功用 | 默认值 | 可选值
 
 - [ ] 寻找新的TU10模组上限数值，现数值已发现多处不匹配。
 
-- [x] 目前已经处理好代理问题，通过配置文件设置代理属性，以及更新构建环境后，发现netcore不再允许控制台程序引入winform控件，则更换报错弹窗方案，并会将“弹窗”内容存入日志文件中以便后期查看。暂时不编译新版本以供校对当前游戏版本的变化。
+- [x] 目前已经处理好代理问题，通过配置文件设置代理属性，以及更新构建环境后，发现netcore不再允许控制台程序引入winform控件，则更换报错弹窗方案，并会将“弹窗”内容存入日志文件中以便后期查看。
 
 ## 目前已知bug：
 

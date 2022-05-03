@@ -130,6 +130,10 @@ namespace ConsoleTest
                 "https://github.com/IceLitty",
                 "/TheDivision2Vendor",
                 "",
+                "数据源：",
+                "https://rubenalamina.mx/the-",
+                "division-weekly-vendor-reset",
+                "",
                 "若有数值错误请尽可能将正确数值",
                 "和数据来源提交仓库",
             };
