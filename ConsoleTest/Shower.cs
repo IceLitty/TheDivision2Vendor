@@ -112,7 +112,7 @@ namespace ConsoleTest
             serverStatus = ServerStatus.Status;
             var tmp = new List<string>()
             {
-                "针对游戏版本：1.10+ / TU12",
+                "针对游戏版本：" + Translate.GameVersion(),
                 "语言文件版本：" + Translate.Version(),
                 "软件版本：v" + Assembly.GetEntryAssembly().GetName().Version.Major + "." + Assembly.GetEntryAssembly().GetName().Version.Minor,
                 string.IsNullOrWhiteSpace(newestVersion) ? "" : newestVersion,

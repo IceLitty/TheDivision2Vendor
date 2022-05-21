@@ -28,6 +28,18 @@ namespace TheDivision2Vendor
             }
         }
 
+        public static string GameVersion()
+        {
+            try
+            {
+                return trans["gameVersion"].ToString();
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
         public static string Type(string en)
         {
             try

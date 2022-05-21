@@ -1,5 +1,6 @@
 ﻿{
     "version": 20220503,
+    "gameVersion": "1.12",
     "colorsReadOnly": {
         "§p": "Purple",
         "§o": "Orange",
