@@ -436,7 +436,7 @@ namespace ConsoleTest
                         colors[i].Add(Content.GetColorFs(
                             oo.rarity.Equals(Translate.Rarity(oo.rarity)) ?
                             Translate.RarityS("header-unknown") :
-                            Translate.RarityS(("header-he".Equals(oo.rarity) || "header-purple".Equals(oo.rarity)) ? "header-purple" : "header-he")
+                            Translate.RarityS(oo.rarity)
                         ));
                     }
                     //else
@@ -466,7 +466,7 @@ namespace ConsoleTest
                         colors.Add(new List<Color>() { Content.GetColorFs(
                             oo.rarity.Equals(Translate.Rarity(oo.rarity)) ?
                             Translate.RarityS("header-unknown") :
-                            Translate.RarityS(("header-he".Equals(oo.rarity) || "header-purple".Equals(oo.rarity)) ? "header-purple" : "header-he")
+                            Translate.RarityS(oo.rarity)
                         ) });
                     }
                     //else
@@ -661,7 +661,7 @@ namespace ConsoleTest
                     colors[i].Add(Content.GetColorFs(
                         o.rarity.Equals(Translate.Rarity(o.rarity)) ?
                         Translate.RarityS("header-unknown") :
-                        Translate.RarityS(("header-he".Equals(o.rarity) || "header-purple".Equals(o.rarity)) ? "header-purple" : "header-he")
+                        Translate.RarityS(o.rarity)
                     ));
                 }
                 else
@@ -670,7 +670,7 @@ namespace ConsoleTest
                     colors.Add(new List<Color>() { Content.GetColorFs(
                             o.rarity.Equals(Translate.Rarity(o.rarity)) ?
                             Translate.RarityS("header-unknown") :
-                            Translate.RarityS(("header-he".Equals(o.rarity) || "header-purple".Equals(o.rarity)) ? "header-purple" : "header-he")
+                            Translate.RarityS(o.rarity)
                     ) });
                 }
             }

@@ -582,7 +582,8 @@
             "燃烧抗性": "10",
             "干扰抗性": "10",
             "电击抗性": "10",
-            "混乱抗性": "10"
+            "混乱抗性": "10",
+            "诱捕抗性": "10"
         },
         "防御系统": {
             "击杀时回复装甲": "18935",
@@ -593,7 +594,8 @@
             "燃烧抗性": "10",
             "干扰抗性": "10",
             "电击抗性": "10",
-            "混乱抗性": "10"
+            "混乱抗性": "10",
+            "诱捕抗性": "10"
         },
         "性能协定": {
             "修复技能": "20",
@@ -770,13 +772,15 @@
         "Armor Repair": "§c装甲修复",
         "Blind Deaf Resistance": "§c致盲 / 致聋抗性",
         "Active Regeneration": "§c启动回复",
-        "Burn Strenght": "§y燃烧持续时间",
+        "Burn Strenght": "§y燃烧强度",
+        "Burn Strength": "§y燃烧强度",
         "Burn Duration": "§y燃烧持续时间",
         "Effect Duration": "§y效果持续时间",
         "Stinger Charges": "§y刺针蜂窝使用次数",
         "Repair Charges": "§y修复蜂窝使用次数",
         "Stim Charges": "§y兴奋蜂窝使用次数",
         "Disorient Resistance": "§c混乱抗性",
+        "Ensnare Resistance": "§c诱捕抗性",
         "???!!!!!!!!!!!!!!!!!!!": "以下未验证汉化是否准确",
         "...Shield Health": "护盾血量",
         "asdasd1": "",
