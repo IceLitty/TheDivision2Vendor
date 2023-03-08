@@ -160,9 +160,9 @@ namespace TheDivision2Vendor
             if (!isVaild)
             {
                 isVaild = true;
-                try { d2Gears = JsonConvert.DeserializeObject<List<D2Gear>>(File.ReadAllText(Gear)); } catch (Exception) { }
-                try { d2Weapons = JsonConvert.DeserializeObject<List<D2Weapon>>(File.ReadAllText(Weapon)); } catch (Exception) { }
-                try { d2Mods = JsonConvert.DeserializeObject<List<D2Mod>>(File.ReadAllText(Mod)); } catch (Exception) { }
+                try { d2Gears = JsonConvert.DeserializeObject<List<D2Gear>>(File.ReadAllText(Gear)); } catch (Exception e) { Logger.Put(LogPopType.File, LogType.Debug, string.Format("装备JSON反序列化失败: {0}", e.Message)); }
+                try { d2Weapons = JsonConvert.DeserializeObject<List<D2Weapon>>(File.ReadAllText(Weapon)); } catch (Exception e) { Logger.Put(LogPopType.File, LogType.Debug, string.Format("武器JSON反序列化失败: {0}", e.Message)); }
+                try { d2Mods = JsonConvert.DeserializeObject<List<D2Mod>>(File.ReadAllText(Mod)); } catch (Exception e) { Logger.Put(LogPopType.File, LogType.Debug, string.Format("模组JSON反序列化失败: {0}", e.Message)); }
             }
         }
     }

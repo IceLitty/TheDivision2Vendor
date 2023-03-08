@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp6.0</TargetFramework>
     <ApplicationIcon>thedivision2.ico</ApplicationIcon>
     <AssemblyName>D2Vendor</AssemblyName>
-    <Version>1.18</Version>
+    <Version>1.19</Version>
     <StartupObject>ConsoleTest.Program</StartupObject>
   </PropertyGroup>
 

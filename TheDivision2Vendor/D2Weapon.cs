@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace TheDivision2Vendor
 {
@@ -13,7 +14,8 @@ namespace TheDivision2Vendor
         [JsonProperty("vendor")]
         public string vendor { get; set; }
 
-        [JsonProperty("level")]
+        [JsonProperty("level", DefaultValueHandling = DefaultValueHandling.Populate, NullValueHandling = NullValueHandling.Ignore)]
+        [DefaultValue(0)]
         public int level { get; set; }
 
         [JsonProperty("name")]
@@ -22,10 +24,12 @@ namespace TheDivision2Vendor
         [JsonProperty("dmg")]
         public string dmg { get; set; }
 
-        [JsonProperty("rpm")]
+        [JsonProperty("rpm", DefaultValueHandling = DefaultValueHandling.Populate, NullValueHandling = NullValueHandling.Ignore)]
+        [DefaultValue(0)]
         public int rpm { get; set; }
 
-        [JsonProperty("mag")]
+        [JsonProperty("mag", DefaultValueHandling = DefaultValueHandling.Populate, NullValueHandling = NullValueHandling.Ignore)]
+        [DefaultValue(0)]
         public int mag { get; set; }
 
         [JsonProperty("talent")]
